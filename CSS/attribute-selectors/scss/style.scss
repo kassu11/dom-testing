@@ -1,0 +1,72 @@
+body {
+	--attribute-color: #98c379;
+	--value-color: #e5c07b;
+	--tag-color: #e06c75;
+	--default-color: white;
+	background: #111;
+
+	a {
+		font-family: monospace;
+		text-decoration: none;
+		color: var(--tag-color);
+
+		background-image: linear-gradient(45deg, rgb(247, 0, 255), rgb(255, 50, 50));
+		background-position: 0 calc(100%);
+		background-repeat: no-repeat;
+		background-size: 100% 2px;
+
+		span.attribute {
+			color: var(--attribute-color);
+		}
+
+		span.value {
+			color: var(--value-color);
+
+			&::before {
+				content: '="';
+				color: var(--default-color);
+			}
+
+			&::after {
+				content: '"';
+				color: var(--default-color)
+			}
+		}
+
+		span.text {
+			color: var(--default-color);
+
+			&::after {
+				content: 'a';
+				color: var(--tag-color)
+			}
+		}
+
+		&::before {
+			content: "<";
+			color: var(--default-color)
+		}
+
+		&::after {
+			content: ">";
+			color: var(--default-color)
+		}
+	}
+}
+
+fieldset {
+	color: white;
+	border: 1.5px solid white;
+}
+
+#cssCodeBlock1 a:not([href$="firstLink" i]) {
+	background: none;
+}
+
+#cssCodeBlock2 a:not([href*="firstLink"]) {
+	background: none;
+}
+
+#cssCodeBlock3 a:not([class~="löydä"]) {
+	background: none;
+}

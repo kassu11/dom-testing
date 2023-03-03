@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/cssHighligh.css">
+	<title>attribute selector</title>
+	<script src="./js/code.js" defer></script>
+	<script src="./js/cssHighlight.js" defer></script>
+</head>
+
+<body>
+	<fieldset id="cssCodeBlock1">
+		<legend>Select ending not case sensitive</legend>
+		<pre><code class="language-css"></code></pre>
+		<a href="https://example.com/firstLink" class="asd" nice>small text</a><br>
+		<a href="https://example.com/FiRstLiNk">Mixed text</a><br>
+		<a href="https://example.com/firstLink-ending">Differend ending</a><br>
+	</fieldset>
+
+	<fieldset id="cssCodeBlock2">
+		<legend>Select everywhere, case sensitive</legend>
+		<pre><code class="language-css"></code></pre>
+		<a href="https://example.com/firstLink" class="asd" nice>small text</a><br>
+		<a href="https://example.com/FiRstLiNk">Mixed text</a><br>
+		<a href="https://example.com/firstLink-ending">Differend ending</a><br>
+	</fieldset>
+
+	<fieldset id="cssCodeBlock3">
+		<legend>Valitse tietty sana</legend>
+		<pre><code class="language-css"></code></pre>
+		<a class="löydä">Pelkkä etitty sana</a><br>
+		<a class="okei löydä minut">Muiden sanojen joukossa</a><br>
+		<a class="löydäMinutLol">Sana pitää olla erotettu väleillä</a><br>
+		<a class="nyt-löydä-minut">Edes viivat ei auta</a><br>
+		<a class="olen-lopussa löydä">Voi myös olla vika sana ofc</a><br>
+		<a class="olen-lopussa löydä.">Piste hajottaa, mutta ei niitä pitäis olla attribuuteissa</a><br>
+	</fieldset>
+</body>
+
+</html>
