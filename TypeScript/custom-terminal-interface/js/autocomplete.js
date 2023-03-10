@@ -5,9 +5,11 @@ const intelisense = {
     "index": 0,
     "options": [],
 };
-input.addEventListener("input", e => {
+function updateIntellisense() {
     tooltip.textContent = "";
-    const currentCommand = input.value.substring(0, input.selectionStart || 0).split(" ");
+    const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
+    const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
+    const currentCommand = input.value.substring(0, lastSpace).split(" ");
     let localCommands = Object.values(commands);
     for (const index in currentCommand) {
         localCommands = filterData(localCommands, currentCommand[index], +index, +index < currentCommand.length - 1);
@@ -26,19 +28,21 @@ input.addEventListener("input", e => {
         span.textContent = (option.title ?? option.value) + "\n";
         tooltip.append(span);
     });
-    updateCommandHightlight();
-});
+}
 window.addEventListener("keydown", e => {
     if (e.key === "Tab") {
         e.preventDefault();
         if (!intelisense.options.length)
             return;
+        removeAutocompliteText();
         const startText = input.value.substring(0, input.selectionStart || 0);
         const endText = input.value.substring(startText.length);
         const arr = startText.split(" ");
-        arr[arr.length - 1] = ""; // Add a space
-        input.value = arr.join(" ") + intelisense.options[intelisense.index].value + endText;
+        // arr[arr.length - 1] = ""; // Add a space
+        arr[arr.length - 1] = intelisense.options[intelisense.index].value;
+        input.value = arr.join(" ") + endText;
         commandHighlight.textContent = input.value;
+        console.log("tab", input.value);
     }
 });
 function filterData(commands, currentSection, index, strict) {
