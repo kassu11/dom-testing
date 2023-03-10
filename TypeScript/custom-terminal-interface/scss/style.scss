@@ -1,0 +1,83 @@
+body {
+	background: #0c0c0c;
+	font-size: 1.5rem;
+	color: #cccccc;
+
+	input {
+		background: none;
+		border: none;
+		outline: none;
+		caret: none;
+		caret-color: transparent;
+		color: transparent;
+		position: sticky;
+		left: 0px;
+		width: 100%;
+		padding: 0px;
+	}
+
+	#textContent {
+		position: relative;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+	}
+
+	pre,
+	input {
+		margin: 0px;
+		font-family: monospace;
+		font-size: 1.5rem;
+	}
+}
+
+#commandHighlight {
+	position: absolute;
+	pointer-events: none;
+	user-select: none;
+}
+
+#commandInterfaceContainer {
+	position: relative;
+	overflow-x: hidden;
+
+	pre {
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.caret {
+		position: absolute;
+		color: transparent;
+
+		&.idle::after {
+			animation: caret 1s infinite;
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			right: -1px;
+			top: 3px;
+			height: 23px;
+			width: 3px;
+			background: white;
+			pointer-events: none;
+			pointer-events: none;
+			user-select: none;
+		}
+	}
+}
+
+@keyframes caret {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
