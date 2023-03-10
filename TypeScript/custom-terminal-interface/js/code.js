@@ -13,6 +13,7 @@ function updateCaret() {
     if (input.selectionStart !== caretHistory.lastPosition) {
         caretHistory.lastMoved = performance.now();
         caretHistory.lastPosition = input.selectionStart || 0;
+        updateIntellisense();
         caret.classList.remove("idle");
     }
     else if (performance.now() - caretHistory.lastMoved > 1000) {
@@ -33,7 +34,7 @@ window.addEventListener("keydown", e => {
         submitCommand();
     }
 });
-input.addEventListener("input", updateCommandHightlight);
+input.addEventListener("input", () => updateCommandHightlight());
 input.addEventListener("scroll", () => {
     commandInterfaceContainer.scrollLeft = input.scrollLeft;
 }, { passive: true });
@@ -59,8 +60,9 @@ function removeAutocompliteText() {
     input.selectionStart = caretStart;
     input.selectionEnd = caretEnd;
 }
-function updateCommandHightlight() {
-    updateIntellisense();
+function updateCommandHightlight(skipIntellisense = false) {
+    if (!skipIntellisense)
+        updateIntellisense();
     commandHighlight.textContent = "";
     const caretLeftText = input.value.substring(0, input.selectionStart || 0);
     const caretRightText = input.value.substring(input.selectionStart || 0);
@@ -69,7 +71,7 @@ function updateCommandHightlight() {
     caretLeft.textContent = caretLeftText;
     const caretRight = document.createElement("span");
     caretRight.textContent = caretRightText;
-    const inteliValue = intelisense.options[intelisense.index]?.value;
+    const inteliValue = intellisense.options[intellisense.index]?.value;
     const autocorrentText = inteliValue?.replace(caretLeftText.split(" ").at(-1), "") ?? "";
     const autocorrent = document.createElement("span");
     autocorrent.textContent = autocorrentText;

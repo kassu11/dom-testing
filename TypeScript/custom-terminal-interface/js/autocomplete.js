@@ -1,9 +1,10 @@
 "use strict";
 const tooltip = document.getElementById("tooltip");
 const autocorrect = document.getElementById("autocorrect");
-const intelisense = {
+const intellisense = {
     "index": 0,
     "options": [],
+    "renderedWordNumber": 0,
 };
 function updateIntellisense() {
     tooltip.textContent = "";
@@ -14,32 +15,37 @@ function updateIntellisense() {
     for (const index in currentCommand) {
         localCommands = filterData(localCommands, currentCommand[index], +index, +index < currentCommand.length - 1);
     }
-    intelisense.options = [];
+    intellisense.options = [];
     localCommands.forEach(value => {
         if (currentCommand.length === 1)
-            return intelisense.options.push({ title: value.help, value: value.commands[0].list[0].value });
-        value.commands[currentCommand.length - 1].list.forEach(({ value }) => {
-            if (value.startsWith(currentCommand.at(-1) || ""))
-                intelisense.options.push({ value });
+            return intellisense.options.push({ title: value.help, value: value.commands[0].list[0].value });
+        value.commands[currentCommand.length - 1].list.forEach(listItem => {
+            if (listItem.value.startsWith(currentCommand.at(-1) || ""))
+                intellisense.options.push({ ...listItem });
         });
     });
-    intelisense.options.forEach(option => {
+    intellisense.options.forEach(option => {
         const span = document.createElement("span");
         span.textContent = (option.title ?? option.value) + "\n";
         tooltip.append(span);
     });
+    if (intellisense.renderedWordNumber !== currentCommand.length) {
+        removeAutocompliteText();
+        commandHighlight.querySelector(".autocorrect")?.remove();
+    }
+    intellisense.renderedWordNumber = currentCommand.length;
 }
 window.addEventListener("keydown", e => {
     if (e.key === "Tab") {
         e.preventDefault();
-        if (!intelisense.options.length)
+        if (!intellisense.options.length)
             return;
         removeAutocompliteText();
         const startText = input.value.substring(0, input.selectionStart || 0);
         const endText = input.value.substring(startText.length);
         const arr = startText.split(" ");
         // arr[arr.length - 1] = ""; // Add a space
-        arr[arr.length - 1] = intelisense.options[intelisense.index].value;
+        arr[arr.length - 1] = intellisense.options[intellisense.index].value;
         input.value = arr.join(" ") + endText;
         commandHighlight.textContent = input.value;
         console.log("tab", input.value);

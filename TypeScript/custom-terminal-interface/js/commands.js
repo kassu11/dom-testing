@@ -24,6 +24,10 @@ const commands = {
                 "list": [{ "value": "apple" }, { "value": "sword" }],
                 "type": "required"
             },
+            {
+                "list": [{ "title": "<amount>", "value": "1" }],
+                "type": "required"
+            },
         ]
     }
     // "give": {
