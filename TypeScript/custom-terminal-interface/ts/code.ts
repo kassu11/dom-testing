@@ -43,10 +43,15 @@ input.addEventListener("scroll", () => {
 }, { passive: true });
 
 function submitCommand() {
-	const command = input.value;
-	const span = document.createElement("span")
-	span.textContent = "\n" + (command || " ");
-	textContent.appendChild(span);
+	const left = commandHighlight.querySelector(".left")
+	const right = commandHighlight.querySelector(".right")
+
+	if (left) textContent.append(left)
+	if (right) {
+		textContent.append(right)
+		right.innerHTML = "\n"
+	}
+
 	input.value = "";
 	updateCommandHightlight()
 	window.scrollBy(0, document.body.scrollHeight);
@@ -64,44 +69,60 @@ function removeAutocompliteText() {
 
 	input.value = start + end;
 
-	console.log("before", input.value + "#")
-
 	input.selectionStart = caretStart;
 	input.selectionEnd = caretEnd;
 }
 
 function updateCommandHightlight(skipIntellisense = false) {
 	if (!skipIntellisense) updateIntellisense();
+	const allWords = input.value.split(" ");
 	commandHighlight.textContent = "";
 	const caretLeftText = input.value.substring(0, input.selectionStart || 0);
 	const caretRightText = input.value.substring(input.selectionStart || 0);
+
 	const caretLeft = document.createElement("span");
 	caretLeft.classList.add("left");
-	caretLeft.textContent = caretLeftText;
-	const caretRight = document.createElement("span");
-	caretRight.textContent = caretRightText;
+	const caretLeftTextArray = caretLeftText.split(" ");
+	caretLeftTextArray.forEach((word, i, { length }) => {
+		const span = document.createElement("span");
+		if (i !== length - 1) span.textContent = word + " ";
+		else span.textContent = word;
+		span.setAttribute("data-index", i.toString())
+		caretLeft.append(span);
+	});
 
-	const inteliValue = intellisense.options[intellisense.index]?.value
-	const autocorrentText = inteliValue?.replace(caretLeftText.split(" ").at(-1), "") ?? "";
+	const caretRight = document.createElement("span");
+	caretRight.classList.add("right");
+	const caretRightTextArray = caretRightText.split(" ");
+	caretRightTextArray.forEach((word, i, { length }) => {
+		const span = document.createElement("span");
+		if (i !== length - 1) span.textContent = word + " ";
+		else span.textContent = word;
+		const index = allWords.indexOf(word, caretLeftTextArray.length + i - 1);
+		span.setAttribute("data-index", (index == -1 ? caretLeftTextArray.length - 1 : index).toString())
+		caretRight.append(span);
+	});
+
 	const autocorrent = document.createElement("span");
-	autocorrent.textContent = autocorrentText;
-	autocorrent.classList.add("autocorrect");
+	const fullWord = caretLeftTextArray.at(-1) + "" + caretRightTextArray.at(0);
+	const inteliValue = intellisense.options[intellisense.index]?.value;
+	let autocorrentText = "";
+	if (fullWord !== inteliValue) {
+		autocorrentText = inteliValue?.replace(caretLeftText.split(" ").at(-1), "") ?? "";
+		autocorrent.textContent = autocorrentText;
+		autocorrent.classList.add("autocorrect");
+	}
 	commandHighlight.append(caretLeft, autocorrent, caretRight);
 
 	const caretStart = input.selectionStart || 0;
 	const caretEnd = input.selectionEnd || 0;
-	// console.log("after", "#" + " ".repeat(autocorrentText.length) + "#")
+
 	if (input.value.length > 0 && caretRightText.length > 0) input.value = caretLeftText + " ".repeat(autocorrentText.length) + caretRightText;
 	input.selectionStart = caretStart;
 	input.selectionEnd = caretEnd;
-	console.log("after", input.value + "#")
-	console.log("after", caretLeftText)
-	console.log("after", caretRightText)
+	colorHighlight();
 }
 
 
 
 window.requestAnimationFrame(updateCaret);
-
-
-console.log("Hello, world!");

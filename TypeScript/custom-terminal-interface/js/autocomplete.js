@@ -5,6 +5,7 @@ const intellisense = {
     "index": 0,
     "options": [],
     "renderedWordNumber": 0,
+    "command": ""
 };
 function updateIntellisense() {
     tooltip.textContent = "";
@@ -14,12 +15,15 @@ function updateIntellisense() {
     let localCommands = Object.values(commands);
     for (const index in currentCommand) {
         localCommands = filterData(localCommands, currentCommand[index], +index, +index < currentCommand.length - 1);
+        if (+index === 0)
+            intellisense.command = localCommands[intellisense.index];
     }
     intellisense.options = [];
-    localCommands.forEach(value => {
-        if (currentCommand.length === 1)
-            return intellisense.options.push({ title: value.help, value: value.commands[0].list[0].value });
-        value.commands[currentCommand.length - 1].list.forEach(listItem => {
+    localCommands.forEach(command => {
+        if (currentCommand.length === 1) {
+            return intellisense.options.push({ title: command.help, value: command.commands[0].list[0].value });
+        }
+        command.commands[currentCommand.length - 1].list.forEach(listItem => {
             if (listItem.value.startsWith(currentCommand.at(-1) || ""))
                 intellisense.options.push({ ...listItem });
         });
@@ -41,28 +45,29 @@ window.addEventListener("keydown", e => {
         if (!intellisense.options.length)
             return;
         removeAutocompliteText();
-        const startText = input.value.substring(0, input.selectionStart || 0);
+        const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
+        const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
+        const startText = input.value.substring(0, lastSpace);
         const endText = input.value.substring(startText.length);
-        const arr = startText.split(" ");
-        // arr[arr.length - 1] = ""; // Add a space
-        arr[arr.length - 1] = intellisense.options[intellisense.index].value;
-        input.value = arr.join(" ") + endText;
-        commandHighlight.textContent = input.value;
-        console.log("tab", input.value);
+        const words = startText.split(" ");
+        words[words.length - 1] = intellisense.options[intellisense.index].value;
+        input.value = words.join(" ") + endText;
+        input.selectionStart = input.selectionEnd = words.join(" ").length;
+        updateCommandHightlight(true);
     }
 });
 function filterData(commands, currentSection, index, strict) {
     return commands.filter((command) => {
-        for (const commandValue of command.commands[index]?.list ?? []) {
+        for (const commandValue of command?.commands?.[index]?.list ?? []) {
             if (strict) {
                 if (commandValue.value === currentSection)
                     return true;
             }
             else if (commandValue.value.startsWith(currentSection))
                 return true;
+            if (commandValue.match?.(currentSection))
+                return true;
         }
     });
-}
-function highlightToolTip() {
 }
 //# sourceMappingURL=autocomplete.js.map
