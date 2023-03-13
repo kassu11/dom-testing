@@ -8,6 +8,15 @@ const intellisense = {
 	"renderedWordLeft": "" as string
 }
 
+function moveIntellisenseBox() {
+	const intellisenseWord = commandHighlight.querySelector(`span[data-index="${intellisense.renderedWordNumber - 1}"]`);
+	if (!intellisenseWord) return;
+	const { left } = intellisenseWord.getBoundingClientRect();
+	const { left: margin } = commandHighlight.getBoundingClientRect();
+	// console.log(intellisenseWord, rect.left)
+	tooltip.style.left = left - margin + "px";
+}
+
 function updateIntellisense() {
 	tooltip.textContent = "";
 	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
@@ -51,11 +60,11 @@ function updateIntellisense() {
 		}
 
 		removeAutocompliteText();
-		autocorrentElement?.remove();
 	}
 
 	intellisense.renderedWordNumber = currentCommand.length;
 	intellisense.renderedWordLeft = currentCommand.join(" ");
+	moveIntellisenseBox();
 }
 
 window.addEventListener("keydown", e => {

@@ -51,7 +51,10 @@ function submitCommand() {
     updateCommandHightlight();
     window.scrollBy(0, document.body.scrollHeight);
 }
-input.addEventListener("beforeinput", removeAutocompliteText);
+input.addEventListener("beforeinput", (beforeInputEvent) => {
+    if (beforeInputEvent?.type === "beforeinput")
+        removeAutocompliteText();
+});
 function removeAutocompliteText() {
     const text = commandHighlight.querySelector(".left")?.textContent?.length || 0;
     const auto = commandHighlight.querySelector(".autocorrect")?.textContent?.length || 0;
@@ -60,6 +63,7 @@ function removeAutocompliteText() {
     const caretStart = input.selectionStart || 0;
     const caretEnd = input.selectionEnd || 0;
     input.value = start + end;
+    commandHighlight.querySelector(".autocorrect")?.remove();
     input.selectionStart = caretStart;
     input.selectionEnd = caretEnd;
 }

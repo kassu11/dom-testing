@@ -81,6 +81,10 @@ body {
 	border: 2px solid white;
 	bottom: 40px;
 	background-color: #0c0c0c;
+
+	&:empty {
+		display: none;
+	}
 }
 
 @keyframes caret {

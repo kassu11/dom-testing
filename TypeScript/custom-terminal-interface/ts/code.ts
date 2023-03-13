@@ -57,7 +57,10 @@ function submitCommand() {
 	window.scrollBy(0, document.body.scrollHeight);
 }
 
-input.addEventListener("beforeinput", removeAutocompliteText)
+input.addEventListener("beforeinput", (beforeInputEvent: InputEvent) => {
+	if (beforeInputEvent?.type === "beforeinput") removeAutocompliteText()
+});
+
 function removeAutocompliteText() {
 	const text = commandHighlight.querySelector(".left")?.textContent?.length || 0;
 	const auto = commandHighlight.querySelector(".autocorrect")?.textContent?.length || 0;
@@ -68,6 +71,7 @@ function removeAutocompliteText() {
 	const caretEnd = input.selectionEnd || 0;
 
 	input.value = start + end;
+	commandHighlight.querySelector(".autocorrect")?.remove();
 
 	input.selectionStart = caretStart;
 	input.selectionEnd = caretEnd;
