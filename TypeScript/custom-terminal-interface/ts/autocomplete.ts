@@ -13,8 +13,11 @@ function moveIntellisenseBox() {
 	if (!intellisenseWord) return;
 	const { left } = intellisenseWord.getBoundingClientRect();
 	const { left: margin } = commandHighlight.getBoundingClientRect();
-	// console.log(intellisenseWord, rect.left)
-	tooltip.style.left = left - margin + "px";
+
+	const value = left - margin - input.scrollLeft
+	const maxValue = input.getBoundingClientRect().width - tooltip.getBoundingClientRect().width
+
+	tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
 }
 
 function updateIntellisense() {
@@ -83,8 +86,15 @@ window.addEventListener("keydown", e => {
 		input.value = words.join(" ") + endText;
 		input.selectionStart = input.selectionEnd = words.join(" ").length;
 		updateCommandHightlight(true);
+		carretIntoView();
 	}
 });
+
+function carretIntoView() {
+	updateCaret();
+	commandInterfaceContainer.querySelector(".caret")?.scrollIntoView({ inline: "end" });
+	input.scrollLeft = commandInterfaceContainer.scrollLeft;
+}
 
 function filterData(commands: any, currentSection: any, index: number, strict: boolean) {
 	return commands.filter((command: any) => {

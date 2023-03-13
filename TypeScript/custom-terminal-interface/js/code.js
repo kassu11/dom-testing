@@ -36,7 +36,12 @@ window.addEventListener("keydown", e => {
 });
 input.addEventListener("input", () => updateCommandHightlight());
 input.addEventListener("scroll", () => {
+    if (!input.matches(":focus") && input.scrollLeft === 0) {
+        input.scrollLeft = commandInterfaceContainer.scrollLeft;
+        return; // When user on focuses, the input scroll to left 0, by default :/
+    }
     commandInterfaceContainer.scrollLeft = input.scrollLeft;
+    moveIntellisenseBox();
 }, { passive: true });
 function submitCommand() {
     const left = commandHighlight.querySelector(".left");

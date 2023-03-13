@@ -63,7 +63,37 @@ const commands = {
                 "color": "#fde047"
             },
         ]
-    }
+    },
+    "test": {
+        "help": "test",
+        "commands": [
+            {
+                "list": [{ "value": "test" }],
+                "type": "required",
+                "color": "#cccccc"
+            },
+            {
+                "list": [{ "title": "long value", "value": "asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh" }],
+                "type": "required",
+                "color": "#22d3ee"
+            },
+            {
+                "list": [{ "title": "[<X>]", "value": "~", "match": (value) => (!isNaN(+(value)) || value === "~") }],
+                "type": "required",
+                "color": "#fde047"
+            },
+            {
+                "list": [{ "title": "[<Y>]", "value": "~", "match": (value) => (!isNaN(+(value)) || value === "~") }],
+                "type": "required",
+                "color": "#fde047"
+            },
+            {
+                "list": [{ "title": "[<Z>]", "value": "~", "match": (value) => (!isNaN(+(value)) || value === "~") }],
+                "type": "required",
+                "color": "#fde047"
+            },
+        ]
+    },
     // "give": {
     // 	"help": "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
     // 	"command": "give",
