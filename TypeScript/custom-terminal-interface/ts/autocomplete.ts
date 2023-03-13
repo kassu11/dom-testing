@@ -4,7 +4,8 @@ const intellisense = {
 	"index": 0,
 	"options": [] as any[],
 	"renderedWordNumber": 0,
-	"command": "" as any
+	"command": "" as any,
+	"renderedWordLeft": "" as string
 }
 
 function updateIntellisense() {
@@ -36,11 +37,25 @@ function updateIntellisense() {
 	});
 
 	if (intellisense.renderedWordNumber !== currentCommand.length) {
+		const autocorrentElement = commandHighlight.querySelector(".autocorrect");
+		const autoTextLen = autocorrentElement?.textContent?.length || 0;
+		const start = input.selectionStart || 0;
+		const renderedWordLen = intellisense.renderedWordLeft.length;
+
+		if (start > renderedWordLen && start < renderedWordLen + autoTextLen) {
+			input.selectionStart = intellisense.renderedWordLeft.length + 1;
+			input.selectionEnd = intellisense.renderedWordLeft.length + 1;
+		} else if (start > renderedWordLen) {
+			input.selectionStart = start - autoTextLen;
+			input.selectionEnd = start - autoTextLen;
+		}
+
 		removeAutocompliteText();
-		commandHighlight.querySelector(".autocorrect")?.remove();
+		autocorrentElement?.remove();
 	}
 
 	intellisense.renderedWordNumber = currentCommand.length;
+	intellisense.renderedWordLeft = currentCommand.join(" ");
 }
 
 window.addEventListener("keydown", e => {
