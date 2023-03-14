@@ -85,10 +85,14 @@ function removeAutocompliteText() {
 
 function updateCommandHightlight(skipIntellisense = false) {
 	if (!skipIntellisense) updateIntellisense();
+	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
+	const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
+	const currentCommand = input.value.substring(0, lastSpace).split(" ").at(-1);
+
 	const allWords = input.value.split(" ");
 	commandHighlight.textContent = "";
-	const caretLeftText = input.value.substring(0, input.selectionStart || 0);
-	const caretRightText = input.value.substring(input.selectionStart || 0);
+	const caretLeftText = input.value.substring(0, lastSpace);
+	const caretRightText = input.value.substring(lastSpace);
 
 	const caretLeft = document.createElement("span");
 	caretLeft.classList.add("left");
@@ -114,14 +118,11 @@ function updateCommandHightlight(skipIntellisense = false) {
 	});
 
 	const autocorrent = document.createElement("span");
-	const fullWord = caretLeftTextArray.at(-1) + "" + caretRightTextArray.at(0);
-	const inteliValue = intellisense.options[intellisense.index]?.value;
-	let autocorrentText = "";
-	if (fullWord !== inteliValue) {
-		autocorrentText = inteliValue?.replace(caretLeftText.split(" ").at(-1), "") ?? "";
-		autocorrent.textContent = autocorrentText;
-		autocorrent.classList.add("autocorrect");
-	}
+	const inteliValue = intellisense.options[intellisense.index]?.value ?? "";
+	const autocorrentText = inteliValue.replace(currentCommand, "");
+	autocorrent.textContent = autocorrentText;
+	autocorrent.classList.add("autocorrect");
+
 	commandHighlight.append(caretLeft, autocorrent, caretRight);
 
 	const caretStart = input.selectionStart || 0;
