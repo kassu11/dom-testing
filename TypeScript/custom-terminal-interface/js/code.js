@@ -87,10 +87,7 @@ function updateCommandHightlight(skipIntellisense = false) {
     const caretLeftTextArray = caretLeftText.split(" ");
     caretLeftTextArray.forEach((word, i, { length }) => {
         const span = document.createElement("span");
-        if (i !== length - 1)
-            span.textContent = word + " ";
-        else
-            span.textContent = word;
+        span.textContent = word + (i < length - 1 ? " " : "");
         span.setAttribute("data-index", i.toString());
         caretLeft.append(span);
     });
@@ -99,10 +96,7 @@ function updateCommandHightlight(skipIntellisense = false) {
     const caretRightTextArray = caretRightText.split(" ");
     caretRightTextArray.forEach((word, i, { length }) => {
         const span = document.createElement("span");
-        if (i !== length - 1)
-            span.textContent = word + " ";
-        else
-            span.textContent = word;
+        span.textContent = word + (i < length - 1 ? " " : "");
         const index = allWords.indexOf(word, caretLeftTextArray.length + i - 1);
         span.setAttribute("data-index", (index == -1 ? caretLeftTextArray.length - 1 : index).toString());
         caretRight.append(span);
