@@ -54,7 +54,7 @@ function updateIntellisense() {
         const autoTextLen = autocorrentElement?.textContent?.length || 0;
         const start = input.selectionStart || 0;
         const renderedWordLen = intellisense.renderedWordLeft.length;
-        if (start > renderedWordLen && start < renderedWordLen + autoTextLen) {
+        if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
             input.selectionStart = intellisense.renderedWordLeft.length + 1;
             input.selectionEnd = intellisense.renderedWordLeft.length + 1;
         }
@@ -92,6 +92,7 @@ window.addEventListener("keydown", e => {
         tooltip.textContent = "";
     }
     else if (e.code === "Space" && e.ctrlKey) {
+        removeAutocompliteText();
         updateCommandHightlight();
     }
 });

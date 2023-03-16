@@ -15,6 +15,7 @@ function updateCaret() {
         caretHistory.lastPosition = input.selectionStart || 0;
         updateIntellisense();
         caret.classList.remove("idle");
+        caret.style.setProperty("--left", caret.getBoundingClientRect().width + "px");
     }
     else if (performance.now() - caretHistory.lastMoved > 1000) {
         caret.classList.add("idle");

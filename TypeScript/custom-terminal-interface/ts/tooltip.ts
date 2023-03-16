@@ -15,6 +15,7 @@ function autoCorrectCallback(mutationList: MutationRecord[]) {
 
 	function removedAutoCorrect(node: HTMLElement) {
 		if (!node.classList?.contains("autocorrect")) return;
+		if (commandHighlight.querySelector(".autocorrect")) return;
 		tooltip.textContent = "";
 	}
 }

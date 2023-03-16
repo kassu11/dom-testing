@@ -16,6 +16,8 @@ function autoCorrectCallback(mutationList) {
     function removedAutoCorrect(node) {
         if (!node.classList?.contains("autocorrect"))
             return;
+        if (commandHighlight.querySelector(".autocorrect"))
+            return;
         tooltip.textContent = "";
     }
 }

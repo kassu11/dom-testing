@@ -58,7 +58,7 @@ function updateIntellisense() {
 		const start = input.selectionStart || 0;
 		const renderedWordLen = intellisense.renderedWordLeft.length;
 
-		if (start > renderedWordLen && start < renderedWordLen + autoTextLen) {
+		if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
 			input.selectionStart = intellisense.renderedWordLeft.length + 1;
 			input.selectionEnd = intellisense.renderedWordLeft.length + 1;
 		} else if (start > renderedWordLen) {
@@ -96,6 +96,7 @@ window.addEventListener("keydown", e => {
 		removeAutocompliteText();
 		tooltip.textContent = "";
 	} else if (e.code === "Space" && e.ctrlKey) {
+		removeAutocompliteText();
 		updateCommandHightlight();
 	}
 
