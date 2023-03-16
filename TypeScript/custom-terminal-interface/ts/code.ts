@@ -1,7 +1,7 @@
 const input = document.querySelector("#commandInput") as HTMLInputElement;
 const caret = document.querySelector(".caret") as HTMLPreElement;
 const commandHighlight = document.querySelector("#commandHighlight") as HTMLPreElement;
-const textContent = document.querySelector("#textContent") as HTMLPreElement;
+const textContentElem = document.querySelector("#textContent") as HTMLPreElement;
 const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer") as HTMLDivElement;
 
 
@@ -31,9 +31,7 @@ window.addEventListener("keydown", e => {
 
 	if (document.activeElement !== input) input.focus();
 
-	if (e.key === "Enter") {
-		submitCommand();
-	}
+	if (e.key === "Enter") submitCommand();
 })
 
 input.addEventListener("input", () => updateCommandHightlight());
@@ -52,10 +50,12 @@ function submitCommand() {
 	const left = commandHighlight.querySelector(".left")
 	const right = commandHighlight.querySelector(".right")
 
-	if (left) textContent.append(left)
+	colorHighlight();
+
+	if (left) textContentElem.append(left)
 	if (right) {
-		textContent.append(right)
-		right.innerHTML = "\n"
+		textContentElem.append(right)
+		right.innerHTML += "\n"
 	}
 
 	input.value = "";

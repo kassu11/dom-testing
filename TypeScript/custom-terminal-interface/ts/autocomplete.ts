@@ -27,9 +27,13 @@ function updateIntellisense() {
 	const currentCommand = input.value.substring(0, lastSpace).split(" ");
 
 	let localCommands = Object.values(commands)
-	for (const index in currentCommand) {
-		localCommands = filterData(localCommands, currentCommand[index], +index, +index < currentCommand.length - 1)
-		if (+index === 0) intellisense.command = localCommands[intellisense.index];
+	if (currentCommand.length > 1) {
+		const key = currentCommand[0] as keyof typeof commands;
+		if (key in commands) localCommands = [commands[key]]
+	}
+	for (let index = 0; index < currentCommand.length; index++) {
+		localCommands = filterData(localCommands, currentCommand[index], index, index < currentCommand.length - 1)
+		if (index === 0) intellisense.command = localCommands[intellisense.index];
 	}
 
 	intellisense.options = [];
@@ -63,6 +67,7 @@ function updateIntellisense() {
 		}
 
 		removeAutocompliteText();
+		if (intellisense.renderedWordNumber === 1) colorHighlight();
 	}
 
 	intellisense.renderedWordNumber = currentCommand.length;
@@ -87,7 +92,13 @@ window.addEventListener("keydown", e => {
 		input.selectionStart = input.selectionEnd = words.join(" ").length;
 		updateCommandHightlight(true);
 		carretIntoView();
+	} else if (e.key === "Escape") {
+		removeAutocompliteText();
+		tooltip.textContent = "";
+	} else if (e.code === "Space" && e.ctrlKey) {
+		updateCommandHightlight();
 	}
+
 });
 
 function carretIntoView() {

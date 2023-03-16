@@ -2,7 +2,7 @@
 const input = document.querySelector("#commandInput");
 const caret = document.querySelector(".caret");
 const commandHighlight = document.querySelector("#commandHighlight");
-const textContent = document.querySelector("#textContent");
+const textContentElem = document.querySelector("#textContent");
 const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer");
 const caretHistory = {
     "lastMoved": performance.now(),
@@ -30,9 +30,8 @@ window.addEventListener("keydown", e => {
         return;
     if (document.activeElement !== input)
         input.focus();
-    if (e.key === "Enter") {
+    if (e.key === "Enter")
         submitCommand();
-    }
 });
 input.addEventListener("input", () => updateCommandHightlight());
 input.addEventListener("scroll", () => {
@@ -46,11 +45,12 @@ input.addEventListener("scroll", () => {
 function submitCommand() {
     const left = commandHighlight.querySelector(".left");
     const right = commandHighlight.querySelector(".right");
+    colorHighlight();
     if (left)
-        textContent.append(left);
+        textContentElem.append(left);
     if (right) {
-        textContent.append(right);
-        right.innerHTML = "\n";
+        textContentElem.append(right);
+        right.innerHTML += "\n";
     }
     input.value = "";
     updateCommandHightlight();
