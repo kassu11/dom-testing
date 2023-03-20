@@ -19,7 +19,6 @@ function moveIntellisenseBox() {
     tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
 }
 function updateIntellisense() {
-    tooltip.textContent = "";
     const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
     const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
     const currentCommand = input.value.substring(0, lastSpace).split(" ");
@@ -44,11 +43,7 @@ function updateIntellisense() {
                 intellisense.options.push({ ...listItem });
         });
     });
-    intellisense.options.forEach(option => {
-        const span = document.createElement("span");
-        span.textContent = (option.title ?? option.value) + "\n";
-        tooltip.append(span);
-    });
+    updateTooltip();
     if (intellisense.renderedWordNumber !== currentCommand.length) {
         const autocorrentElement = commandHighlight.querySelector(".autocorrect");
         const autoTextLen = autocorrentElement?.textContent?.length || 0;
@@ -70,22 +65,21 @@ function updateIntellisense() {
     intellisense.renderedWordLeft = currentCommand.join(" ");
     moveIntellisenseBox();
 }
+function updateTooltip() {
+    tooltip.textContent = "";
+    intellisense.options.forEach((option, index) => {
+        const span = document.createElement("span");
+        span.setAttribute("data-index", index.toString());
+        span.textContent = (option.title ?? option.value) + "\n";
+        tooltip.append(span);
+    });
+}
 window.addEventListener("keydown", e => {
     if (e.key === "Tab") {
         e.preventDefault();
         if (!intellisense.options.length)
             return;
-        removeAutocompliteText();
-        const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
-        const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
-        const startText = input.value.substring(0, lastSpace);
-        const endText = input.value.substring(startText.length);
-        const words = startText.split(" ");
-        words[words.length - 1] = intellisense.options[intellisense.index].value;
-        input.value = words.join(" ") + endText;
-        input.selectionStart = input.selectionEnd = words.join(" ").length;
-        updateCommandHightlight(true);
-        carretIntoView();
+        fillInAutoComplite();
     }
     else if (e.key === "Escape") {
         removeAutocompliteText();
@@ -96,6 +90,20 @@ window.addEventListener("keydown", e => {
         updateCommandHightlight();
     }
 });
+function fillInAutoComplite() {
+    removeAutocompliteText();
+    const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
+    const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
+    const startText = input.value.substring(0, lastSpace);
+    const endText = input.value.substring(startText.length);
+    const words = startText.split(" ");
+    words[words.length - 1] = intellisense.options[intellisense.index].value;
+    input.value = words.join(" ") + endText;
+    input.selectionStart = input.selectionEnd = words.join(" ").length;
+    updateCommandHightlight(true);
+    carretIntoView();
+    intellisense.index = 0;
+}
 function carretIntoView() {
     updateCaret();
     commandInterfaceContainer.querySelector(".caret")?.scrollIntoView({ inline: "end" });

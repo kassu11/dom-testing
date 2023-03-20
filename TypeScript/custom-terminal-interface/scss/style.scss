@@ -87,6 +87,18 @@ body {
 	&:empty {
 		display: none;
 	}
+
+	span {
+		position: relative;
+		cursor: pointer;
+		width: 100%;
+		display: block;
+		white-space: break-spaces;
+
+		&:hover {
+			background-color: #2e2e2e;
+		}
+	}
 }
 
 @keyframes caret {

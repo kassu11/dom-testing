@@ -34,4 +34,14 @@ function tooltipCallback(mutationList) {
 }
 const tooltipObserver = new MutationObserver(tooltipCallback);
 tooltipObserver.observe(tooltip, { attributes: false, childList: true, subtree: false });
+tooltip.addEventListener("click", e => {
+    const target = e.target;
+    const selection = target?.closest("#tooltip > span");
+    if (!selection)
+        return;
+    const index = parseInt(selection.getAttribute("data-index") || "0");
+    intellisense.index = index;
+    fillInAutoComplite();
+    input.focus();
+});
 //# sourceMappingURL=tooltip.js.map
