@@ -95,6 +95,10 @@ body {
 		display: block;
 		white-space: break-spaces;
 
+		&.selected {
+			color: gold;
+		}
+
 		&:hover {
 			background-color: #2e2e2e;
 		}

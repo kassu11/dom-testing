@@ -33,6 +33,7 @@ function updateIntellisense() {
         if (index === 0)
             intellisense.command = localCommands[intellisense.index];
     }
+    const lastOptionLength = intellisense.options.length;
     intellisense.options = [];
     localCommands.forEach(command => {
         if (currentCommand.length === 1) {
@@ -43,6 +44,8 @@ function updateIntellisense() {
                 intellisense.options.push({ ...listItem });
         });
     });
+    if (lastOptionLength !== intellisense.options.length)
+        intellisense.index = 0;
     updateTooltip();
     if (intellisense.renderedWordNumber !== currentCommand.length) {
         const autocorrentElement = commandHighlight.querySelector(".autocorrect");
@@ -70,6 +73,8 @@ function updateTooltip() {
     intellisense.options.forEach((option, index) => {
         const span = document.createElement("span");
         span.setAttribute("data-index", index.toString());
+        if (index === intellisense.index)
+            span.classList.add("selected");
         span.textContent = (option.title ?? option.value) + "\n";
         tooltip.append(span);
     });
@@ -88,6 +93,26 @@ window.addEventListener("keydown", e => {
     else if (e.code === "Space" && e.ctrlKey) {
         removeAutocompliteText();
         updateCommandHightlight();
+    }
+    else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!intellisense.options.length)
+            return;
+        intellisense.index--;
+        if (intellisense.index < 0)
+            intellisense.index = intellisense.options.length - 1;
+        updateCommandHightlight(true);
+        updateTooltip();
+    }
+    else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!intellisense.options.length)
+            return;
+        intellisense.index++;
+        if (intellisense.index > intellisense.options.length - 1)
+            intellisense.index = 0;
+        updateCommandHightlight(true);
+        updateTooltip();
     }
 });
 function fillInAutoComplite() {
