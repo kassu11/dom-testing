@@ -1,0 +1,14 @@
+p {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+
+.hide-root {
+	position: fixed;
+	background: green;
+	padding: 10px;
+	left: 50%;
+	top: 50%;
+}
