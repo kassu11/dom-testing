@@ -7,6 +7,7 @@ const commandInterfaceContainer = document.querySelector("#commandInterfaceConta
 
 
 window.addEventListener("keydown", e => {
+	if (e.ctrlKey && e.code == "KeyV") input.focus();
 	if (e.altKey || e.ctrlKey || e.metaKey) return;
 	if (e.key.includes("Arrow")) return;
 	if (e.key === "Shift") return;
@@ -38,6 +39,8 @@ function submitCommand() {
 		right.innerHTML += "\n"
 	}
 
+	intellisense.command?.execute?.(...input.value.split(" "))
+
 	input.value = "";
 	updateCommandHightlight()
 	window.scrollBy(0, document.body.scrollHeight);
@@ -62,3 +65,19 @@ function removeAutocompliteText() {
 	input.selectionStart = caretStart;
 	input.selectionEnd = caretEnd;
 }
+
+
+function addText(text: string) {
+	const span = document.createElement("span")
+	span.textContent = text + "\n";
+	span.classList.add("commandText")
+	textContentElem.append(span);
+}
+function addErrorText(text: string) {
+	const span = document.createElement("span")
+	span.textContent = text + "\n";
+	span.classList.add("error")
+	textContentElem.append(span);
+}
+
+const users = ["user1", "user2", "user3"]

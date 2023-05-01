@@ -5,6 +5,8 @@ const commandHighlight = document.querySelector("#commandHighlight");
 const textContentElem = document.querySelector("#textContent");
 const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer");
 window.addEventListener("keydown", e => {
+    if (e.ctrlKey && e.code == "KeyV")
+        input.focus();
     if (e.altKey || e.ctrlKey || e.metaKey)
         return;
     if (e.key.includes("Arrow"))
@@ -34,6 +36,7 @@ function submitCommand() {
         textContentElem.append(right);
         right.innerHTML += "\n";
     }
+    intellisense.command?.execute?.(...input.value.split(" "));
     input.value = "";
     updateCommandHightlight();
     window.scrollBy(0, document.body.scrollHeight);
@@ -54,4 +57,17 @@ function removeAutocompliteText() {
     input.selectionStart = caretStart;
     input.selectionEnd = caretEnd;
 }
+function addText(text) {
+    const span = document.createElement("span");
+    span.textContent = text + "\n";
+    span.classList.add("commandText");
+    textContentElem.append(span);
+}
+function addErrorText(text) {
+    const span = document.createElement("span");
+    span.textContent = text + "\n";
+    span.classList.add("error");
+    textContentElem.append(span);
+}
+const users = ["user1", "user2", "user3"];
 //# sourceMappingURL=code.js.map

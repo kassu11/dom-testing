@@ -1,7 +1,10 @@
 body {
+	position: absolute;
 	background: #0c0c0c;
 	font-size: 1.5rem;
 	color: #cccccc;
+	inset: 0px;
+	display: grid;
 
 	input {
 		background: none;
@@ -20,6 +23,17 @@ body {
 		position: relative;
 		word-wrap: break-word;
 		white-space: pre-wrap;
+		margin-top: auto;
+
+		.commandText {
+			background-color: green;
+			color: white;
+		}
+
+		.error {
+			background-color: red;
+			color: white
+		}
 	}
 
 	pre,
@@ -32,6 +46,7 @@ body {
 
 #terminalContainer {
 	position: relative;
+	margin-top: auto;
 }
 
 #commandHighlight {
@@ -47,6 +62,7 @@ body {
 #commandInterfaceContainer {
 	position: relative;
 	overflow: hidden;
+	flex-shrink: 0;
 
 	pre {
 		pointer-events: none;

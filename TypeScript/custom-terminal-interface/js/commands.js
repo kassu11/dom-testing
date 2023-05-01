@@ -100,19 +100,44 @@ const commands = {
             },
         ]
     },
-    // "give": {
-    // 	"help": "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
-    // 	"command": "give",
-    // 	"list": [
-    // 		{
-    // 			"list": [commandArguments["playerName"], commandArguments["@a"], commandArguments["@r"]],
-    // 			"type": "optional"
-    // 		},
-    // 		{
-    // 			"list": [commandArguments["giveItem"]],
-    // 			"type": "required"
-    // 		}
-    // 	]
-    // }
+    "all": {
+        "help": "all [selection] - Lists all selected.",
+        "commands": [
+            {
+                "list": [{ "value": "all" }],
+                "type": "required"
+            },
+            {
+                "list": [{ "value": "users" }, { "value": "items" }],
+                "type": "required"
+            },
+        ],
+        execute(...args) {
+            if (args.length == 1)
+                addErrorText("Missing argument");
+            else if (args.length > 2)
+                addErrorText("Too many arguments");
+            else if (args[1] === "users")
+                addText("All users");
+            else if (args[1] === "items")
+                addText("All items");
+            else
+                addErrorText("Invalid argument");
+        },
+    },
+    "clear": {
+        "help": "clear - Clears the console.",
+        "commands": [
+            {
+                "list": [{ "value": "clear" }],
+                "type": "required"
+            }
+        ],
+        execute(...args) {
+            if (args.length > 1)
+                addErrorText("Too many arguments");
+            textContentElem.textContent = "";
+        },
+    }
 };
 //# sourceMappingURL=commands.js.map
