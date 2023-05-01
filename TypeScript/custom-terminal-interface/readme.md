@@ -1,6 +1,15 @@
 # Custom terminal
 
-- Projektin ideana on testata miten vaikea on tehdä terminaali ympäristö
-- Haluan yrittää tehdä väri koodausta komentoihin
-- Myös jonkun selvän avustajan, joka neuvoo komentoja
-	- Terminaali ei siis tee oikeesti mitään, mutta keskityn ulkonäköön ja avustukseen
+- I'm testing how to make a kinda working terminal
+- Wanted to also test out Typescript but kinda regretting it :D
+- The terminal should be able to color code your text
+- The terminal autocorrects and highlights any errors and intellisense recommends commands
+
+## Testing
+
+- The project has Cypress installed
+- I have made a couple of tests that can be run using
+
+```
+npm run e2e
+```
