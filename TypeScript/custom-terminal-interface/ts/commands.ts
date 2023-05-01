@@ -3,7 +3,7 @@ const commands = {
 		"help": "help [command] - Displays help for a command.",
 		"commands": [
 			{
-				"list": [{ "value": "help" }],
+				"list": [{ "value": ["help"] }],
 				"type": "required"
 			}
 		]
@@ -12,22 +12,22 @@ const commands = {
 		"help": "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
 		"commands": [
 			{
-				"list": [{ "value": "give" }],
+				"list": [{ "value": ["give"] }],
 				"type": "required",
 				"color": "#cccccc"
 			},
 			{
-				"list": [{ "value": "@a" }, { "value": "@r" }, { "value": "kassu11" }],
+				"list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
 				"type": "required",
 				"color": "#22d3ee"
 			},
 			{
-				"list": [{ "value": "apple" }, { "value": "sword" }],
+				"list": [{ "value": ["apple"] }, { "value": ["sword"] }],
 				"type": "required",
 				"color": "#c084fc"
 			},
 			{
-				"list": [{ "title": "<amount>", "value": "1", "match": (value: string) => !isNaN(+(value)) }],
+				"list": [{ "title": "<amount>", "value": ["1"], "match": (value: string) => !isNaN(+(value)) }],
 				"type": "required",
 				"color": "#fde047"
 			},
@@ -43,27 +43,27 @@ const commands = {
 		"help": "tp [player] [x] [y] [z] - Teleports a player to a location.",
 		"commands": [
 			{
-				"list": [{ "value": "tp" }],
+				"list": [{ "value": ["tp"] }],
 				"type": "required",
 				"color": "#cccccc"
 			},
 			{
-				"list": [{ "value": "@a" }, { "value": "@r" }, { "value": "kassu11" }],
+				"list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
 				"type": "required",
 				"color": "#22d3ee"
 			},
 			{
-				"list": [{ "title": "[<X>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<X>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
 			{
-				"list": [{ "title": "[<Y>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<Y>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
 			{
-				"list": [{ "title": "[<Z>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<Z>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
@@ -73,27 +73,27 @@ const commands = {
 		"help": "test",
 		"commands": [
 			{
-				"list": [{ "value": "test" }],
+				"list": [{ "value": ["test"] }],
 				"type": "required",
 				"color": "#cccccc"
 			},
 			{
-				"list": [{ "title": "long value", "value": "asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh" }],
+				"list": [{ "title": "long value", "value": ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"] }],
 				"type": "required",
 				"color": "#22d3ee"
 			},
 			{
-				"list": [{ "title": "[<X>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<X>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
 			{
-				"list": [{ "title": "[<Y>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<Y>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
 			{
-				"list": [{ "title": "[<Z>]", "value": "~", "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
+				"list": [{ "title": "[<Z>]", "value": ["~"], "match": (value: string) => (!isNaN(+(value)) || value === "~") }],
 				"type": "required",
 				"color": "#fde047"
 			},
@@ -103,11 +103,11 @@ const commands = {
 		"help": "all [selection] - Lists all selected.",
 		"commands": [
 			{
-				"list": [{ "value": "all" }],
+				"list": [{ "value": ["all"] }],
 				"type": "required"
 			},
 			{
-				"list": [{ "value": "users" }, { "value": "items" }],
+				"list": [{ "value": ["users"] }, { "value": ["items"] }],
 				"type": "required"
 			},
 		],
@@ -123,7 +123,7 @@ const commands = {
 		"help": "clear - Clears the console.",
 		"commands": [
 			{
-				"list": [{ "value": "clear" }],
+				"list": [{ "value": ["clear"] }],
 				"type": "required"
 			}
 		],

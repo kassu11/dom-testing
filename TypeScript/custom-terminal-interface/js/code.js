@@ -69,5 +69,4 @@ function addErrorText(text) {
     span.classList.add("error");
     textContentElem.append(span);
 }
-const users = ["user1", "user2", "user3"];
 //# sourceMappingURL=code.js.map

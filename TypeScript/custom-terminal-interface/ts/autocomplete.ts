@@ -31,7 +31,9 @@ function updateIntellisense() {
 		if (key in commands) localCommands = [commands[key]]
 	}
 	for (let index = 0; index < currentCommand.length; index++) {
+		console.log(localCommands, currentCommand[index])
 		localCommands = filterData(localCommands, currentCommand[index], index, index < currentCommand.length - 1)
+		console.warn(localCommands, currentCommand[index])
 		if (index === 0) intellisense.command = localCommands[intellisense.index];
 	}
 
@@ -39,10 +41,15 @@ function updateIntellisense() {
 	intellisense.options = [];
 	localCommands.forEach(command => {
 		if (currentCommand.length === 1) {
-			return intellisense.options.push({ title: command.help, value: command.commands[0].list[0].value })
+			return command.commands[0].list[0].value.forEach((value: string) => {
+				intellisense.options.push({ title: command.help, value })
+			});
 		}
 		command.commands[currentCommand.length - 1].list.forEach(listItem => {
-			if (listItem.value.startsWith(currentCommand.at(-1) || "")) intellisense.options.push({ ...listItem });
+			listItem.value.forEach((value: string) => {
+				// console.log(listItem)
+				if (value.startsWith(currentCommand.at(-1) || "")) intellisense.options.push({ ...listItem, value });
+			});
 		});
 	});
 
@@ -72,17 +79,6 @@ function updateIntellisense() {
 	moveIntellisenseBox();
 }
 
-function updateTooltip() {
-	tooltip.textContent = "";
-	intellisense.options.forEach((option, index: number) => {
-		const span = document.createElement("span");
-		span.setAttribute("data-index", index.toString());
-		if (index === intellisense.index) span.classList.add("selected");
-		span.textContent = (option.title ?? option.value) + "\n";
-		tooltip.append(span);
-	});
-}
-
 function fillInAutoComplite() {
 	removeAutocompliteText();
 	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
@@ -104,9 +100,10 @@ function filterData(commands: any, currentSection: any, index: number, strict: b
 	return commands.filter((command: any) => {
 		for (const commandValue of command?.commands?.[index]?.list ?? []) {
 			if (strict) {
-				if (commandValue.value === currentSection) return true
-			} else if (commandValue.value.startsWith(currentSection)) return true
+				if (commandValue.value.some((value: string) => value === currentSection)) return true
+			} else if (commandValue.value.some((value: string) => value.startsWith(currentSection))) return true
 			if (commandValue.match?.(currentSection)) return true
+			console.log(commandValue.value, strict)
 		}
 	});
 }

@@ -79,5 +79,3 @@ function addErrorText(text: string) {
 	span.classList.add("error")
 	textContentElem.append(span);
 }
-
-const users = ["user1", "user2", "user3"]
