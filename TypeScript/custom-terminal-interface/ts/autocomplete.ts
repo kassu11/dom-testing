@@ -31,9 +31,7 @@ function updateIntellisense() {
 		if (key in commands) localCommands = [commands[key]]
 	}
 	for (let index = 0; index < currentCommand.length; index++) {
-		console.log(localCommands, currentCommand[index])
 		localCommands = filterData(localCommands, currentCommand[index], index, index < currentCommand.length - 1)
-		console.warn(localCommands, currentCommand[index])
 		if (index === 0) intellisense.command = localCommands[intellisense.index];
 	}
 
@@ -47,7 +45,6 @@ function updateIntellisense() {
 		}
 		command.commands[currentCommand.length - 1].list.forEach(listItem => {
 			listItem.value.forEach((value: string) => {
-				// console.log(listItem)
 				if (value.startsWith(currentCommand.at(-1) || "")) intellisense.options.push({ ...listItem, value });
 			});
 		});
@@ -103,7 +100,6 @@ function filterData(commands: any, currentSection: any, index: number, strict: b
 				if (commandValue.value.some((value: string) => value === currentSection)) return true
 			} else if (commandValue.value.some((value: string) => value.startsWith(currentSection))) return true
 			if (commandValue.match?.(currentSection)) return true
-			console.log(commandValue.value, strict)
 		}
 	});
 }

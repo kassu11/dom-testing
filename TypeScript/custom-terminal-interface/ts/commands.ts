@@ -114,9 +114,12 @@ const commands = {
 		execute(...args: string[]) {
 			if (args.length == 1) addErrorText("Missing argument")
 			else if (args.length > 2) addErrorText("Too many arguments")
-			else if (args[1] === "users") addText("All users")
+			else if (args[1] === "users") {
+				addText("List of all the users:")
+				for (const user of users) addText("- " + user.name)
+			}
 			else if (args[1] === "items") addText("All items")
-			else addErrorText("Invalid argument")
+			else addErrorText(`Invalid argument "${args[1]}"`)
 		},
 	},
 	"clear": {
@@ -131,5 +134,30 @@ const commands = {
 			if (args.length > 1) addErrorText("Too many arguments")
 			textContentElem.textContent = ""
 		},
+	},
+	"user": {
+		"help": "user [action] [name] {values} - General user management command.",
+		"commands": [
+			{
+				"list": [{ "value": ["user"] }],
+				"type": "required"
+			},
+			{
+				"list": [{ "value": ["add"] }, { "value": ["remove"] }, { "value": ["modify"] }, { "value": ["info"] }],
+				"type": "required"
+			},
+			{
+				"list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
+				"type": "required"
+			},
+			{
+				"list": [{ "title": "name", "value": ["<name>"], "match": (value: string) => value.length > 0 }],
+				"type": "required",
+				e() { console.log(this) }
+			}
+		]
 	}
 }
+
+
+// https://stackoverflow.com/questions/75804424/is-it-possible-to-get-parent-property-name-of-nested-object-in-set-method-of-pro
