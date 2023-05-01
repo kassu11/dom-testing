@@ -83,6 +83,34 @@ function updateTooltip() {
 	});
 }
 
+function fillInAutoComplite() {
+	removeAutocompliteText();
+	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
+	const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
+	const startText = input.value.substring(0, lastSpace);
+	const endText = input.value.substring(startText.length);
+
+	const words = startText.split(" ");
+	words[words.length - 1] = intellisense.options[intellisense.index].value;
+	input.value = words.join(" ") + endText;
+	input.selectionStart = input.selectionEnd = words.join(" ").length;
+	updateCommandHightlight(true);
+	carretIntoView();
+	intellisense.index = 0;
+}
+
+
+function filterData(commands: any, currentSection: any, index: number, strict: boolean) {
+	return commands.filter((command: any) => {
+		for (const commandValue of command?.commands?.[index]?.list ?? []) {
+			if (strict) {
+				if (commandValue.value === currentSection) return true
+			} else if (commandValue.value.startsWith(currentSection)) return true
+			if (commandValue.match?.(currentSection)) return true
+		}
+	});
+}
+
 window.addEventListener("keydown", e => {
 	if (e.key === "Tab") {
 		e.preventDefault();
@@ -111,36 +139,3 @@ window.addEventListener("keydown", e => {
 		updateTooltip();
 	}
 });
-
-function fillInAutoComplite() {
-	removeAutocompliteText();
-	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
-	const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
-	const startText = input.value.substring(0, lastSpace);
-	const endText = input.value.substring(startText.length);
-
-	const words = startText.split(" ");
-	words[words.length - 1] = intellisense.options[intellisense.index].value;
-	input.value = words.join(" ") + endText;
-	input.selectionStart = input.selectionEnd = words.join(" ").length;
-	updateCommandHightlight(true);
-	carretIntoView();
-	intellisense.index = 0;
-}
-
-function carretIntoView() {
-	updateCaret();
-	commandInterfaceContainer.querySelector(".caret")?.scrollIntoView({ inline: "end" });
-	input.scrollLeft = commandInterfaceContainer.scrollLeft;
-}
-
-function filterData(commands: any, currentSection: any, index: number, strict: boolean) {
-	return commands.filter((command: any) => {
-		for (const commandValue of command?.commands?.[index]?.list ?? []) {
-			if (strict) {
-				if (commandValue.value === currentSection) return true
-			} else if (commandValue.value.startsWith(currentSection)) return true
-			if (commandValue.match?.(currentSection)) return true
-		}
-	});
-}

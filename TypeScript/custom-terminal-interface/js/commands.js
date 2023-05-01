@@ -32,7 +32,13 @@ const commands = {
                 "type": "required",
                 "color": "#fde047"
             },
-        ]
+        ],
+        "execute": ([...args]) => {
+            const player = args[0];
+            const item = args[1];
+            const amount = args[2];
+            return `give ${player} ${item} ${amount}`;
+        }
     },
     "tp": {
         "help": "tp [player] [x] [y] [z] - Teleports a player to a location.",
