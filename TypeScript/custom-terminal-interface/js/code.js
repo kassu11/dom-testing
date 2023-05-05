@@ -71,4 +71,8 @@ function addErrorText(text) {
     span.classList.add("error");
     textContentElem.append(span);
 }
+function destructure(obj, obj2) {
+    const copy = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+    return Object.assign(copy, obj2);
+}
 //# sourceMappingURL=code.js.map

@@ -1,3 +1,11 @@
+const colors = {
+	argument: "#cccccc",
+	entity: "#c084fc",
+	selector: "#22d3ee",
+	value: "#fde047",
+	option: "#69ff91",
+} as const
+
 const commands = {
 	help: {
 		help: "help [command] - Displays help for a command.",
@@ -14,22 +22,22 @@ const commands = {
 			index: {
 				list: [{ value: ["give"], next: "selector" }],
 				type: "required",
-				color: "#cccccc"
+				color: colors.argument
 			},
 			selector: {
-				list: [{ ...commandArguments["@a"], next: "item" }, { ...commandArguments["@r"], next: "item" }, { ...commandArguments["playerName"], next: "item" }],
+				list: [{ ...commandArguments["@a"], next: "item" }, { ...commandArguments["@r"], next: "item" }, destructure(commandArguments["playerName"], { next: "item" })],
 				type: "required",
-				color: "#22d3ee",
+				color: colors.selector,
 			},
 			item: {
 				list: [{ value: ["apple"], next: "amount" }, { value: ["sword"], next: "amount" }],
 				type: "required",
-				color: "#c084fc",
+				color: colors.entity,
 			},
 			amount: {
 				list: [{ title: "<amount>", value: ["1"], match: (value: string) => !isNaN(+(value)) }],
 				type: "required",
-				color: "#fde047"
+				color: colors.value
 			},
 		},
 		execute: ([...args]: string[]) => {
@@ -45,30 +53,30 @@ const commands = {
 			index: {
 				list: [{ value: ["tp"], next: "selector" }],
 				type: "required",
-				color: "#cccccc",
+				color: colors.argument,
 				next: "selector"
 			},
 			selector: {
 				list: [{ ...commandArguments["@a"], next: "xCords" }, { ...commandArguments["@r"], next: "xCords" }, { ...commandArguments["playerName"], next: "xCords" }],
 				type: "required",
-				color: "#22d3ee",
+				color: colors.selector,
 				next: "xCords"
 			},
 			xCords: {
 				list: [{ title: "[<X>]", value: ["~"], next: "yCords", match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047",
+				color: colors.value,
 			},
 			yCords: {
 				list: [{ title: "[<Y>]", value: ["~"], next: "zCords", match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047",
+				color: colors.value,
 
 			},
 			zCords: {
 				list: [{ title: "[<Z>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047"
+				color: colors.value
 			},
 		}
 	},
@@ -78,31 +86,31 @@ const commands = {
 			index: {
 				list: [{ value: ["test"] }],
 				type: "required",
-				color: "#cccccc",
+				color: colors.argument,
 				next: "second"
 			},
 			second: {
 				list: [{ title: "long value", value: ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"] }],
 				type: "required",
-				color: "#22d3ee",
+				color: colors.selector,
 				next: "third"
 			},
 			third: {
 				list: [{ title: "[<X>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047",
+				color: colors.value,
 				next: "fourth"
 			},
 			fourth: {
 				list: [{ title: "[<Y>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047",
+				color: colors.value,
 				next: "fifth"
 			},
 			fifth: {
 				list: [{ title: "[<Z>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
-				color: "#fde047"
+				color: colors.value
 			},
 		}
 	},
@@ -137,6 +145,7 @@ const commands = {
 				type: "required"
 			}
 		},
+		color: colors.argument,
 		execute(...args: string[]) {
 			if (args.length > 1) addErrorText("Too many arguments")
 			textContentElem.textContent = ""
@@ -147,23 +156,29 @@ const commands = {
 		commands: {
 			index: {
 				list: [{ value: ["user"], next: "second" }],
-				type: "required"
+				type: "required",
+				color: colors.argument
 			},
 			second: {
 				list: [{ value: ["remove", "info"], next: "endSelector" }, { value: ["add"], next: "uniqueName" }, { value: ["modify"], next: "modifySelect" }],
-				type: "required"
+				type: "required",
+				color: colors.option
 			},
 			endSelector: {
 				list: [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
-				type: "required"
+				type: "required",
+				color: colors.selector
+
 			},
 			modifySelect: {
 				list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, { ...commandArguments["playerName"], next: "modifyName" }],
-				type: "required"
+				type: "required",
+				color: colors.selector
 			},
 			modifyName: {
 				list: [{ value: ["name"], next: "uniqueName" }],
-				type: "required"
+				type: "required",
+				color: colors.option
 			},
 			uniqueName: {
 				list: [{
@@ -171,11 +186,53 @@ const commands = {
 					value: ["user_name"],
 					match: (value: string) => value.length > 2 && users.every(user => user.name !== value)
 				}],
-				type: "required"
+				type: "required",
+				color: colors.value
 			},
-		}
+		},
+		execute(...args: string[]) {
+			const path = traceCommandPath(args, true, true)
+			const errorIndex = path.findIndex(p => p === null)
+			if (errorIndex !== -1) {
+				addErrorText(`Invalid argument "${args[errorIndex]}"`)
+				return
+			}
+			else if (args[1] === "remove" || args[1] === "info") {
+				const selected = path[2].execute(args[2]) as User[]
+				for (const user of selected) {
+					if (args[1] === "remove") {
+						users.splice(users.findIndex(u => u.name === user.name), 1)
+						addText(`Removed user "${user.name}"`)
+					} else if (args[1] === "info") {
+						addText(`User "${user.name}":`)
+						addText(`- Inventory: ${JSON.stringify(user.inventory)}`)
+					}
+				}
+			} else if (args[1] === "add") {
+				users.push(new User(args[2]))
+				addText(`Added user "${args[2]}"`)
+			} else if (args[1] === "modify") {
+				if (args[3] === "name") {
+					const selected = path[2].execute(args[2]) as User[]
+					const baseName = args[4]
+
+					if (selected.length === 1) {
+						addText(`Changed user "${selected[0].name}" name to "${baseName}"`)
+						selected[0].name = baseName
+						return
+					}
+					let counter = 1
+					main: for (const user of selected) {
+						for (let i = 0; i < 100; i++) {
+							if (users.every(u => u.name !== baseName + counter)) {
+								addText(`Changed user "${user.name}" name to "${baseName + counter}"`)
+								user.name = `${baseName}${counter++}`
+								continue main;
+							}
+						}
+					}
+				}
+			}
+		},
 	}
 } as const
-
-
-// https://stackoverflow.com/questions/75804424/is-it-possible-to-get-parent-property-name-of-nested-object-in-set-method-of-pro

@@ -10,20 +10,21 @@ const commandArguments = {
 			return users.some(user => user.name === userName)
 		},
 		execute(userName: string) {
-			return [users.some(user => user.name === userName)]
+			return [users.find(user => user.name === userName)]
 		}
 	},
 	"@a": {
 		help: "Selects all players in the world",
 		value: ["@a"],
 		execute() {
-			return users
+			return [...users]
 		}
 	},
 	"@r": {
 		help: "Selects a random player in the world",
 		value: ["@r"],
 		execute() {
+			if (users.length === 0) return []
 			return [users[Math.floor(Math.random() * users.length)]]
 		}
 	},

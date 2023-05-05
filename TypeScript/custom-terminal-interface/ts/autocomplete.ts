@@ -103,7 +103,7 @@ function validCommands(terminalCommands: any) {
 	return path.at(-1) || {}
 }
 
-function traceCommandPath(terminalCommands: any, strict = true) {
+function traceCommandPath(terminalCommands: any, strictLastValue = true, giveListItem = false) {
 	if (terminalCommands.length < 1) throw new Error("commands arguments length must be greater than 0");
 	// @ts-ignore
 	const root = commands[terminalCommands[0]] as any
@@ -116,16 +116,16 @@ function traceCommandPath(terminalCommands: any, strict = true) {
 
 		for (const item of list) {
 			if (item.match?.(command)) {
-				path[i] = current;
+				path[i] = giveListItem ? item : current;
 				current = root.commands[item.next];
 				continue main;
 			} else {
-				const useStrict = strict || command !== terminalCommands.at(-1) && !strict
+				const useStrict = strictLastValue || command !== terminalCommands.at(-1) && !strictLastValue
 				const passedStrict = useStrict && item.value.some((v: string) => v === command);
 				const passedNonStrict = !useStrict && item.value.some((v: string) => v.startsWith(command));
 
 				if (!passedStrict && !passedNonStrict) continue;
-				path[i] = current;
+				path[i] = giveListItem ? item : current;
 				current = root.commands[item.next];
 				continue main;
 			}
@@ -133,32 +133,3 @@ function traceCommandPath(terminalCommands: any, strict = true) {
 	}
 	return path
 }
-
-window.addEventListener("keydown", e => {
-	if (e.key === "Tab") {
-		e.preventDefault();
-		if (!intellisense.options.length) return;
-		fillInAutoComplite();
-
-	} else if (e.key === "Escape") {
-		removeAutocompliteText();
-		tooltip.textContent = "";
-	} else if (e.code === "Space" && e.ctrlKey) {
-		removeAutocompliteText();
-		updateCommandHightlight();
-	} else if (e.key === "ArrowUp") {
-		e.preventDefault();
-		if (!intellisense.options.length) return;
-		intellisense.index--;
-		if (intellisense.index < 0) intellisense.index = intellisense.options.length - 1;
-		updateCommandHightlight(true);
-		updateTooltip();
-	} else if (e.key === "ArrowDown") {
-		e.preventDefault();
-		if (!intellisense.options.length) return;
-		intellisense.index++;
-		if (intellisense.index > intellisense.options.length - 1) intellisense.index = 0;
-		updateCommandHightlight(true);
-		updateTooltip();
-	}
-});

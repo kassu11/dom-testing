@@ -81,3 +81,12 @@ function addErrorText(text: string) {
 	span.classList.add("error")
 	textContentElem.append(span);
 }
+
+function destructure(obj: any, obj2: any) {
+	const copy = Object.create(
+		Object.getPrototypeOf(obj),
+		Object.getOwnPropertyDescriptors(obj)
+	);
+
+	return Object.assign(copy, obj2);
+} 
