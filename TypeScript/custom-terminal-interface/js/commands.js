@@ -1,117 +1,123 @@
 "use strict";
 const commands = {
-    "help": {
-        "help": "help [command] - Displays help for a command.",
-        "commands": [
-            {
-                "list": [{ "value": ["help"] }],
-                "type": "required"
+    help: {
+        help: "help [command] - Displays help for a command.",
+        commands: {
+            index: {
+                list: [{ value: ["help"] }],
+                type: "required"
             }
-        ]
+        }
     },
-    "give": {
-        "help": "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
-        "commands": [
-            {
-                "list": [{ "value": ["give"] }],
-                "type": "required",
-                "color": "#cccccc"
+    give: {
+        help: "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
+        commands: {
+            index: {
+                list: [{ value: ["give"], next: "selector" }],
+                type: "required",
+                color: "#cccccc"
             },
-            {
-                "list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
-                "type": "required",
-                "color": "#22d3ee"
+            selector: {
+                list: [{ ...commandArguments["@a"], next: "item" }, { ...commandArguments["@r"], next: "item" }, { ...commandArguments["playerName"], next: "item" }],
+                type: "required",
+                color: "#22d3ee",
             },
-            {
-                "list": [{ "value": ["apple"] }, { "value": ["sword"] }],
-                "type": "required",
-                "color": "#c084fc"
+            item: {
+                list: [{ value: ["apple"], next: "amount" }, { value: ["sword"], next: "amount" }],
+                type: "required",
+                color: "#c084fc",
             },
-            {
-                "list": [{ "title": "<amount>", "value": ["1"], "match": (value) => !isNaN(+(value)) }],
-                "type": "required",
-                "color": "#fde047"
+            amount: {
+                list: [{ title: "<amount>", value: ["1"], match: (value) => !isNaN(+(value)) }],
+                type: "required",
+                color: "#fde047"
             },
-        ],
-        "execute": ([...args]) => {
+        },
+        execute: ([...args]) => {
             const player = args[0];
             const item = args[1];
             const amount = args[2];
             return `give ${player} ${item} ${amount}`;
         }
     },
-    "tp": {
-        "help": "tp [player] [x] [y] [z] - Teleports a player to a location.",
-        "commands": [
-            {
-                "list": [{ "value": ["tp"] }],
-                "type": "required",
-                "color": "#cccccc"
+    tp: {
+        help: "tp [player] [x] [y] [z] - Teleports a player to a location.",
+        commands: {
+            index: {
+                list: [{ value: ["tp"], next: "selector" }],
+                type: "required",
+                color: "#cccccc",
+                next: "selector"
             },
-            {
-                "list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
-                "type": "required",
-                "color": "#22d3ee"
+            selector: {
+                list: [{ ...commandArguments["@a"], next: "xCords" }, { ...commandArguments["@r"], next: "xCords" }, { ...commandArguments["playerName"], next: "xCords" }],
+                type: "required",
+                color: "#22d3ee",
+                next: "xCords"
             },
-            {
-                "list": [{ "title": "[<X>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            xCords: {
+                list: [{ title: "[<X>]", value: ["~"], next: "yCords", match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047",
             },
-            {
-                "list": [{ "title": "[<Y>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            yCords: {
+                list: [{ title: "[<Y>]", value: ["~"], next: "zCords", match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047",
             },
-            {
-                "list": [{ "title": "[<Z>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            zCords: {
+                list: [{ title: "[<Z>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047"
             },
-        ]
+        }
     },
-    "test": {
-        "help": "test",
-        "commands": [
-            {
-                "list": [{ "value": ["test"] }],
-                "type": "required",
-                "color": "#cccccc"
+    test: {
+        help: "test",
+        commands: {
+            index: {
+                list: [{ value: ["test"] }],
+                type: "required",
+                color: "#cccccc",
+                next: "second"
             },
-            {
-                "list": [{ "title": "long value", "value": ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"] }],
-                "type": "required",
-                "color": "#22d3ee"
+            second: {
+                list: [{ title: "long value", value: ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"] }],
+                type: "required",
+                color: "#22d3ee",
+                next: "third"
             },
-            {
-                "list": [{ "title": "[<X>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            third: {
+                list: [{ title: "[<X>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047",
+                next: "fourth"
             },
-            {
-                "list": [{ "title": "[<Y>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            fourth: {
+                list: [{ title: "[<Y>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047",
+                next: "fifth"
             },
-            {
-                "list": [{ "title": "[<Z>]", "value": ["~"], "match": (value) => (!isNaN(+(value)) || value === "~") }],
-                "type": "required",
-                "color": "#fde047"
+            fifth: {
+                list: [{ title: "[<Z>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
+                type: "required",
+                color: "#fde047"
             },
-        ]
+        }
     },
-    "all": {
-        "help": "all [selection] - Lists all selected.",
-        "commands": [
-            {
-                "list": [{ "value": ["all"] }],
-                "type": "required"
+    all: {
+        help: "all [selection] - Lists all selected.",
+        commands: {
+            index: {
+                list: [{ value: ["all"], next: "selection" }],
+                type: "required"
             },
-            {
-                "list": [{ "value": ["users"] }, { "value": ["items"] }],
-                "type": "required"
+            selection: {
+                list: [{ value: ["users"] }, { value: ["items"] }],
+                type: "required"
             },
-        ],
+        },
         execute(...args) {
             if (args.length == 1)
                 addErrorText("Missing argument");
@@ -128,41 +134,52 @@ const commands = {
                 addErrorText(`Invalid argument "${args[1]}"`);
         },
     },
-    "clear": {
-        "help": "clear - Clears the console.",
-        "commands": [
-            {
-                "list": [{ "value": ["clear"] }],
-                "type": "required"
+    clear: {
+        help: "clear - Clears the console.",
+        commands: {
+            index: {
+                list: [{ value: ["clear"] }],
+                type: "required"
             }
-        ],
+        },
         execute(...args) {
             if (args.length > 1)
                 addErrorText("Too many arguments");
             textContentElem.textContent = "";
         },
     },
-    "user": {
-        "help": "user [action] [name] {values} - General user management command.",
-        "commands": [
-            {
-                "list": [{ "value": ["user"] }],
-                "type": "required"
+    user: {
+        help: "user [action] [name] {values} - General user management command.",
+        commands: {
+            index: {
+                list: [{ value: ["user"], next: "second" }],
+                type: "required"
             },
-            {
-                "list": [{ "value": ["add"] }, { "value": ["remove"] }, { "value": ["modify"] }, { "value": ["info"] }],
-                "type": "required"
+            second: {
+                list: [{ value: ["remove", "info"], next: "endSelector" }, { value: ["add"], next: "uniqueName" }, { value: ["modify"], next: "modifySelect" }],
+                type: "required"
             },
-            {
-                "list": [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
-                "type": "required"
+            endSelector: {
+                list: [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
+                type: "required"
             },
-            {
-                "list": [{ "title": "name", "value": ["<name>"], "match": (value) => value.length > 0 }],
-                "type": "required",
-                e() { console.log(this); }
-            }
-        ]
+            modifySelect: {
+                list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, { ...commandArguments["playerName"], next: "modifyName" }],
+                type: "required"
+            },
+            modifyName: {
+                list: [{ value: ["name"], next: "uniqueName" }],
+                type: "required"
+            },
+            uniqueName: {
+                list: [{
+                        title: "<user name>",
+                        value: ["user_name"],
+                        match: (value) => value.length > 2 && users.every(user => user.name !== value)
+                    }],
+                type: "required"
+            },
+        }
     }
 };
 // https://stackoverflow.com/questions/75804424/is-it-possible-to-get-parent-property-name-of-nested-object-in-set-method-of-pro

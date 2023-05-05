@@ -39,7 +39,9 @@ function submitCommand() {
 		right.innerHTML += "\n"
 	}
 
-	intellisense.command?.execute?.(...input.value.split(" "))
+	const rootKey = intellisense.renderedWord.split(" ")[0]
+	// @ts-ignore
+	commands[rootKey]?.execute?.(...input.value.split(" "))
 
 	input.value = "";
 	updateCommandHightlight()

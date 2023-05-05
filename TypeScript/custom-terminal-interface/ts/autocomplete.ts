@@ -5,7 +5,7 @@ const intellisense = {
 	"options": [] as any[],
 	"renderedWordNumber": 0,
 	"command": "" as any,
-	"renderedWordLeft": "" as string
+	"renderedWord": "" as string
 }
 
 function moveIntellisenseBox() {
@@ -25,43 +25,49 @@ function updateIntellisense() {
 	const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
 	const currentCommand = input.value.substring(0, lastSpace).split(" ");
 
-	let localCommands = Object.values(commands)
-	if (currentCommand.length > 1) {
-		const key = currentCommand[0] as keyof typeof commands;
-		if (key in commands) localCommands = [commands[key]]
-	}
-	for (let index = 0; index < currentCommand.length; index++) {
-		localCommands = filterData(localCommands, currentCommand[index], index, index < currentCommand.length - 1)
-		if (index === 0) intellisense.command = localCommands[intellisense.index];
-	}
-
-	const lastOptionLength = intellisense.options.length;
+	const prevOptionLength = intellisense.options.length;
+	//@ts-ignore
+	intellisense.command = commands[currentCommand[0]]; // can be undefined if one argument is given
 	intellisense.options = [];
-	localCommands.forEach(command => {
-		if (currentCommand.length === 1) {
-			return command.commands[0].list[0].value.forEach((value: string) => {
-				intellisense.options.push({ title: command.help, value })
+	if (currentCommand.length <= 1) {
+		const rootCommands = Object.values(commands).filter(command => {
+			return command.commands["index"].list.some(item => {
+				return item.value.some(value => {
+					return value.startsWith(currentCommand[0])
+				})
 			});
-		}
-		command.commands[currentCommand.length - 1].list.forEach(listItem => {
+		});
+		rootCommands.forEach((command, index) => {
+			if (!intellisense.command && index === intellisense.index) intellisense.command = command;
+			command.commands["index"]?.list.forEach(indexCommand => {
+				indexCommand.value.forEach(value => {
+					if (!value.startsWith(currentCommand[0])) return
+					//@ts-ignore
+					intellisense.options.push({ title: indexCommand.title || command.help, value });
+				});
+			})
+		});
+	} else {
+		const localCommands = validCommands(currentCommand)
+		localCommands.list?.forEach((listItem: any) => {
 			listItem.value.forEach((value: string) => {
 				if (value.startsWith(currentCommand.at(-1) || "")) intellisense.options.push({ ...listItem, value });
 			});
 		});
-	});
+	}
 
-	if (lastOptionLength !== intellisense.options.length) intellisense.index = 0;
+	if (prevOptionLength !== intellisense.options.length) intellisense.index = 0;
 	updateTooltip();
 
 	if (intellisense.renderedWordNumber !== currentCommand.length) {
 		const autocorrentElement = commandHighlight.querySelector(".autocorrect");
 		const autoTextLen = autocorrentElement?.textContent?.length || 0;
 		const start = input.selectionStart || 0;
-		const renderedWordLen = intellisense.renderedWordLeft.length;
+		const renderedWordLen = intellisense.renderedWord.length;
 
 		if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
-			input.selectionStart = intellisense.renderedWordLeft.length + 1;
-			input.selectionEnd = intellisense.renderedWordLeft.length + 1;
+			input.selectionStart = intellisense.renderedWord.length + 1;
+			input.selectionEnd = intellisense.renderedWord.length + 1;
 		} else if (start > renderedWordLen) {
 			input.selectionStart = start - autoTextLen;
 			input.selectionEnd = start - autoTextLen;
@@ -72,7 +78,7 @@ function updateIntellisense() {
 	}
 
 	intellisense.renderedWordNumber = currentCommand.length;
-	intellisense.renderedWordLeft = currentCommand.join(" ");
+	intellisense.renderedWord = currentCommand.join(" ");
 	moveIntellisenseBox();
 }
 
@@ -92,16 +98,40 @@ function fillInAutoComplite() {
 	intellisense.index = 0;
 }
 
+function validCommands(terminalCommands: any) {
+	const path = traceCommandPath(terminalCommands, false);
+	return path.at(-1) || {}
+}
 
-function filterData(commands: any, currentSection: any, index: number, strict: boolean) {
-	return commands.filter((command: any) => {
-		for (const commandValue of command?.commands?.[index]?.list ?? []) {
-			if (strict) {
-				if (commandValue.value.some((value: string) => value === currentSection)) return true
-			} else if (commandValue.value.some((value: string) => value.startsWith(currentSection))) return true
-			if (commandValue.match?.(currentSection)) return true
-		}
-	});
+function traceCommandPath(terminalCommands: any, strict = true) {
+	if (terminalCommands.length < 1) throw new Error("commands arguments length must be greater than 0");
+	// @ts-ignore
+	const root = commands[terminalCommands[0]] as any
+	let current = root?.commands["index"];
+	const path = Array(terminalCommands.length).fill(null)
+
+	main: for (let i = 0; i < terminalCommands.length; i++) {
+		const command = terminalCommands[i];
+		const list = current?.list || [];
+
+		for (const item of list) {
+			if (item.match?.(command)) {
+				path[i] = current;
+				current = root.commands[item.next];
+				continue main;
+			} else {
+				const useStrict = strict || command !== terminalCommands.at(-1) && !strict
+				const passedStrict = useStrict && item.value.some((v: string) => v === command);
+				const passedNonStrict = !useStrict && item.value.some((v: string) => v.startsWith(command));
+
+				if (!passedStrict && !passedNonStrict) continue;
+				path[i] = current;
+				current = root.commands[item.next];
+				continue main;
+			}
+		} return path
+	}
+	return path
 }
 
 window.addEventListener("keydown", e => {
