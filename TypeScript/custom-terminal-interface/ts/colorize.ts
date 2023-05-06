@@ -44,8 +44,8 @@ function updateCommandHightlight(skipIntellisense = false) {
 	});
 
 	const autocorrent = document.createElement("span");
-	const inteliValue = intellisense.options[intellisense.index]?.value ?? "";
-	const autocorrentText = inteliValue.replace(currentCommand, "");
+	const intelliValue = intellisense.options[intellisense.index]?.value ?? "";
+	const autocorrentText = intelliValue.startsWith(currentCommand) ? intelliValue.replace(currentCommand, "") : "";
 	autocorrent.textContent = autocorrentText;
 	autocorrent.classList.add("autocorrect");
 

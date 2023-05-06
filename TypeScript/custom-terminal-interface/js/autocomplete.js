@@ -19,9 +19,7 @@ function moveIntellisenseBox() {
     tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
 }
 function updateIntellisense() {
-    const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
-    const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
-    const currentCommand = input.value.substring(0, lastSpace).split(" ");
+    const currentCommand = input.value.substring(0, input.selectionStart || 0).split(" ");
     const prevOptionLength = intellisense.options.length;
     //@ts-ignore
     intellisense.command = commands[currentCommand[0]]; // can be undefined if one argument is given
