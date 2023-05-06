@@ -21,7 +21,6 @@ function moveIntellisenseBox() {
 }
 
 function updateIntellisense() {
-	console.trace("updateIntellisense")
 	const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
 	const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
 	const currentCommand = input.value.substring(0, lastSpace).split(" ");

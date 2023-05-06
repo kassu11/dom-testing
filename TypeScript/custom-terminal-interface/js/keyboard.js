@@ -48,7 +48,8 @@ window.addEventListener("keydown", e => {
     function renderCommandHistory(command) {
         e.preventDefault();
         input.value = command;
-        updateCommandHightlight(false);
+        updateCaret(false);
+        updateCommandHightlight(true);
         removeAutocompliteText();
         tooltip.textContent = "";
         input.selectionStart = input.selectionEnd = input.value.length;

@@ -40,7 +40,9 @@ function submitCommand() {
 	commandSubmitHistoryIndex = -1;
 	commandSubmitHistoryCurrent = null;
 	input.value = "";
-	updateCommandHightlight()
+	updateCommandHightlight(true)
+	updateCaret(false);
+	tooltip.textContent = "";
 	window.scrollBy(0, document.body.scrollHeight);
 }
 
