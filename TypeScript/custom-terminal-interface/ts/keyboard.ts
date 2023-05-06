@@ -1,5 +1,6 @@
 window.addEventListener("keydown", e => {
-	if (e.key === "Tab") {
+	if (e.key === "Enter") submitCommand();
+	else if (e.key === "Tab") {
 		e.preventDefault();
 		if (tooltip.textContent === "") openIntellisense();
 		else if (intellisense.options.length) fillInAutoComplite();
@@ -14,8 +15,31 @@ window.addEventListener("keydown", e => {
 	}
 
 
-	if (e.key === "ArrowUp") moveIntellisense(-1);
-	else if (e.key === "ArrowDown") moveIntellisense(+1);
+	if (e.key === "ArrowUp") {
+		if (tooltip.textContent === "") {
+			if (commandSubmitHistoryIndex === -1) commandSubmitHistoryCurrent = input.value;
+			if (commandSubmitHistoryIndex < commandSubmitHistory.length - 1) commandSubmitHistoryIndex++;
+			if (commandSubmitHistory.length) renderCommandHistory(commandSubmitHistory[commandSubmitHistoryIndex])
+		} else moveIntellisense(-1);
+	}
+	else if (e.key === "ArrowDown") {
+		if (tooltip.textContent === "") {
+			if (commandSubmitHistoryIndex > -1) commandSubmitHistoryIndex--;
+			if (commandSubmitHistoryIndex === -1 && commandSubmitHistoryCurrent !== null) {
+				renderCommandHistory(commandSubmitHistoryCurrent)
+				commandSubmitHistoryCurrent = null;
+			} else if (commandSubmitHistoryIndex >= 0) renderCommandHistory(commandSubmitHistory[commandSubmitHistoryIndex])
+		} else moveIntellisense(+1);
+	}
+
+	function renderCommandHistory(command: string) {
+		e.preventDefault();
+		input.value = command
+		updateCommandHightlight(false);
+		removeAutocompliteText();
+		tooltip.textContent = "";
+		input.selectionStart = input.selectionEnd = input.value.length;
+	}
 
 	function moveIntellisense(directionMultipler: number) {
 		e.preventDefault();
@@ -28,5 +52,14 @@ window.addEventListener("keydown", e => {
 		updateCommandHightlight(true);
 		updateTooltip();
 	}
-
 });
+
+
+window.addEventListener("keydown", e => {
+	if (e.ctrlKey && e.code == "KeyV") input.focus();
+	if (e.altKey || e.ctrlKey || e.metaKey) return;
+	if (e.key.includes("Arrow")) return;
+	if (e.key === "Shift") return;
+
+	if (document.activeElement !== input) input.focus();
+})

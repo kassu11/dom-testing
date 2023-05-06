@@ -3,19 +3,10 @@ const caret = document.querySelector(".caret") as HTMLPreElement;
 const commandHighlight = document.querySelector("#commandHighlight") as HTMLPreElement;
 const textContentElem = document.querySelector("#textContent") as HTMLPreElement;
 const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer") as HTMLDivElement;
+const commandSubmitHistory = [] as string[];
+let commandSubmitHistoryIndex = -1;
+let commandSubmitHistoryCurrent = null as string | null;
 
-
-
-window.addEventListener("keydown", e => {
-	if (e.ctrlKey && e.code == "KeyV") input.focus();
-	if (e.altKey || e.ctrlKey || e.metaKey) return;
-	if (e.key.includes("Arrow")) return;
-	if (e.key === "Shift") return;
-
-	if (document.activeElement !== input) input.focus();
-
-	if (e.key === "Enter") submitCommand();
-})
 
 input.addEventListener("scroll", () => {
 	if (!input.matches(":focus") && input.scrollLeft === 0) {
@@ -40,9 +31,14 @@ function submitCommand() {
 	}
 
 	const rootKey = intellisense.renderedWord.split(" ")[0]
+	const commandIndex = commandSubmitHistory.indexOf(input.value)
+	if (commandIndex !== -1) commandSubmitHistory.splice(commandIndex, 1)
+	if (input.value.length) commandSubmitHistory.unshift(input.value)
 	// @ts-ignore
 	commands[rootKey]?.execute?.(...input.value.split(" "))
 
+	commandSubmitHistoryIndex = -1;
+	commandSubmitHistoryCurrent = null;
 	input.value = "";
 	updateCommandHightlight()
 	window.scrollBy(0, document.body.scrollHeight);

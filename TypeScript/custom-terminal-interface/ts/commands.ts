@@ -84,28 +84,24 @@ const commands = {
 		help: "test",
 		commands: {
 			index: {
-				list: [{ value: ["test"] }],
+				list: [{ value: ["test"], next: "second" }],
 				type: "required",
 				color: colors.argument,
-				next: "second"
 			},
 			second: {
-				list: [{ title: "long value", value: ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"] }],
+				list: [{ title: "long value", value: ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"], next: "third" }],
 				type: "required",
 				color: colors.selector,
-				next: "third"
 			},
 			third: {
-				list: [{ title: "[<X>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
+				list: [{ title: "[<X>]", value: ["~"], next: "fourth", match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
 				color: colors.value,
-				next: "fourth"
 			},
 			fourth: {
-				list: [{ title: "[<Y>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
+				list: [{ title: "[<Y>]", value: ["~"], next: "fifth", match: (value: string) => (!isNaN(+(value)) || value === "~") }],
 				type: "required",
 				color: colors.value,
-				next: "fifth"
 			},
 			fifth: {
 				list: [{ title: "[<Z>]", value: ["~"], match: (value: string) => (!isNaN(+(value)) || value === "~") }],
