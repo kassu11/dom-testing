@@ -19,6 +19,7 @@ function moveIntellisenseBox() {
     tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
 }
 function updateIntellisense() {
+    console.trace("updateIntellisense");
     const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
     const lastSpace = lastSpaceIndex == -1 ? input.value.length : lastSpaceIndex;
     const currentCommand = input.value.substring(0, lastSpace).split(" ");
@@ -60,17 +61,18 @@ function updateIntellisense() {
         intellisense.index = 0;
     updateTooltip();
     if (intellisense.renderedWordNumber !== currentCommand.length) {
+        const deltaSelection = Math.max((input.selectionEnd || 0) - (input.selectionStart || 0), 0);
         const autocorrentElement = commandHighlight.querySelector(".autocorrect");
         const autoTextLen = autocorrentElement?.textContent?.length || 0;
         const start = input.selectionStart || 0;
         const renderedWordLen = intellisense.renderedWord.length;
         if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
             input.selectionStart = intellisense.renderedWord.length + 1;
-            input.selectionEnd = intellisense.renderedWord.length + 1;
+            input.selectionEnd = input.selectionStart + deltaSelection;
         }
         else if (start > renderedWordLen) {
             input.selectionStart = start - autoTextLen;
-            input.selectionEnd = start - autoTextLen;
+            input.selectionEnd = input.selectionStart + deltaSelection;
         }
         removeAutocompliteText();
         if (intellisense.renderedWordNumber === 1)
@@ -82,6 +84,7 @@ function updateIntellisense() {
 }
 function fillInAutoComplite() {
     removeAutocompliteText();
+    updateCaret(false);
     const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
     const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
     const startText = input.value.substring(0, lastSpace);
@@ -92,7 +95,6 @@ function fillInAutoComplite() {
     input.selectionStart = input.selectionEnd = words.join(" ").length;
     updateCommandHightlight(true);
     carretIntoView();
-    intellisense.index = 0;
 }
 function validCommands(terminalCommands) {
     const path = traceCommandPath(terminalCommands, false);

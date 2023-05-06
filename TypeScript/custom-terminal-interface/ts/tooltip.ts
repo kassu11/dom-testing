@@ -20,8 +20,8 @@ function autoCorrectCallback(mutationList: MutationRecord[]) {
 	}
 }
 
-const autoCorrectObserver = new MutationObserver(autoCorrectCallback);
-autoCorrectObserver.observe(commandHighlight, { attributes: false, childList: true, subtree: false })
+// const autoCorrectObserver = new MutationObserver(autoCorrectCallback);
+// autoCorrectObserver.observe(commandHighlight, { attributes: false, childList: true, subtree: false })
 
 function tooltipCallback(mutationList: MutationRecord[]) {
 	for (const mutation of mutationList) {
@@ -33,8 +33,8 @@ function tooltipCallback(mutationList: MutationRecord[]) {
 	}
 }
 
-const tooltipObserver = new MutationObserver(tooltipCallback);
-tooltipObserver.observe(tooltip, { attributes: false, childList: true, subtree: false })
+// const tooltipObserver = new MutationObserver(tooltipCallback);
+// tooltipObserver.observe(tooltip, { attributes: false, childList: true, subtree: false })
 
 tooltip.addEventListener("click", e => {
 	const target = e.target as HTMLElement;

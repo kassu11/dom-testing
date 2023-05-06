@@ -21,8 +21,8 @@ function autoCorrectCallback(mutationList) {
         tooltip.textContent = "";
     }
 }
-const autoCorrectObserver = new MutationObserver(autoCorrectCallback);
-autoCorrectObserver.observe(commandHighlight, { attributes: false, childList: true, subtree: false });
+// const autoCorrectObserver = new MutationObserver(autoCorrectCallback);
+// autoCorrectObserver.observe(commandHighlight, { attributes: false, childList: true, subtree: false })
 function tooltipCallback(mutationList) {
     for (const mutation of mutationList) {
         const autoCorrectElement = commandHighlight.querySelector(".autocorrect");
@@ -32,8 +32,8 @@ function tooltipCallback(mutationList) {
         }
     }
 }
-const tooltipObserver = new MutationObserver(tooltipCallback);
-tooltipObserver.observe(tooltip, { attributes: false, childList: true, subtree: false });
+// const tooltipObserver = new MutationObserver(tooltipCallback);
+// tooltipObserver.observe(tooltip, { attributes: false, childList: true, subtree: false })
 tooltip.addEventListener("click", e => {
     const target = e.target;
     const selection = target?.closest("#tooltip > span");
