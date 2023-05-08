@@ -53,6 +53,11 @@ function updateIntellisense() {
 		});
 	}
 
+
+	if (intellisense.options.length === 1 && intellisense.options[0]?.value === currentCommand.at(-1)) { // If the current argument is finished
+		intellisense.options = [];
+	}
+
 	if (prevOptionLength !== intellisense.options.length) intellisense.index = 0;
 	intellisense.options.sort((a, b) => {
 		const aValue = a.title || a.value;

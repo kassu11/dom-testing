@@ -42,7 +42,7 @@ function submitCommand() {
     window.scrollBy(0, document.body.scrollHeight);
 }
 input.addEventListener("beforeinput", (beforeInputEvent) => {
-    if (beforeInputEvent?.type === "beforeinput")
+    if (beforeInputEvent?.type === "beforeinput" && input.value !== "")
         removeAutocompliteText();
 });
 function removeAutocompliteText() {

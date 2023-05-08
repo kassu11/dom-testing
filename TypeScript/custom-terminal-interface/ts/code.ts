@@ -47,7 +47,7 @@ function submitCommand() {
 }
 
 input.addEventListener("beforeinput", (beforeInputEvent: InputEvent) => {
-	if (beforeInputEvent?.type === "beforeinput") removeAutocompliteText()
+	if (beforeInputEvent?.type === "beforeinput" && input.value !== "") removeAutocompliteText()
 });
 
 function removeAutocompliteText() {
