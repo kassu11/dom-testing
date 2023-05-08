@@ -159,8 +159,13 @@ const commands = {
         execute(...args) {
             const path = traceCommandPath(args, true, true);
             const errorIndex = path.findIndex(p => p === null);
+            const lastKey = (path.at(-1)?.next || "");
             if (errorIndex !== -1)
                 return addErrorText(`Invalid argument "${args[errorIndex]}"`);
+            // @ts-ignore
+            else if (this.commands[lastKey]?.type === "required") {
+                return addErrorText(`Give more arguments`);
+            }
             else if (args[1] === "remove" || args[1] === "info") {
                 const selected = path[2].execute(args[2]);
                 for (const user of selected) {
