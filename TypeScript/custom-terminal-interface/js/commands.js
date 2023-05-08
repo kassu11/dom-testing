@@ -68,7 +68,7 @@ const commands = {
                 next: "selector"
             },
             selector: {
-                list: [{ ...commandArguments["@a"], next: "xCords" }, { ...commandArguments["@r"], next: "xCords" }, { ...commandArguments["playerName"], next: "xCords" }],
+                list: [{ ...commandArguments["@a"], next: "xCords" }, { ...commandArguments["@r"], next: "xCords" }, destructure(commandArguments["playerName"], { next: "xCords" })],
                 type: "required",
                 color: colors.selector,
                 next: "xCords"
@@ -137,7 +137,7 @@ const commands = {
                 color: colors.selector
             },
             modifySelect: {
-                list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, { ...commandArguments["playerName"], next: "modifyName" }],
+                list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, destructure(commandArguments["playerName"], { next: "modifyName" })],
                 type: "required",
                 color: colors.selector
             },
