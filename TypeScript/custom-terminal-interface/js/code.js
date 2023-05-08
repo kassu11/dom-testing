@@ -25,7 +25,7 @@ function submitCommand() {
         textContentElem.append(right);
         right.innerHTML += "\n";
     }
-    const rootKey = intellisense.renderedWord.split(" ")[0];
+    const rootKey = input.value.split(" ")[0];
     const commandIndex = commandSubmitHistory.indexOf(input.value);
     if (commandIndex !== -1)
         commandSubmitHistory.splice(commandIndex, 1);

@@ -40,7 +40,7 @@ function updateIntellisense() {
                     if (!value.startsWith(currentCommand[0]))
                         return;
                     //@ts-ignore
-                    intellisense.options.push({ title: indexCommand.title || command.help, value });
+                    intellisense.options.push({ title: indexCommand.title || value, value });
                 });
             });
         });
@@ -56,6 +56,11 @@ function updateIntellisense() {
     }
     if (prevOptionLength !== intellisense.options.length)
         intellisense.index = 0;
+    intellisense.options.sort((a, b) => {
+        const aValue = a.title || a.value;
+        const bValue = b.title || b.value;
+        return aValue.localeCompare(bValue);
+    });
     updateTooltip();
     if (intellisense.renderedWordNumber !== currentCommand.length) {
         const deltaSelection = Math.max((input.selectionEnd || 0) - (input.selectionStart || 0), 0);

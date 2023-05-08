@@ -14,6 +14,12 @@ const commands = {
                 list: [{ value: ["help"] }],
                 type: "required"
             }
+        },
+        execute(...args) {
+            Object.values(commands).forEach((value) => {
+                if (value.help)
+                    addText(value.help);
+            });
         }
     },
     give: {
@@ -40,11 +46,16 @@ const commands = {
                 color: colors.value
             },
         },
-        execute: ([...args]) => {
-            const player = args[0];
-            const item = args[1];
-            const amount = args[2];
-            return `give ${player} ${item} ${amount}`;
+        execute: (...args) => {
+            const path = traceCommandPath(args, true, true);
+            const errorIndex = path.findIndex(p => p === null);
+            if (errorIndex !== -1)
+                return addErrorText(`Invalid argument "${args[errorIndex]}"`);
+            const selectedUsers = path[1].execute(args[1]);
+            selectedUsers.forEach(user => {
+                user.inventory.push({ item: args[2], count: +args[3] });
+                addText(`Gave ${args[3]} ${args[2]} to ${user.name}`);
+            });
         }
     },
     tp: {
@@ -63,79 +74,34 @@ const commands = {
                 next: "xCords"
             },
             xCords: {
-                list: [{ title: "[<X>]", value: ["~"], next: "yCords", match: (value) => (!isNaN(+(value)) || value === "~") }],
+                list: [{ ...commandArguments["cordinates"], title: "[<X>]", next: "yCords" }],
                 type: "required",
                 color: colors.value,
             },
             yCords: {
-                list: [{ title: "[<Y>]", value: ["~"], next: "zCords", match: (value) => (!isNaN(+(value)) || value === "~") }],
+                list: [{ ...commandArguments["cordinates"], title: "[<Y>]", next: "zCords" }],
                 type: "required",
                 color: colors.value,
             },
             zCords: {
-                list: [{ title: "[<Z>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
+                list: [{ ...commandArguments["cordinates"], title: "[<Z>]" }],
                 type: "required",
                 color: colors.value
             },
-        }
-    },
-    test: {
-        help: "test",
-        commands: {
-            index: {
-                list: [{ value: ["test"], next: "second" }],
-                type: "required",
-                color: colors.argument,
-            },
-            second: {
-                list: [{ title: "long value", value: ["asdhasdhahdajshdjashdjfdjgkldfjhsdjhasfhsdjfgsjfhasfhasjdhasjdhajksdhjhfjgh"], next: "third" }],
-                type: "required",
-                color: colors.selector,
-            },
-            third: {
-                list: [{ title: "[<X>]", value: ["~"], next: "fourth", match: (value) => (!isNaN(+(value)) || value === "~") }],
-                type: "required",
-                color: colors.value,
-            },
-            fourth: {
-                list: [{ title: "[<Y>]", value: ["~"], next: "fifth", match: (value) => (!isNaN(+(value)) || value === "~") }],
-                type: "required",
-                color: colors.value,
-            },
-            fifth: {
-                list: [{ title: "[<Z>]", value: ["~"], match: (value) => (!isNaN(+(value)) || value === "~") }],
-                type: "required",
-                color: colors.value
-            },
-        }
-    },
-    all: {
-        help: "all [selection] - Lists all selected.",
-        commands: {
-            index: {
-                list: [{ value: ["all"], next: "selection" }],
-                type: "required"
-            },
-            selection: {
-                list: [{ value: ["users"] }, { value: ["items"] }],
-                type: "required"
-            },
         },
-        execute(...args) {
-            if (args.length == 1)
-                addErrorText("Missing argument");
-            else if (args.length > 2)
-                addErrorText("Too many arguments");
-            else if (args[1] === "users") {
-                addText("List of all the users:");
-                for (const user of users)
-                    addText("- " + user.name);
-            }
-            else if (args[1] === "items")
-                addText("All items");
-            else
-                addErrorText(`Invalid argument "${args[1]}"`);
-        },
+        execute: (...args) => {
+            const path = traceCommandPath(args, true, true);
+            const errorIndex = path.findIndex(p => p === null);
+            if (errorIndex !== -1)
+                return addErrorText(`Invalid argument "${args[errorIndex]}"`);
+            const selectedUsers = path[1].execute(args[1]);
+            selectedUsers.forEach(user => {
+                user.x = path[2].execute(user.x, args[2]);
+                user.y = path[3].execute(user.y, args[3]);
+                user.z = path[4].execute(user.z, args[4]);
+                addText(`Teleported ${user.name} to ${user.x} ${user.y} ${user.z}`);
+            });
+        }
     },
     clear: {
         help: "clear - Clears the console.",
@@ -193,10 +159,8 @@ const commands = {
         execute(...args) {
             const path = traceCommandPath(args, true, true);
             const errorIndex = path.findIndex(p => p === null);
-            if (errorIndex !== -1) {
-                addErrorText(`Invalid argument "${args[errorIndex]}"`);
-                return;
-            }
+            if (errorIndex !== -1)
+                return addErrorText(`Invalid argument "${args[errorIndex]}"`);
             else if (args[1] === "remove" || args[1] === "info") {
                 const selected = path[2].execute(args[2]);
                 for (const user of selected) {
@@ -207,6 +171,9 @@ const commands = {
                     else if (args[1] === "info") {
                         addText(`User "${user.name}":`);
                         addText(`- Inventory: ${JSON.stringify(user.inventory)}`);
+                        addText(`- X: ${user.x}`);
+                        addText(`- Y: ${user.y}`);
+                        addText(`- Z: ${user.z}`);
                     }
                 }
             }

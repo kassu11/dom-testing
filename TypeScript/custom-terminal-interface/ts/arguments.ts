@@ -33,5 +33,20 @@ const commandArguments = {
 		get value() {
 			return ["minecraft:stone", "minecraft:dirt", "minecraft:grass_block"]
 		},
+	},
+	cordinates: {
+		help: "Selects a cordinate",
+		value: ["~"],
+		match: (value: string) => {
+			if (!isNaN(+(value)) || value === "~") return true;
+			return (value.startsWith("~") && !isNaN(+(value.slice(1))))
+		},
+		execute(baseValue: number, command: string) {
+			if (!isNaN(+(command))) return +command;
+			if (command === "~") return baseValue;
+			if (command.startsWith("~") && !isNaN(+(command.slice(1)))) {
+				return baseValue + +(command.slice(1));
+			} return 0;
+		}
 	}
 }
