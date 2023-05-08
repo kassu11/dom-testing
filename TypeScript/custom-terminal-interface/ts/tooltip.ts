@@ -1,4 +1,5 @@
 tooltip.addEventListener("click", e => {
+	e.preventDefault();
 	const target = e.target as HTMLElement;
 	const selection = target?.closest("#tooltip > span");
 	if (!selection) return;
