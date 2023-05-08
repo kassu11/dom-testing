@@ -61,6 +61,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/heart-rate-from-signal/version-1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/heart-rate-from-signal/version-1/">Demo</a>
 					</blockquote>
 				</li>
+				<li>innerText-vs-textContent
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/innerText-vs-textContent">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/innerText-vs-textContent/">Demo</a>
+					</blockquote>
+				</li>
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/module-testing">📂</a> module-testing</summary>
 						<ul>
