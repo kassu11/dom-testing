@@ -33,6 +33,11 @@ function submitCommand() {
         commandSubmitHistory.unshift(input.value);
     // @ts-ignore
     commands[rootKey]?.execute?.(...input.value.split(" "));
+    // @ts-ignore
+    if (!("execute" in (commands[rootKey] || {}))) {
+        addErrorText(`Command "${rootKey}" not found`);
+        addErrorText(`Type "help" for more information.`);
+    }
     commandSubmitHistoryIndex = -1;
     commandSubmitHistoryCurrent = null;
     input.value = "";

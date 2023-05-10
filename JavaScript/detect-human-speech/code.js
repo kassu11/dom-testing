@@ -1,8 +1,18 @@
+document.querySelector("input").addEventListener("change", event => {
+  const files = event.target.files;
 
-window.addEventListener("click", e => {
+  for (const file of files) {
+    if ((file.type.match("audio.*") || file.type.match("video.*"))) {
+      testAudio(URL.createObjectURL(file));
+      break;
+    }
+  }
+});
+
+
+
+function testAudio(file) {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-
 
   const loadAudio = (url) => {
     return fetch(url)
@@ -10,7 +20,7 @@ window.addEventListener("click", e => {
       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
       .then(audioBuffer => audioBuffer);
   };
-  loadAudio("./audio/eka.mp4").then(audioBuffer => {
+  loadAudio(file).then(audioBuffer => {
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
     source.connect(audioContext.destination);
@@ -35,5 +45,5 @@ window.addEventListener("click", e => {
 
     source.start();
   });
-})
+}
 
