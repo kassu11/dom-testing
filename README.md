@@ -82,9 +82,35 @@
 						</ul>
 					</details>
 				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise">📂</a> perlin-noise</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v3
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v3">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v3/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
+				</li>
 				<li>proxy
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/proxy/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/proxy/test-v1/">Demo</a>
+					</blockquote>
+				</li>
+				<li>random-seed-numbers
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/random-seed-numbers/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/random-seed-numbers/test-v1/">Demo</a>
 					</blockquote>
 				</li>
 				<li>shadow-DOM
