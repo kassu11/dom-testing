@@ -139,12 +139,12 @@
 						<ul>
 							<li>test-v1
 								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/test-v1/">Demo</a>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/01-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/01-test/">Demo</a>
 								</blockquote>
 							</li>
 							<li>test-v2
 								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/test-v2/">Demo</a>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/02-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/02-test/">Demo</a>
 								</blockquote>
 							</li>
 						</ul>
