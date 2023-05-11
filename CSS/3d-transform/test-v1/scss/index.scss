@@ -1,0 +1,150 @@
+body {
+	font-family: helvetica;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	inset: 0px;
+	position: absolute;
+}
+
+#scene {
+	position: relative;
+	width: 500px;
+	height: 500px;
+	perspective: 400px;
+}
+
+.box {
+	position: absolute;
+	width: 300px;
+	height: 200px;
+	--depth: 200px;
+	transform-style: preserve-3d;
+	transform: translateZ(-100px);
+	transition: transform .8s, left .5s, top .5s, translate .5s;
+	margin: 0px;
+
+	.front {
+		background: rgba(255, 0, 0, 0.5)
+	}
+
+	.back {
+		background: rgba(0, 128, 0, 0.5)
+	}
+
+	.right {
+		background: rgba(0, 0, 255, 0.5)
+	}
+
+	.left {
+		background: rgba(255, 166, 0, 0.5)
+	}
+
+	.top {
+		background: rgba(255, 255, 0, 0.5)
+	}
+
+	.bottom {
+		background: rgba(128, 0, 128, 0.5)
+	}
+
+	&.right {
+		transform: rotateY(-90deg)
+	}
+
+	&.left {
+		transform: rotateY(90deg);
+	}
+
+	&.top {
+		transform: rotateX(-90deg);
+	}
+
+	&.bottom {
+		transform: rotateX(90deg);
+	}
+
+	&.back {
+		transform: rotateY(180deg);
+	}
+
+	&.front {
+		transform: rotateY(0deg);
+	}
+
+	// The box is moved this way only because it's easier to transition
+	&.center {
+		left: 50%;
+		top: 50%;
+		translate: -50% -50%;
+	}
+
+	&.topLeft {
+		left: 0px;
+		top: 0px;
+	}
+
+	&.bottomLeft {
+		left: 0px;
+		top: 100%;
+		translate: 0px -100%;
+	}
+
+	&.topRight {
+		left: 100%;
+		top: 0px;
+		translate: -100% 0px;
+	}
+
+	&.bottomRight {
+		left: 100%;
+		top: 100%;
+		translate: -100% -100%;
+	}
+
+	.face {
+		position: absolute;
+		outline: 1px solid black;
+		font-size: 20px;
+		font-weight: 900;
+		color: white;
+		display: grid;
+		place-items: center;
+		height: var(--depth);
+		width: var(--depth);
+
+		&:is(.front, .back, .bottom, .top) {
+			width: 100%;
+		}
+
+		&:is(.front, .back, .left, .right) {
+			height: 100%;
+		}
+
+		&.front {
+			transform: translateZ(calc(var(--depth) / 2));
+		}
+
+		&.back {
+			transform: rotateY(-180deg) translateZ(calc(var(--depth) / 2));
+		}
+
+		&.right {
+			right: 0px;
+			transform: rotateY(90deg) translateZ(calc(var(--depth) / 2));
+		}
+
+		&.left {
+			transform: rotateY(-90deg) translateZ(calc(var(--depth) / 2));
+		}
+
+		&.top {
+			transform: rotateX(90deg) translateZ(calc(var(--depth) / 2));
+		}
+
+		&.bottom {
+			bottom: 0px;
+			transform: rotateX(-90deg) translateZ(calc(var(--depth) / 2));
+		}
+	}
+}
