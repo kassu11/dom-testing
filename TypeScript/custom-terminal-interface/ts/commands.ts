@@ -11,14 +11,25 @@ const commands = {
 		help: "help [command] - Displays help for a command.",
 		commands: {
 			index: {
-				list: [{ value: ["help"] }],
+				list: [{ value: ["help"], next: "command" }],
 				type: "required"
+			},
+			command: {
+				list: [{
+					get value() {
+						return Object.keys(commands).map(key => key).filter(key => key !== "help")
+					}
+				}],
+				type: "optional",
 			}
 		},
 		execute(...args: string[]) {
-			Object.values(commands).forEach((value) => {
-				if (value.help) addText(value.help)
-			})
+			if (args.length === 1) {
+				Object.values(commands).forEach((value) => {
+					if (value.help) addText(value.help)
+				})
+			}
+			console.log(args)
 		}
 	},
 	give: {
@@ -45,16 +56,16 @@ const commands = {
 				color: colors.value
 			},
 		},
-		execute: (...args: string[]) => {
-			const path = traceCommandPath(args, true, true)
-			const errorIndex = path.findIndex(p => p === null)
-			if (errorIndex !== -1) return addErrorText(`Invalid argument "${args[errorIndex]}"`)
+		execute(...args: string[]) {
+			const path = traceCommandPath(args, true, true);
+			const error = hasErrors(args, path, this);
+			if (error) return addErrorText(error);
 
 			const selectedUsers = path[1].execute(args[1]) as User[]
 			selectedUsers.forEach(user => {
 				user.inventory.push({ item: args[2], count: +args[3] })
 				addText(`Gave ${args[3]} ${args[2]} to ${user.name}`)
-			})
+			});
 		}
 	},
 	tp: {
@@ -89,10 +100,10 @@ const commands = {
 				color: colors.value
 			},
 		},
-		execute: (...args: string[]) => {
+		execute(...args: string[]) {
 			const path = traceCommandPath(args, true, true)
-			const errorIndex = path.findIndex(p => p === null)
-			if (errorIndex !== -1) return addErrorText(`Invalid argument "${args[errorIndex]}"`)
+			const error = hasErrors(args, path, this)
+			if (error) return addErrorText(error)
 
 			const selectedUsers = path[1].execute(args[1]) as User[]
 			selectedUsers.forEach(user => {
@@ -158,13 +169,9 @@ const commands = {
 		},
 		execute(...args: string[]) {
 			const path = traceCommandPath(args, true, true)
-			const errorIndex = path.findIndex(p => p === null)
-			const lastKey = (path.at(-1)?.next || "") as any
-			if (errorIndex !== -1) return addErrorText(`Invalid argument "${args[errorIndex]}"`)
-			// @ts-ignore
-			else if (this.commands[lastKey]?.type === "required") {
-				return addErrorText(`Give more arguments`)
-			} else if (args[1] === "remove" || args[1] === "info") {
+			const error = hasErrors(args, path, this)
+			if (error) return addErrorText(error)
+			if (args[1] === "remove" || args[1] === "info") {
 				const selected = path[2].execute(args[2]) as User[]
 				for (const user of selected) {
 					if (args[1] === "remove") {

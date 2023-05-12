@@ -71,6 +71,7 @@ function updateIntellisense() {
         const autoTextLen = autocorrentElement?.textContent?.length || 0;
         const start = input.selectionStart || 0;
         const renderedWordLen = intellisense.renderedWord.length;
+        intellisense.index = 0;
         if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
             input.selectionStart = intellisense.renderedWord.length + 1;
             input.selectionEnd = input.selectionStart + deltaSelection;

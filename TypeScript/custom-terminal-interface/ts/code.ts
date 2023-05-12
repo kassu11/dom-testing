@@ -37,7 +37,7 @@ function submitCommand() {
 	// @ts-ignore
 	commands[rootKey]?.execute?.(...input.value.split(" "))
 	// @ts-ignore
-	if (!("execute" in (commands[rootKey] || {}))) {
+	if (!("execute" in (commands[rootKey] || {})) && input.value.length) {
 		addErrorText(`Command "${rootKey}" not found`)
 		addErrorText(`Type "help" for more information.`)
 	}
@@ -45,9 +45,9 @@ function submitCommand() {
 	commandSubmitHistoryIndex = -1;
 	commandSubmitHistoryCurrent = null;
 	input.value = "";
+	tooltip.textContent = "";
 	updateCommandHightlight(true)
 	updateCaret(false);
-	tooltip.textContent = "";
 	window.scrollBy(0, document.body.scrollHeight);
 }
 
@@ -76,12 +76,6 @@ function addText(text: string) {
 	const span = document.createElement("span")
 	span.textContent = text + "\n";
 	span.classList.add("commandText")
-	textContentElem.append(span);
-}
-function addErrorText(text: string) {
-	const span = document.createElement("span")
-	span.textContent = text + "\n";
-	span.classList.add("error")
 	textContentElem.append(span);
 }
 

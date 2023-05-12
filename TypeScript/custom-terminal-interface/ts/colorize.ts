@@ -45,7 +45,7 @@ function updateCommandHightlight(skipIntellisense = false) {
 
 	const autocorrent = document.createElement("span");
 	const intelliValue = intellisense.options[intellisense.index]?.value ?? "";
-	const autocorrentText = intelliValue.startsWith(currentCommand) ? intelliValue.replace(currentCommand, "") : "";
+	const autocorrentText = intelliValue.startsWith(currentCommand) && tooltip.textContent ? intelliValue.replace(currentCommand, "") : "";
 	autocorrent.textContent = autocorrentText;
 	autocorrent.classList.add("autocorrect");
 
