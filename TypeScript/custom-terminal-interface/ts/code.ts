@@ -2,7 +2,7 @@ const input = document.querySelector("#commandInput") as HTMLInputElement;
 const caret = document.querySelector(".caret") as HTMLPreElement;
 const commandHighlight = document.querySelector("#commandHighlight") as HTMLPreElement;
 const textContentElem = document.querySelector("#textContent") as HTMLPreElement;
-const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer") as HTMLDivElement;
+const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer .container") as HTMLDivElement;
 const commandSubmitHistory = [] as string[];
 let commandSubmitHistoryIndex = -1;
 let commandSubmitHistoryCurrent = null as string | null;
@@ -46,6 +46,7 @@ function submitCommand() {
 	commandSubmitHistoryCurrent = null;
 	input.value = "";
 	tooltip.textContent = "";
+	intellisense.renderedWord = "";
 	updateCommandHightlight(true)
 	updateCaret(false);
 	window.scrollBy(0, document.body.scrollHeight);
@@ -54,6 +55,12 @@ function submitCommand() {
 input.addEventListener("beforeinput", (beforeInputEvent: InputEvent) => {
 	if (beforeInputEvent?.type === "beforeinput" && input.value !== "") removeAutocompliteText()
 });
+
+function getInputValue() { // autocomplite text is not included
+	const left = commandHighlight.querySelector(".left")?.textContent || ""
+	const right = commandHighlight.querySelector(".right")?.textContent || ""
+	return left + right
+}
 
 function removeAutocompliteText() {
 	const text = commandHighlight.querySelector(".left")?.textContent?.length || 0;

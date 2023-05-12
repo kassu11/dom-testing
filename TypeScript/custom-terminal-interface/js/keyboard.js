@@ -47,7 +47,7 @@ window.addEventListener("keydown", e => {
     }
     function renderCommandHistory(command) {
         e.preventDefault();
-        input.value = command;
+        input.value = intellisense.renderedWord = command;
         updateCaret(false);
         updateCommandHightlight(true);
         removeAutocompliteText();

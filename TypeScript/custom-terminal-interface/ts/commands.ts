@@ -43,16 +43,19 @@ const commands = {
 			selector: {
 				list: [{ ...commandArguments["@a"], next: "item" }, { ...commandArguments["@r"], next: "item" }, destructure(commandArguments["playerName"], { next: "item" })],
 				type: "required",
+				help: "<user>",
 				color: colors.selector,
 			},
 			item: {
 				list: [{ value: ["apple"], next: "amount" }, { value: ["sword"], next: "amount" }],
 				type: "required",
+				help: "<item>",
 				color: colors.entity,
 			},
 			amount: {
 				list: [{ title: "<amount>", value: ["1"], match: (value: string) => !isNaN(+(value)) }],
-				type: "required",
+				type: "optional",
+				help: "[<amount>]",
 				color: colors.value
 			},
 		},
@@ -62,9 +65,10 @@ const commands = {
 			if (error) return addErrorText(error);
 
 			const selectedUsers = path[1].execute(args[1]) as User[]
+			const count = args[3] ? +args[3] : 1;
 			selectedUsers.forEach(user => {
-				user.inventory.push({ item: args[2], count: +args[3] })
-				addText(`Gave ${args[3]} ${args[2]} to ${user.name}`)
+				user.inventory.push({ item: args[2], count })
+				addText(`Gave ${count} ${args[2]} to ${user.name}`)
 			});
 		}
 	},
@@ -139,22 +143,26 @@ const commands = {
 			second: {
 				list: [{ value: ["remove", "info"], next: "endSelector" }, { value: ["add"], next: "uniqueName" }, { value: ["modify"], next: "modifySelect" }],
 				type: "required",
+				help: "<action>",
 				color: colors.option
 			},
 			endSelector: {
 				list: [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
 				type: "required",
+				help: "<user>",
 				color: colors.selector
 
 			},
 			modifySelect: {
 				list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, destructure(commandArguments["playerName"], { next: "modifyName" })],
 				type: "required",
+				help: "<user>",
 				color: colors.selector
 			},
 			modifyName: {
 				list: [{ value: ["name"], next: "uniqueName" }],
 				type: "required",
+				help: "<property>",
 				color: colors.option
 			},
 			uniqueName: {
@@ -164,6 +172,7 @@ const commands = {
 					match: (value: string) => value.length > 2 && users.every(user => user.name !== value)
 				}],
 				type: "required",
+				help: "<name>",
 				color: colors.value
 			},
 		},

@@ -13,8 +13,9 @@ function moveIntellisenseBox() {
 	if (!intellisenseWord) return;
 	const { left } = intellisenseWord.getBoundingClientRect();
 	const { left: margin } = commandHighlight.getBoundingClientRect();
+	const { left: padding } = commandInterfaceContainer.getBoundingClientRect();
 
-	const value = left - margin - input.scrollLeft
+	const value = padding + left - margin - input.scrollLeft
 	const maxValue = input.getBoundingClientRect().width - tooltip.getBoundingClientRect().width
 
 	tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
@@ -26,6 +27,7 @@ function updateIntellisense() {
 	//@ts-ignore
 	intellisense.command = commands[currentCommand[0]]; // can be undefined if one argument is given
 	intellisense.options = [];
+	console.log(currentCommand)
 	if (currentCommand.length <= 1) {
 		const rootCommands = Object.values(commands).filter(command => {
 			return command.commands["index"].list.some(item => {
@@ -103,6 +105,7 @@ function fillInAutoComplite() {
 	words[words.length - 1] = intellisense.options[intellisense.index].value;
 	input.value = words.join(" ") + endText;
 	input.selectionStart = input.selectionEnd = words.join(" ").length;
+	intellisense.renderedWord = input.value.substring(0, input.selectionStart || 0);
 	updateCommandHightlight(true);
 	carretIntoView();
 }
@@ -129,7 +132,7 @@ function traceCommandPath(terminalCommands: any, strictLastValue = true, giveLis
 				current = root.commands[item.next];
 				continue main;
 			} else {
-				const useStrict = strictLastValue || command !== terminalCommands.at(-1) && !strictLastValue
+				const useStrict = strictLastValue || i < terminalCommands.length - 1;
 				const passedStrict = useStrict && item.value.some((v: string) => v === command);
 				const passedNonStrict = !useStrict && item.value.some((v: string) => v.startsWith(command));
 

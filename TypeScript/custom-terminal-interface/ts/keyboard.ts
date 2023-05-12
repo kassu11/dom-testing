@@ -34,7 +34,7 @@ window.addEventListener("keydown", e => {
 
 	function renderCommandHistory(command: string) {
 		e.preventDefault();
-		input.value = command
+		input.value = intellisense.renderedWord = command
 		updateCaret(false);
 		updateCommandHightlight(true);
 		removeAutocompliteText();

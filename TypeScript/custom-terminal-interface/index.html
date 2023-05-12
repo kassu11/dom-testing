@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="./css/style.css">
 	<script src="./js/code.js" defer></script>
 	<script src="./js/errors.js" defer></script>
+	<script src="./js/help.js" defer></script>
 	<script src="./js/users.js" defer></script>
 	<script src="./js/tooltip.js" defer></script>
 	<script src="./js/carret.js" defer></script>
@@ -21,6 +22,7 @@
 
 <body>
 	<div id="terminalContainer">
+		<img class="bg" src="./images/background.png" alt="background">
 		<pre id="textContent">
 <span>#######################</span>
 <span>#                     #</span>
@@ -38,11 +40,14 @@
 <span> </span>
 </pre>
 		<pre id="tooltip"></pre>
+		<pre id="commandHelp"></pre>
 		<div id="commandInterfaceContainer">
-			<pre id="commandHighlight"></pre>
-			<pre id="autocorrect"></pre>
-			<pre class="caret"></pre>
-			<input type="text" id="commandInput" type="text" autocomplete="off" autocorrect="off" spellcheck="false">
+			<div class="container">
+				<pre id="commandHighlight"></pre>
+				<pre id="autocorrect"></pre>
+				<pre class="caret"></pre>
+				<input type="text" id="commandInput" type="text" autocomplete="off" autocorrect="off" spellcheck="false">
+			</div>
 		</div>
 	</div>
 </body>
