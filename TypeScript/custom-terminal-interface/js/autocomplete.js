@@ -16,8 +16,8 @@ function moveIntellisenseBox() {
     const { left: margin } = commandHighlight.getBoundingClientRect();
     const { left: padding } = commandInterfaceContainer.getBoundingClientRect();
     const value = padding + left - margin - input.scrollLeft;
-    const maxValue = input.getBoundingClientRect().width - tooltip.getBoundingClientRect().width;
-    tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
+    const maxValue = commandInterfaceContainer.getBoundingClientRect().right - tooltip.getBoundingClientRect().width - 13;
+    tooltip.style.left = Math.min(Math.max(16, value), maxValue) + "px";
 }
 function updateIntellisense() {
     const currentCommand = input.value.substring(0, input.selectionStart || 0).split(" ");

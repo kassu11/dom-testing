@@ -16,9 +16,9 @@ function moveIntellisenseBox() {
 	const { left: padding } = commandInterfaceContainer.getBoundingClientRect();
 
 	const value = padding + left - margin - input.scrollLeft
-	const maxValue = input.getBoundingClientRect().width - tooltip.getBoundingClientRect().width
+	const maxValue = commandInterfaceContainer.getBoundingClientRect().right - tooltip.getBoundingClientRect().width - 13;
 
-	tooltip.style.left = Math.min(Math.max(0, value), maxValue) + "px";
+	tooltip.style.left = Math.min(Math.max(16, value), maxValue) + "px";
 }
 
 function updateIntellisense() {

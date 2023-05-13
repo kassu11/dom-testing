@@ -90,7 +90,7 @@ const commands = {
                 next: "xCords"
             },
             xCords: {
-                list: [{ ...commandArguments["cordinates"], value: ["~ ~ ~", "~ ~", "~"], next: "yCords" }],
+                list: [{ ...commandArguments["cordinates"], next: "yCords" }],
                 type: "required",
                 help: "<x>",
                 color: colors.value,
