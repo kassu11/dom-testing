@@ -46,7 +46,7 @@ body {
 		word-wrap: break-word;
 		white-space: pre-wrap;
 		margin-top: auto;
-		margin-bottom: 10px;
+		margin-bottom: 35px;
 
 		.commandText {
 			background-color: green;
@@ -87,8 +87,8 @@ body {
 	position: sticky;
 	bottom: 0px;
 	flex-shrink: 0;
-	padding: 5px 10px;
-	background-color: rgba(0, 0, 0, 0.6);
+	padding: 3px 8px;
+	background-color: rgba(0, 0, 0, 0.4);
 
 	.container {
 		position: relative;
@@ -127,9 +127,10 @@ body {
 
 #tooltip {
 	position: fixed;
-	border: 2px solid white;
 	bottom: 45px;
-	background-color: #0c0c0c;
+	padding-inline: 5px;
+	margin-left: -5px;
+	background-color: #000000;
 
 	&:empty {
 		display: none;
@@ -155,10 +156,18 @@ body {
 #commandHelp {
 	position: fixed;
 	bottom: 45px;
-	background-color: #0c0c0c;
+	background-color: black;
+
+	&.hidden {
+		display: none;
+	}
 
 	&:empty {
 		display: none;
+	}
+
+	span {
+		padding-inline: 5px;
 	}
 }
 

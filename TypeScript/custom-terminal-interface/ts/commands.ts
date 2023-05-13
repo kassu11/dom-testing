@@ -43,7 +43,7 @@ const commands = {
 			selector: {
 				list: [{ ...commandArguments["@a"], next: "item" }, { ...commandArguments["@r"], next: "item" }, destructure(commandArguments["playerName"], { next: "item" })],
 				type: "required",
-				help: "<user>",
+				help: "<selector>",
 				color: colors.selector,
 			},
 			item: {
@@ -84,23 +84,27 @@ const commands = {
 			selector: {
 				list: [{ ...commandArguments["@a"], next: "xCords" }, { ...commandArguments["@r"], next: "xCords" }, destructure(commandArguments["playerName"], { next: "xCords" })],
 				type: "required",
+				help: "<selector>",
 				color: colors.selector,
 				next: "xCords"
 			},
 			xCords: {
-				list: [{ ...commandArguments["cordinates"], title: "[<X>]", next: "yCords" }],
+				list: [{ ...commandArguments["cordinates"], next: "yCords" }],
 				type: "required",
+				help: "<x>",
 				color: colors.value,
 			},
 			yCords: {
-				list: [{ ...commandArguments["cordinates"], title: "[<Y>]", next: "zCords" }],
+				list: [{ ...commandArguments["cordinates"], next: "zCords" }],
 				type: "required",
+				help: "<y>",
 				color: colors.value,
 
 			},
 			zCords: {
-				list: [{ ...commandArguments["cordinates"], title: "[<Z>]" }],
+				list: [{ ...commandArguments["cordinates"] }],
 				type: "required",
+				help: "<z>",
 				color: colors.value
 			},
 		},
@@ -149,14 +153,14 @@ const commands = {
 			endSelector: {
 				list: [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
 				type: "required",
-				help: "<user>",
+				help: "<selector>",
 				color: colors.selector
 
 			},
 			modifySelect: {
 				list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, destructure(commandArguments["playerName"], { next: "modifyName" })],
 				type: "required",
-				help: "<user>",
+				help: "<selector>",
 				color: colors.selector
 			},
 			modifyName: {
@@ -172,7 +176,7 @@ const commands = {
 					match: (value: string) => value.length > 2 && users.every(user => user.name !== value)
 				}],
 				type: "required",
-				help: "<name>",
+				help: "<new name>",
 				color: colors.value
 			},
 		},

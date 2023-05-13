@@ -54,6 +54,8 @@ function updateCommandHightlight(skipIntellisense = false) {
     input.selectionStart = caretStart;
     input.selectionEnd = caretEnd;
     colorHighlight();
+    if (tooltip.textContent === "")
+        updateHelpText();
 }
 input.addEventListener("input", () => updateCommandHightlight());
 //# sourceMappingURL=colorize.js.map

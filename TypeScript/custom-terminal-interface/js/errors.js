@@ -13,4 +13,13 @@ function hasErrors(commands, path, baseCommand) {
     else if (baseCommand.commands[lastKey]?.type === "required")
         return "Give more arguments";
 }
+const helpTextObserver = new MutationObserver((mutationList) => {
+    for (const mutation of mutationList) {
+        if (mutation.removedNodes.length === 0 || tooltip.textContent?.length !== 0)
+            continue;
+        updateHelpText();
+        break;
+    }
+});
+helpTextObserver.observe(tooltip, { attributes: false, childList: true, subtree: false });
 //# sourceMappingURL=errors.js.map

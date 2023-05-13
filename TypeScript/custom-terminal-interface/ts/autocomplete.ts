@@ -27,7 +27,6 @@ function updateIntellisense() {
 	//@ts-ignore
 	intellisense.command = commands[currentCommand[0]]; // can be undefined if one argument is given
 	intellisense.options = [];
-	console.log(currentCommand)
 	if (currentCommand.length <= 1) {
 		const rootCommands = Object.values(commands).filter(command => {
 			return command.commands["index"].list.some(item => {
@@ -88,6 +87,7 @@ function updateIntellisense() {
 		if (intellisense.renderedWordNumber === 1) colorHighlight();
 	}
 
+	if (intellisense.options.length) commandHelpElem.classList.add("hidden");
 	intellisense.renderedWordNumber = currentCommand.length;
 	intellisense.renderedWord = currentCommand.join(" ");
 	moveIntellisenseBox();

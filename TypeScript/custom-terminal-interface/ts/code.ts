@@ -46,6 +46,7 @@ function submitCommand() {
 	commandSubmitHistoryCurrent = null;
 	input.value = "";
 	tooltip.textContent = "";
+	commandHelpElem.classList.add("hidden");
 	intellisense.renderedWord = "";
 	updateCommandHightlight(true)
 	updateCaret(false);
