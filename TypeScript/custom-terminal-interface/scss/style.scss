@@ -26,8 +26,9 @@ body {
 		caret-color: transparent;
 		color: transparent;
 		left: 0px;
-		width: 100%;
+		width: calc(100% - 5px);
 		padding: 0px;
+		box-sizing: border-box;
 
 		&::selection {
 			background-color: rgba(195, 0, 255, 0.25);
@@ -47,6 +48,7 @@ body {
 		white-space: pre-wrap;
 		margin-top: auto;
 		margin-bottom: 35px;
+		word-break: break-word;
 
 		.commandText {
 			background-color: green;
@@ -72,14 +74,24 @@ body {
 	margin-top: auto;
 }
 
-#commandHighlight {
+.highlightContainer {
 	position: absolute;
 	pointer-events: none;
 	user-select: none;
 	z-index: 1;
+	overflow: hidden;
+	width: calc(100% - 5px);
+	height: 100%;
 
-	.autocorrect {
-		opacity: .3;
+	#commandHighlight {
+		position: absolute;
+		pointer-events: none;
+		user-select: none;
+		z-index: 1;
+
+		.autocorrect {
+			opacity: .3;
+		}
 	}
 }
 
@@ -99,29 +111,29 @@ body {
 		pointer-events: none;
 		user-select: none;
 	}
+}
 
-	.caret {
+.caret {
+	position: absolute;
+	color: transparent;
+	z-index: 1;
+	--left: 0px;
+
+	&.idle::after {
+		animation: caret 1s infinite;
+	}
+
+	&::after {
+		content: "";
 		position: absolute;
-		color: transparent;
-		--left: 0px;
-
-		&.idle::after {
-			animation: caret 1s infinite;
-		}
-
-		&::after {
-			content: "";
-			position: absolute;
-			left: var(--left);
-			top: 3px;
-			height: 23px;
-			width: 3px;
-			background: white;
-			pointer-events: none;
-			pointer-events: none;
-			user-select: none;
-			transition: left .09s;
-		}
+		left: var(--left);
+		top: 3px;
+		height: 23px;
+		width: 3px;
+		background: rgba(255, 255, 255, 0.8);
+		pointer-events: none;
+		user-select: none;
+		transition: left .09s;
 	}
 }
 

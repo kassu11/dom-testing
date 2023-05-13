@@ -1,5 +1,6 @@
 const input = document.querySelector("#commandInput") as HTMLInputElement;
 const caret = document.querySelector(".caret") as HTMLPreElement;
+const highlightContainer = document.querySelector(".highlightContainer") as HTMLPreElement;
 const commandHighlight = document.querySelector("#commandHighlight") as HTMLPreElement;
 const textContentElem = document.querySelector("#textContent") as HTMLPreElement;
 const commandInterfaceContainer = document.querySelector("#commandInterfaceContainer .container") as HTMLDivElement;
@@ -10,11 +11,11 @@ let commandSubmitHistoryCurrent = null as string | null;
 
 input.addEventListener("scroll", () => {
 	if (!input.matches(":focus") && input.scrollLeft === 0) {
-		input.scrollLeft = commandInterfaceContainer.scrollLeft
+		input.scrollLeft = highlightContainer.scrollLeft
 		return; // When user on focuses, the input scroll to left 0, by default :/
 	}
 
-	commandInterfaceContainer.scrollLeft = input.scrollLeft;
+	highlightContainer.scrollLeft = input.scrollLeft;
 	moveIntellisenseBox();
 }, { passive: true });
 

@@ -6,7 +6,7 @@ function updateHelpText() {
 	const selections = traceCommandPath(commands, false, true).filter((value: any) => value !== null);
 	if (path.length === 0) return;
 
-	const baseCommands = intellisense.command.commands;
+	const baseCommands = intellisense.command?.commands;
 	const helpTexts: string[] = [];
 	commandHelpElem.classList.remove("hidden");
 
@@ -33,7 +33,7 @@ function updateHelpText() {
 
 	function nextPath(currentPath: any): any {
 		const next: string[] = []
-		currentPath.list.forEach((listItem: any) => listItem.next && next.push(listItem.next))
+		currentPath?.list.forEach((listItem: any) => listItem.next && next.push(listItem.next))
 		if ("help" in currentPath) helpTexts.push(currentPath.help)
 
 		if (next.length === 0) return
