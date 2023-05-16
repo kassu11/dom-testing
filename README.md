@@ -19,10 +19,21 @@
   <li>
 		<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/CSS">📂</a> CSS</summary>
 			<ul>
-				<li>3d-transform
-					<blockquote>
-						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/3d-transform/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/3d-transform/test-v1/">Demo</a>
-					</blockquote>
+				<li>
+					<details open><summary><a href="https://kassu11.github.io/dom-testing/CSS/3d-transform/">📂</a> 3d-transform</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/3d-transform/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/3d-transform/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/3d-transform/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/3d-transform/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>attribute-selectors
 					<blockquote>

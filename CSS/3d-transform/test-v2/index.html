@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3D Transform</title>
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/form.css">
+	<script src="./code.js" defer></script>
+</head>
+
+<body>
+	<fieldset id="scene">
+		<legend>3D box demo</legend>
+		<div class="box center">
+			<div class="face front">front</div>
+			<div class="face back">back</div>
+			<div class="face right">right</div>
+			<div class="face left">left</div>
+			<div class="face top">top</div>
+			<div class="face bottom">bottom</div>
+		</div>
+	</fieldset>
+
+	<fieldset id="sides">
+		<legend>Sides</legend>
+		<form>
+			<label><input type="radio" name="side" value="front" checked> front</label>
+			<label><input type="radio" name="side" value="back"> back</label>
+			<label><input type="radio" name="side" value="right"> right</label>
+			<label><input type="radio" name="side" value="left"> left</label>
+			<label><input type="radio" name="side" value="top"> top</label>
+			<label><input type="radio" name="side" value="bottom"> bottom</label>
+		</form>
+	</fieldset>
+
+	<fieldset id="location">
+		<legend>Locations</legend>
+		<form>
+			<label><input type="radio" name="location" value="topLeft"> top left</label>
+			<label><input type="radio" name="location" value="topRight"> top right</label>
+			<label><input type="radio" name="location" value="bottomLeft"> bottom left</label>
+			<label><input type="radio" name="location" value="bottomRight"> bottom right</label>
+			<label><input type="radio" name="location" value="center" checked> center</label>
+		</form>
+	</fieldset>
+
+	<fieldset id="parameters">
+		<legend>Sliders</legend>
+		<form>
+			<div>
+				<label for="width">width<br></label>
+				<input type="range" min="100" max="500" value="300" name="width" id="width" value="width" list="sizeMarkers">
+			</div>
+			<div>
+				<label for="height">height<br></label>
+				<input type="range" min="100" max="500" value="200" name="height" id="height" value="height" list="sizeMarkers">
+			</div>
+			<div>
+				<label for="height">depth<br></label>
+				<input type="range" min="100" max="500" value="200" name="depth" id="depth" value="depth" list="sizeMarkers">
+			</div>
+			<div>
+				<label for="perspective">perspective<br></label>
+				<input type="range" min="0" max="1000" value="400" name="perspective" id="perspective" value="perspective" list="perspectiveMarkers">
+			</div>
+		</form>
+	</fieldset>
+
+	<datalist id="sizeMarkers">
+		<option value="100"></option>
+		<option value="150"></option>
+		<option value="200"></option>
+		<option value="250"></option>
+		<option value="300"></option>
+		<option value="350"></option>
+		<option value="400"></option>
+		<option value="450"></option>
+		<option value="500"></option>
+	</datalist>
+
+	<datalist id="perspectiveMarkers">
+		<option value="0"></option>
+		<option value="100"></option>
+		<option value="200"></option>
+		<option value="300"></option>
+		<option value="400"></option>
+		<option value="500"></option>
+		<option value="600"></option>
+		<option value="700"></option>
+		<option value="800"></option>
+		<option value="900"></option>
+		<option value="1000"></option>
+	</datalist>
+
+</body>
+
+</html>
