@@ -26,30 +26,6 @@ body {
 	--boxRotateX: 0deg;
 	--boxRotateY: 0deg;
 
-	.front {
-		// background: rgba(255, 0, 0, 0.5)
-	}
-
-	.back {
-		// background: rgba(0, 128, 0, 0.5)
-	}
-
-	.right {
-		// background: rgba(0, 0, 255, 0.5)
-	}
-
-	.left {
-		// background: rgba(255, 166, 0, 0.5)
-	}
-
-	.top {
-		// background: rgba(255, 255, 0, 0.5)
-	}
-
-	.bottom {
-		// background: rgba(128, 0, 128, 0.5)
-	}
-
 	&.right {
 		--boxRotateY: -90deg;
 	}
