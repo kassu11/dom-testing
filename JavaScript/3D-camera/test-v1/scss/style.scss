@@ -1,28 +1,38 @@
 #scene {
 	position: absolute;
-	inset: 50px 300px;
+	inset: 0px;
 	border: 1px solid #000;
-	perspective: 400px;
+	perspective: 300px;
 	overflow: hidden;
+	display: grid;
+	place-items: center;
 
-	.container {
+	.moveWrapper {
 		position: absolute;
-		width: 100%;
-		height: 100%;
-		--size: 100px;
+		transform-style: preserve-3d;
 		--x: 0;
 		--y: 0;
-		--z: -500px;
-		bottom: -500px;
-		left: calc(var(--x) * var(--size));
-		top: calc(var(--y) * var(--size));
+		transform: translateX(var(--x)) translateZ(var(--y));
+		translate: 50px -300px 0px;
+	}
+
+	.rotateWrapper {
+		position: absolute;
 		transform-style: preserve-3d;
-		transform-origin: var(--x) 0px var(--y);
-		transform:
-			rotateX(90deg) translateX(var(--x)) translateZ(var(--y)) translateY(var(--z));
-		transition: transform .2s, transform-origin .2s;
+		--size: 100px;
+		--z: -500px;
+		// bottom: -500px;
+		// left: calc(var(--x) * var(--size));
+		// top: calc(var(--y) * var(--size));
+		// transform-style: preserve-3d;
+		// transform-origin: var(--x) 0px var(--y);
+		// transform:
+		// 	rotateX(90deg) translateX(var(--x)) translateZ(var(--y)) translateY(var(--z));
+		// transition: transform .2s, transform-origin .2s;
 		// transform: rotateX(90deg) rotate(10deg);
 		// translate: calc(var(--x) * var(--size)) calc(var(--z) * var(--size)) calc(var(--y) * var(--size));
+		transform-origin: 450px 350px 0px;
+		transform: rotateY(0deg) rotateX(90deg) rotateZ(0deg);
 	}
 
 	.block {
@@ -30,6 +40,7 @@
 		width: var(--size);
 		height: var(--size);
 		transform-style: preserve-3d;
+		outline: 1px solid black;
 
 		&.wall {
 			background: red;

@@ -8,14 +8,15 @@ const map = [
 	[1, 0, 0, 0, 0, 1, 0, 0, 0],
 ]
 
-const container = document.querySelector(".container")
+const rotateContainer = document.querySelector(".rotateWrapper")
+const moveContainer = document.querySelector(".moveWrapper")
 
 for (let y = 0; y < map.length; y++) {
 	for (let x = 0; x < map[y].length; x++) {
 		const div = document.createElement("div")
 		div.classList.add("block")
 		div.style.translate = `${x * 100}px ${y * 100}px`
-		container.appendChild(div)
+		rotateContainer.appendChild(div)
 		if (map[y][x] === 1) {
 			div.classList.add("wall")
 			const front = document.createElement("div");
@@ -54,6 +55,12 @@ window.addEventListener("keydown", e => {
 		player.x--;
 	}
 
-	container.style.setProperty("--x", player.x * 100 + "px")
-	container.style.setProperty("--y", player.y * 100 + "px")
+	updateCamera();
 })
+
+updateCamera();
+
+function updateCamera() {
+	moveContainer.style.setProperty("--x", (player.x - 1) * 100 + "px")
+	moveContainer.style.setProperty("--y", (player.y + 6) * 100 + "px")
+}
