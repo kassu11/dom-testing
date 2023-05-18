@@ -1,39 +1,44 @@
-#scene {
+* {
+	box-sizing: border-box;
+}
+
+#viewport {
 	position: absolute;
+	--perspective: 500px;
+	perspective: var(--perspective);
 	inset: 0px;
-	border: 1px solid #000;
-	perspective: 300px;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
-	display: grid;
-	place-items: center;
+}
 
-	.moveWrapper {
-		position: absolute;
-		transform-style: preserve-3d;
-		--x: 0;
-		--y: 0;
-		transform: translateX(var(--x)) translateZ(var(--y));
-		translate: 50px -300px 0px;
-	}
+#camera {
+	width: 0px;
+	height: 0px;
+	position: relative;
+	left: 50%;
+	top: 50%;
+	transform-style: preserve-3d;
+}
 
-	.rotateWrapper {
-		position: absolute;
-		transform-style: preserve-3d;
-		--size: 100px;
-		--z: -500px;
-		// bottom: -500px;
-		// left: calc(var(--x) * var(--size));
-		// top: calc(var(--y) * var(--size));
-		// transform-style: preserve-3d;
-		// transform-origin: var(--x) 0px var(--y);
-		// transform:
-		// 	rotateX(90deg) translateX(var(--x)) translateZ(var(--y)) translateY(var(--z));
-		// transition: transform .2s, transform-origin .2s;
-		// transform: rotateX(90deg) rotate(10deg);
-		// translate: calc(var(--x) * var(--size)) calc(var(--z) * var(--size)) calc(var(--y) * var(--size));
-		transform-origin: 450px 350px 0px;
-		transform: rotateY(0deg) rotateX(90deg) rotateZ(0deg);
-	}
+
+#scene {
+	width: 4000px;
+	height: 4000px;
+	// transform-origin: calc(var(--x) * -1) calc(var(--z) * -1);
+	--size: 250px;
+	--x: 0px;
+	--y: 0px;
+	--z: 0px;
+	--angle: 0deg; // --angle: 0deg;
+	// animation: center 2s linear infinite;
+	// transform: translate3d(var(--x), 0px, var(--z)) rotateY(var(--angle));
+	transform-origin: var(--x) calc(var(--y) * -1 + var(--size) / 2) calc(var(--z) - var(--size) / 2);
+	transform: translate3d(calc(var(--x) * -1),
+			calc(var(--y) - var(--size) / 2),
+			calc(var(--z) * -1 + var(--size) / 2 + var(--perspective))) rotateY(var(--angle)) rotateX(360deg);
+	transform-style: preserve-3d;
+
 
 	.block {
 		position: absolute;
@@ -41,9 +46,10 @@
 		height: var(--size);
 		transform-style: preserve-3d;
 		outline: 1px solid black;
+		transform: rotateX(90deg);
 
 		&.wall {
-			background: red;
+			// background: red;
 
 			>div {
 				// opacity: .6;
@@ -59,32 +65,32 @@
 				&.left {
 					--rotateY: 90deg;
 					translate: calc(var(--size) / -2);
-					// background: blue;
 				}
 
 				&.right {
 					--rotateY: -90deg;
 					translate: calc(var(--size) / 2);
-					// background: yellow;
 				}
 
 				&.front {
 					--rotateX: -90deg;
 					translate: 0px calc(var(--size) / 2);
-					// background: yellow;
 				}
 
 				&.back {
 					--rotateX: 90deg;
 					translate: 0px calc(var(--size) / -2);
-					// background: yellow;
 				}
 
 				&.top {
 					translate: 0px 0px calc(var(--size) / 2);
-					// background: yellow;
 				}
 			}
+		}
+
+		&.rock>div {
+			background-image: url("../images/rock-sus.gif");
+			background-size: 100%;
 		}
 
 		&.floor {
