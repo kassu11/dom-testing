@@ -23,22 +23,16 @@
 
 
 #scene {
-	width: 4000px;
-	height: 4000px;
-	// transform-origin: calc(var(--x) * -1) calc(var(--z) * -1);
 	--size: 250px;
 	--x: 0px;
 	--y: 0px;
 	--z: 0px;
-	--angle: 0deg; // --angle: 0deg;
-	// animation: center 2s linear infinite;
-	// transform: translate3d(var(--x), 0px, var(--z)) rotateY(var(--angle));
+	--angle: 0deg;
 	transform-origin: var(--x) calc(var(--y) * -1 + var(--size) / 2) calc(var(--z) - var(--size) / 2);
 	transform: translate3d(calc(var(--x) * -1),
 			calc(var(--y) - var(--size) / 2),
 			calc(var(--z) * -1 + var(--size) / 2 + var(--perspective))) rotateY(var(--angle)) rotateX(360deg);
 	transform-style: preserve-3d;
-
 
 	.block {
 		position: absolute;
@@ -49,26 +43,26 @@
 		transform: rotateX(90deg);
 
 		&.wall {
-			// background: red;
-
 			>div {
-				// opacity: .6;
 				position: absolute;
 				width: 100%;
 				height: 100%;
 				--rotateX: 0deg;
 				--rotateY: 0deg;
-				transform: translateZ(calc(var(--size) / 2)) rotateY(var(--rotateY)) rotateX(var(--rotateX));
+				--rotateZ: 0deg;
+				transform: translateZ(calc(var(--size) / 2)) rotateY(var(--rotateY)) rotateZ(var(--rotateZ)) rotateX(var(--rotateX));
 				background: red;
 				outline: 1px solid black;
 
 				&.left {
-					--rotateY: 90deg;
+					--rotateZ: 90deg;
+					--rotateX: 270deg;
 					translate: calc(var(--size) / -2);
 				}
 
 				&.right {
-					--rotateY: -90deg;
+					--rotateZ: -90deg;
+					--rotateY: 90deg;
 					translate: calc(var(--size) / 2);
 				}
 
@@ -78,7 +72,7 @@
 				}
 
 				&.back {
-					--rotateX: 90deg;
+					--rotateX: -90deg;
 					translate: 0px calc(var(--size) / -2);
 				}
 
