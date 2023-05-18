@@ -7,12 +7,12 @@ const map = [
 	[0, 0, 0, 0, 0, 1, 1, 0, 2, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
 ]
 
@@ -70,11 +70,14 @@ window.addEventListener("keyup", e => {
 
 
 window.requestAnimationFrame(movePlayer);
+updateCamera();
 
 const playerKeys = new Set();
+window.onblur = () => playerKeys.clear();
 function movePlayer() {
 	const moveSpeed = 10;
 	const turnSpeed = 2;
+	const oldPlayer = { ...player };
 	if (playerKeys.has("KeyW")) {
 		player.z += Math.round(moveSpeed * Math.cos((player.angle - 180) * Math.PI / 180))
 		player.x += Math.round(moveSpeed * Math.sin(player.angle * Math.PI / 180))
@@ -106,31 +109,16 @@ function movePlayer() {
 		player.angle -= turnSpeed;
 	}
 
-	updateCamera();
+	for (const [key, value] of Object.entries(oldPlayer)) {
+		if (player[key] !== value) {
+			updateCamera();
+			break;
+		}
+	}
+
+
 	window.requestAnimationFrame(movePlayer);
 }
-
-// document.body.onmousedown = () => document.body.requestPointerLock({ unadjustedMovement: true });
-// document.body.onmouseup = () => document.exitPointerLock();
-
-// document.addEventListener("pointerlockerror", () => {
-// 	console.error("Error locking pointer");
-// });
-
-// document.addEventListener("pointerlockchange", () => {
-// 	if (document.pointerLockElement) {
-// 		document.addEventListener("mousemove", mouseMovement);
-// 	} else document.removeEventListener("mousemove", mouseMovement);
-// });
-
-// function mouseMovement(event) {
-// 	console.log("??")
-// 	player.mouseX += event.movementX;
-// 	player.mouseZ -= event.movementY;
-// 	moveContainer.style.setProperty("--mouseX", player.mouseX + "deg")
-// 	moveContainer.style.setProperty("--mouseZ", player.mouseZ + "deg")
-// }
-
 
 function updateCamera() {
 	moveContainer.style.setProperty("--angle", player.angle + "deg")
