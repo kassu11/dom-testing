@@ -62,6 +62,11 @@
 	<li>
 		<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript">📂</a> JavaScript</summary>
 			<ul>
+				<li>3D-camera
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v1/">Demo</a>
+					</blockquote>
+				</li>
 				<li>destructuring-test
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/destructuring-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/destructuring-test/">Demo</a>
