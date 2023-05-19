@@ -2,96 +2,66 @@
 	box-sizing: border-box;
 }
 
+.crossHair {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	font-size: 24px;
+	font-weight: 900;
+	transform: translate(-50%, -50%);
+	z-index: 100;
+	user-select: none;
+	pointer-events: none;
+}
+
 #viewport {
 	position: absolute;
-	--perspective: 500px;
-	perspective: var(--perspective);
+	perspective: 400px;
 	inset: 0px;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+
+	#camera {
+		position: relative;
+		transform-style: preserve-3d;
+		width: 0px;
+		height: 0px;
+		left: 50%;
+		top: 50%;
+	}
 }
 
-#camera {
-	width: 0px;
-	height: 0px;
-	position: relative;
-	left: 50%;
-	top: 50%;
-	transform-style: preserve-3d;
-}
 
 
 #scene {
-	--size: 250px;
-	--x: 0px;
-	--y: 0px;
-	--z: 0px;
-	--angle: 0deg;
-	translate: calc(var(--x) * -1) calc(var(--y) - var(--size) / 2) calc(var(--z) * -1 + var(--size) / 2 + var(--perspective));
-	transform-origin: var(--x) calc(var(--y) * -1 + var(--size) / 2) calc(var(--z) - var(--size) / 2);
-	transform: rotateY(var(--angle)) rotateX(360deg);
-	transition: translate 0.2s, transform-origin .2s, transform .5s;
 	transform-style: preserve-3d;
 
-	.block {
+	.tile {
 		position: absolute;
-		width: var(--size);
-		height: var(--size);
-		transform-style: preserve-3d;
-		outline: 1px solid black;
-		transform: rotateX(90deg);
+		// border: 1px solid black;
+		padding: 10px;
+		backface-visibility: hidden;
+		transform-origin: 0 0;
+		background-size: cover;
+		image-rendering: pixelated
+	}
 
-		&.wall {
-			&:not(.rock)>div {
-				background: red;
-			}
+	// Textures
 
-			>div {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-				--rotateX: 0deg;
-				--rotateY: 0deg;
-				--rotateZ: 0deg;
-				transform: translateZ(calc(var(--size) / 2)) rotateY(var(--rotateY)) rotateZ(var(--rotateZ)) rotateX(var(--rotateX));
-				outline: 1px solid black;
+	.floor {
+		background-image: url("../images/cobblestone.png");
+	}
 
-				&.left {
-					--rotateZ: 90deg;
-					--rotateX: 270deg;
-					translate: calc(var(--size) / -2);
-				}
+	.wall {
+		background-image: url("../images/ancient_debris_side.png");
+	}
 
-				&.right {
-					--rotateZ: -90deg;
-					--rotateY: 90deg;
-					translate: calc(var(--size) / 2);
-				}
+	.wall.top {
+		background-image: url("../images/ancient_debris_top.png");
+	}
 
-				&.front {
-					--rotateX: -90deg;
-					translate: 0px calc(var(--size) / 2);
-				}
-
-				&.back {
-					--rotateX: -90deg;
-					translate: 0px calc(var(--size) / -2);
-				}
-
-				&.top {
-					translate: 0px 0px calc(var(--size) / 2);
-				}
-			}
-		}
-
-		&.rock>div {
-			background: brown;
-			background-size: 100%;
-		}
-
-		&.floor {
-			background: green;
-		}
+	.rock {
+		background-image: url("../images/rock-sus.gif");
 	}
 }
