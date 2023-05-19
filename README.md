@@ -62,10 +62,21 @@
 	<li>
 		<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript">📂</a> JavaScript</summary>
 			<ul>
-				<li>3D-camera
-					<blockquote>
-						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v1/">Demo</a>
-					</blockquote>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/">📂</a> 3D-camera</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>destructuring-test
 					<blockquote>

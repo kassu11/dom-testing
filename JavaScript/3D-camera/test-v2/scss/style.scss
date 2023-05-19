@@ -39,12 +39,10 @@
 
 	.tile {
 		position: absolute;
-		// border: 1px solid black;
-		padding: 10px;
 		backface-visibility: hidden;
 		transform-origin: 0 0;
 		background-size: cover;
-		image-rendering: pixelated
+		image-rendering: pixelated;
 	}
 
 	// Textures

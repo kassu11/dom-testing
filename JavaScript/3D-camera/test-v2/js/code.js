@@ -44,6 +44,7 @@ function makeTile(x, y, dir, texture) {
 	div.classList.add("tile", dir, texture);
 	div.style.width = size + 1 + "px";
 	div.style.height = size + 1 + "px";
+
 	if (dir === "bottom") div.style.transform = `translate3d(${x * size}px, ${size}px, ${y * size}px) rotateX(90deg)`;
 	else if (dir === "top") div.style.transform = `translate3d(${x * size}px, 0px, ${y * size}px) rotateX(90deg)`;
 	else if (dir === "right") div.style.transform = `translate3d(${x * size + size}px, 0px, ${y * size + size}px) rotateY(90deg)`;
@@ -62,26 +63,28 @@ const player = {
 	mouseX: 180,
 }
 
-window.addEventListener("keydown", e => {
-	playerKeys.add(e.code);
+window.addEventListener("keydown", ({ code, repeat }) => {
+	if (repeat) return;
+	playerKeys.add(code);
+
+	if (code === "ArrowRight") {
+		player.mouseX += 90;
+		mouseMovement(null, true);
+	} else if (code === "ArrowLeft") {
+		player.mouseX -= 90;
+		mouseMovement(null, true);
+	}
 });
 
-window.addEventListener("keyup", e => {
-	playerKeys.delete(e.code);
-});
-
-
-window.requestAnimationFrame(movePlayer);
-updateCamera();
+window.addEventListener("keyup", ({ code }) => playerKeys.delete(code));
 
 const playerKeys = new Set();
 window.onblur = () => playerKeys.clear();
 function movePlayer() {
 	const moveSpeed = 10;
-	const turnSpeed = 2;
 	const oldPlayer = { ...player };
 	if (playerKeys.has("KeyW")) {
-		player.z += Math.round(moveSpeed * Math.cos((player.mouseX - 180) * Math.PI / 180))
+		player.z += Math.round(moveSpeed * Math.cos((player.mouseX + 180) * Math.PI / 180))
 		player.x += Math.round(moveSpeed * Math.sin(player.mouseX * Math.PI / 180))
 	}
 	if (playerKeys.has("KeyA")) {
@@ -96,28 +99,15 @@ function movePlayer() {
 		player.z += Math.round(moveSpeed * Math.cos((player.mouseX - 90) * Math.PI / 180));
 		player.x += Math.round(moveSpeed * Math.sin((player.mouseX + 90) * Math.PI / 180));
 	}
-	if (playerKeys.has("Space")) {
-		player.y += moveSpeed;
-	}
-	if (playerKeys.has("ShiftLeft")) {
-		player.y -= moveSpeed;
-	}
-
-	if (playerKeys.has("ArrowRight")) {
-		player.angle += turnSpeed;
-	}
-
-	if (playerKeys.has("ArrowLeft")) {
-		player.angle -= turnSpeed;
-	}
+	if (playerKeys.has("Space")) player.y += moveSpeed;
+	if (playerKeys.has("ShiftLeft")) player.y -= moveSpeed;
 
 	for (const [key, value] of Object.entries(oldPlayer)) {
-		if (player[key] !== value) {
-			updateCamera();
-			break;
-		}
-	}
+		if (player[key] === value) continue;
 
+		updateCamera();
+		break;
+	}
 
 	window.requestAnimationFrame(movePlayer);
 }
@@ -128,23 +118,24 @@ function updateCamera() {
 }
 
 document.body.onclick = () => !document.pointerLockElement && document.body.requestPointerLock({ unadjustedMovement: true });
-
-document.addEventListener("pointerlockerror", () => {
-	console.error("Error locking pointer");
-});
+document.addEventListener("pointerlockerror", () => console.error("Error locking pointer"));
 
 document.addEventListener("pointerlockchange", () => {
-	if (document.pointerLockElement) {
-		document.addEventListener("mousemove", mouseMovement);
-	} else document.removeEventListener("mousemove", mouseMovement);
+	if (document.pointerLockElement) document.addEventListener("mousemove", mouseMovement);
+	else document.removeEventListener("mousemove", mouseMovement);
 });
 
-mouseMovement();
-function mouseMovement(event) {
+function mouseMovement(event, smooth = false) {
 	player.mouseX += event?.movementX / 2 || 0;
 	player.mouseY -= event?.movementY / 2 || 0;
-	if (player.mouseY > 90) player.mouseY = 90;
-	if (player.mouseY < -90) player.mouseY = -90;
+	player.mouseY = Math.min(90, Math.max(player.mouseY, -90));
+
+	if (smooth) camera.style.transition = "transform .25s";
+	else camera.style.transition = null;
 
 	camera.style.transform = `translate3d(0px, 0px, ${perspective}px) rotateX(${player.mouseY}deg) rotateY(${player.mouseX}deg)`;
 }
+
+window.requestAnimationFrame(movePlayer);
+updateCamera();
+mouseMovement();
