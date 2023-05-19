@@ -18,6 +18,7 @@ const map = [
 
 const size = 250;
 
+const camera = document.querySelector("#camera")
 const moveContainer = document.querySelector("#scene")
 
 for (let y = 0; y < map.length; y++) {
@@ -53,11 +54,8 @@ const player = {
 	x: size / 2,
 	y: size * 2 / 3,
 	z: size / 2,
+	mouseY: 0,
 	mouseX: 0,
-	mouseZ: 0,
-	xCords: 0,
-	zCords: 0,
-	angle: 180
 }
 
 window.addEventListener("keydown", e => {
@@ -79,20 +77,20 @@ function movePlayer() {
 	const turnSpeed = 2;
 	const oldPlayer = { ...player };
 	if (playerKeys.has("KeyW")) {
-		player.z += Math.round(moveSpeed * Math.cos((player.angle - 180) * Math.PI / 180))
-		player.x += Math.round(moveSpeed * Math.sin(player.angle * Math.PI / 180))
+		player.z += Math.round(moveSpeed * Math.cos((player.mouseX - 180) * Math.PI / 180))
+		player.x += Math.round(moveSpeed * Math.sin(player.mouseX * Math.PI / 180))
 	}
 	if (playerKeys.has("KeyA")) {
-		player.z += Math.round(moveSpeed * Math.cos((player.angle + 90) * Math.PI / 180))
-		player.x += Math.round(moveSpeed * Math.sin((player.angle - 90) * Math.PI / 180))
+		player.z += Math.round(moveSpeed * Math.cos((player.mouseX + 90) * Math.PI / 180))
+		player.x += Math.round(moveSpeed * Math.sin((player.mouseX - 90) * Math.PI / 180))
 	}
 	if (playerKeys.has("KeyS")) {
-		player.z += Math.round(moveSpeed * Math.cos(player.angle * Math.PI / 180))
-		player.x += Math.round(moveSpeed * Math.sin((player.angle + 180) * Math.PI / 180))
+		player.z += Math.round(moveSpeed * Math.cos(player.mouseX * Math.PI / 180))
+		player.x += Math.round(moveSpeed * Math.sin((player.mouseX + 180) * Math.PI / 180))
 	}
 	if (playerKeys.has("KeyD")) {
-		player.z += Math.round(moveSpeed * Math.cos((player.angle - 90) * Math.PI / 180));
-		player.x += Math.round(moveSpeed * Math.sin((player.angle + 90) * Math.PI / 180));
+		player.z += Math.round(moveSpeed * Math.cos((player.mouseX - 90) * Math.PI / 180));
+		player.x += Math.round(moveSpeed * Math.sin((player.mouseX + 90) * Math.PI / 180));
 	}
 	if (playerKeys.has("Space")) {
 		player.y += moveSpeed;
@@ -121,8 +119,30 @@ function movePlayer() {
 }
 
 function updateCamera() {
-	moveContainer.style.setProperty("--angle", player.angle + "deg")
+	// moveContainer.style.setProperty("--angle", player.angle + "deg")
 	moveContainer.style.setProperty("--x", player.x + "px")
 	moveContainer.style.setProperty("--z", player.z + "px")
 	moveContainer.style.setProperty("--y", player.y + "px")
+}
+
+document.body.onclick = () => !document.pointerLockElement && document.body.requestPointerLock({ unadjustedMovement: true });
+
+document.addEventListener("pointerlockerror", () => {
+	console.error("Error locking pointer");
+});
+
+document.addEventListener("pointerlockchange", () => {
+	if (document.pointerLockElement) {
+		document.addEventListener("mousemove", mouseMovement);
+	} else document.removeEventListener("mousemove", mouseMovement);
+});
+
+function mouseMovement(event) {
+	player.mouseX += event.movementX / 2;
+	player.mouseY -= event.movementY / 2;
+	if (player.mouseY > 90) player.mouseY = 90;
+	if (player.mouseY < -90) player.mouseY = -90;
+
+	camera.style.setProperty("--rotateX", player.mouseY + "deg");
+	camera.style.setProperty("--rotateY", player.mouseX + "deg");
 }
