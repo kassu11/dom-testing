@@ -145,26 +145,15 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/random-seed-numbers/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/random-seed-numbers/test-v1/">Demo</a>
 					</blockquote>
 				</li>
+				<li>readme-list-generator
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/readme-list-generator">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/readme-list-generator/">Demo</a>
+					</blockquote>
+				</li>
 				<li>shadow-DOM
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/shadow-DOM/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/shadow-DOM/test-v1/">Demo</a>
 					</blockquote>
-				</li>
-				<li>
-					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/showDirectoryPicker">📂</a> showDirectoryPicker</summary>
-						<ul>
-							<li>test-v1
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/showDirectoryPicker/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/showDirectoryPicker/test-v1/">Demo</a>
-								</blockquote>
-							</li>
-							<li>test-v2
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/showDirectoryPicker/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/showDirectoryPicker/test-v2/">Demo</a>
-								</blockquote>
-							</li>
-						</ul>
-					</details>
 				</li>
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API">📂</a> Web-Workers-API</summary>

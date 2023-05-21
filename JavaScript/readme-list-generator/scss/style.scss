@@ -1,0 +1,25 @@
+html {
+	color-scheme: light dark;
+}
+
+fieldset {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+
+pre {
+	tab-size: 2;
+	border: 2px solid lightgray;
+	border-style: groove;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-inline: 2px;
+	white-space: pre-wrap;
+}
+
+button {
+	height: max-content;
+	padding: 10px;
+}
