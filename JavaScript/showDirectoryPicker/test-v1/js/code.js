@@ -10,42 +10,43 @@ document.querySelector("button#open").addEventListener("click", async () => {
 	recursiveDirectorySearch(handle, undefined, 0, elems[1]);
 });
 
-async function recursiveDirectorySearch(folderHandler, path = "", depth = 0, elem = null) {
+async function recursiveDirectorySearch(folderHandler, path = "", depth = 0, elem = null, name = "") {
 	const contentArray = [];
 	let nextElementParent = elem;
 	for await (const entry of folderHandler.values()) {
 		contentArray.push(entry);
 	}
 
-
 	const hasIndexHtml = contentArray.some((entry) => entry.name === "index.html");
 	const folders = contentArray.filter((entry) => entry.kind === "directory" && validateFolder(entry.name));
 
 	if (hasIndexHtml) {
-		const elements = createProjectBlock(folderHandler.name, path, depth);
-		nextElementParent.after(...elements);
-		nextElementParent.remove();
+		const elements = createProjectBlock(name, path, depth);
+		elementsToMarker(elements, nextElementParent);
 	} else {
 		if (folders.length > 1 && depth > 0) {
 			const elements = createSummaryElement(folderHandler.name, path, depth);
 			depth += 2;
-			nextElementParent.after(...elements);
-			nextElementParent.remove();
+			elementsToMarker(elements, nextElementParent);
 			nextElementParent = elements.find((elem) => elem.textContent.startsWith("<marker>"));
 		} else if (folders.length === 1) {
 			const [folder] = folders;
-			recursiveDirectorySearch(folder, path + "/" + folder.name, depth, nextElementParent);
+			recursiveDirectorySearch(folder, path + "/" + folder.name, depth, nextElementParent, folderHandler.name);
 			return;
 		}
 		for (const folder of folders) {
 			const [startMarker, endMarker] = createLiContainer();
-			nextElementParent.after(startMarker, endMarker);
-			nextElementParent.remove();
-			recursiveDirectorySearch(folder, path + "/" + folder.name, depth + 1, startMarker);
+			elementsToMarker([startMarker, endMarker], nextElementParent)
+			recursiveDirectorySearch(folder, path + "/" + folder.name, depth + 1, startMarker, folder.name);
 			nextElementParent = endMarker;
 		}
 		nextElementParent.remove(); // Removes last endMarker
 	}
+}
+
+function elementsToMarker(elements, marker) {
+	marker.after(...elements);
+	marker.remove();
 }
 
 function validateFolder(name) {
@@ -57,16 +58,14 @@ function validateFolder(name) {
 }
 
 function createLiContainer() {
-	const elements = createPWithText([
+	return createPWithText([
 		[0, `<startMarker>`],
 		[0, "<endMarker>"],
 	]);
-
-	return elements;
 }
 
 function createSummaryElement(name, path, depth) {
-	const elements = createPWithText([
+	return createPWithText([
 		[depth, `<li>`],
 		[depth + 1, `<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main${path}">📂</a> ${name}</summary>`],
 		[depth + 2, `<ul>`],
@@ -75,20 +74,16 @@ function createSummaryElement(name, path, depth) {
 		[depth + 1, `</details>`],
 		[depth, `</li>`],
 	]);
-
-	return elements;
 }
 
 function createProjectBlock(name, path, depth) {
-	const elements = createPWithText([
+	return createPWithText([
 		[depth, `<li>${name}`],
 		[depth + 1, `<blockquote>`],
-		[depth + 2, `Links: <a href="https://github.com/kassu11/dom-testing/tree/main${path}">Code</a> & <a href="https://kassu11.github.io/dom-testing/${path}">Demo</a>`],
+		[depth + 2, `Links: <a href="https://github.com/kassu11/dom-testing/tree/main${path}">Code</a> & <a href="https://kassu11.github.io/dom-testing${path}/">Demo</a>`],
 		[depth + 1, `</blockquote>`],
 		[depth, `</li>`],
 	]);
-
-	return elements;
 }
 
 function createPWithText(texts) {

@@ -16,11 +16,11 @@
 📂 is a clickable link.
 
 <ul>
-  <li>
+	<li>
 		<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/CSS">📂</a> CSS</summary>
 			<ul>
 				<li>
-					<details open><summary><a href="https://kassu11.github.io/dom-testing/CSS/3d-transform/">📂</a> 3d-transform</summary>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/CSS/3d-transform">📂</a> 3d-transform</summary>
 						<ul>
 							<li>test-v1
 								<blockquote>
@@ -63,7 +63,7 @@
 		<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript">📂</a> JavaScript</summary>
 			<ul>
 				<li>
-					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/">📂</a> 3D-camera</summary>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera">📂</a> 3D-camera</summary>
 						<ul>
 							<li>test-v1
 								<blockquote>
@@ -169,12 +169,12 @@
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API">📂</a> Web-Workers-API</summary>
 						<ul>
-							<li>test-v1
+							<li>01-test
 								<blockquote>
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/01-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/01-test/">Demo</a>
 								</blockquote>
 							</li>
-							<li>test-v2
+							<li>02-test
 								<blockquote>
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/02-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/02-test/">Demo</a>
 								</blockquote>
