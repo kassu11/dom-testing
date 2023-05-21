@@ -1,113 +1,100 @@
 document.querySelector("button#open").addEventListener("click", async () => {
-	const folder = await openDirectory("readwrite");
-	console.log(folder);
+	const handle = await showDirectoryPicker({ mode: "read" });
+	const parent = document.querySelector("pre");
+	const elems = createPWithText([
+		[0, `<ul>`],
+		[0, "<marker>"],
+		[0, `</ul>`],
+	]);
+	parent.append(...elems);
+	recursiveDirectorySearch(handle, undefined, 0, elems[1]);
 });
 
-
-// async function getDir() {
-// 	console.log("??")
-// 	const dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
-// 	console.log(dirHandle);
-// 	console.log(dirHandle.entries());
-
-// 	// run code for dirHandle
-// }
-
-// async function returnPathDirectories(directoryHandle) {
-//   // Get a file handle by showing a file picker:
-//   const handle = await self.showOpenFilePicker();
-//   if (!handle) {
-//     // User cancelled, or otherwise failed to open a file.
-//     return;
-//   }
-
-//   // Check if handle exists inside directory our directory handle
-//   const relativePaths = await directoryHandle.resolve(handle);
-
-//   if (relativePath === null) {
-//     // Not inside directory handle
-//   } else {
-//     // relativePath is an array of names, giving the relative path
-
-//     for (const name of relativePaths) {
-//       // log each entry
-//       console.log(name);
-//     }
-//   }
-// }
-
-const openDirectory = async (mode = "read") => {
-	// Feature detection. The API needs to be supported
-	// and the app not run in an iframe.
-	const supportsFileSystemAccess =
-		"showDirectoryPicker" in window &&
-		(() => {
-			try {
-				return window.self === window.top;
-			} catch {
-				return false;
-			}
-		})();
-	// If the File System Access API is supported…
-	if (supportsFileSystemAccess) {
-		let directoryStructure = undefined;
-
-		// Recursive function that walks the directory structure.
-		const getFiles = async (dirHandle, path = dirHandle.name) => {
-			const dirs = [];
-			const files = [];
-			for await (const entry of dirHandle.values()) {
-				const nestedPath = `${path}/${entry.name}`;
-				if (entry.kind === "file") {
-					files.push(
-						entry.getFile().then((file) => {
-							file.directoryHandle = dirHandle;
-							file.handle = entry;
-							return Object.defineProperty(file, "webkitRelativePath", {
-								configurable: true,
-								enumerable: true,
-								get: () => nestedPath,
-							});
-						})
-					);
-				} else if (entry.kind === "directory") {
-					dirs.push(getFiles(entry, nestedPath));
-				}
-			}
-			return [
-				...(await Promise.all(dirs)).flat(),
-				...(await Promise.all(files)),
-			];
-		};
-
-		try {
-			// Open the directory.
-			const handle = await showDirectoryPicker({
-				mode,
-			});
-			// Get the directory structure.
-			directoryStructure = getFiles(handle, undefined);
-		} catch (err) {
-			if (err.name !== "AbortError") {
-				console.error(err.name, err.message);
-			}
-		}
-		return directoryStructure;
+async function recursiveDirectorySearch(folderHandler, path = "", depth = 0, elem = null) {
+	const contentArray = [];
+	let nextElementParent = elem;
+	for await (const entry of folderHandler.values()) {
+		contentArray.push(entry);
 	}
-	// Fallback if the File System Access API is not supported.
-	return new Promise((resolve) => {
-		const input = document.createElement('input');
-		input.type = 'file';
-		input.webkitdirectory = true;
 
-		input.addEventListener('change', () => {
-			let files = Array.from(input.files);
-			resolve(files);
-		});
-		if ('showPicker' in HTMLInputElement.prototype) {
-			input.showPicker();
-		} else {
-			input.click();
+
+	const hasIndexHtml = contentArray.some((entry) => entry.name === "index.html");
+	const folders = contentArray.filter((entry) => entry.kind === "directory" && validateFolder(entry.name));
+
+	if (hasIndexHtml) {
+		const elements = createProjectBlock(folderHandler.name, path, depth);
+		nextElementParent.after(...elements);
+		nextElementParent.remove();
+	} else {
+		if (folders.length > 1 && depth > 0) {
+			const elements = createSummaryElement(folderHandler.name, path, depth);
+			depth += 2;
+			nextElementParent.after(...elements);
+			nextElementParent.remove();
+			nextElementParent = elements.find((elem) => elem.textContent.startsWith("<marker>"));
+		} else if (folders.length === 1) {
+			const [folder] = folders;
+			recursiveDirectorySearch(folder, path + "/" + folder.name, depth, nextElementParent);
+			return;
 		}
+		for (const folder of folders) {
+			const [startMarker, endMarker] = createLiContainer();
+			nextElementParent.after(startMarker, endMarker);
+			nextElementParent.remove();
+			recursiveDirectorySearch(folder, path + "/" + folder.name, depth + 1, startMarker);
+			nextElementParent = endMarker;
+		}
+		nextElementParent.remove(); // Removes last endMarker
+	}
+}
+
+function validateFolder(name) {
+	if (name === ".git") return false;
+	if (name === "node_modules") return false;
+	if (name === "dist") return false;
+	if (name === "build") return false;
+	return true;
+}
+
+function createLiContainer() {
+	const elements = createPWithText([
+		[0, `<startMarker>`],
+		[0, "<endMarker>"],
+	]);
+
+	return elements;
+}
+
+function createSummaryElement(name, path, depth) {
+	const elements = createPWithText([
+		[depth, `<li>`],
+		[depth + 1, `<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main${path}">📂</a> ${name}</summary>`],
+		[depth + 2, `<ul>`],
+		[0, "<marker>"],
+		[depth + 2, `</ul>`],
+		[depth + 1, `</details>`],
+		[depth, `</li>`],
+	]);
+
+	return elements;
+}
+
+function createProjectBlock(name, path, depth) {
+	const elements = createPWithText([
+		[depth, `<li>${name}`],
+		[depth + 1, `<blockquote>`],
+		[depth + 2, `Links: <a href="https://github.com/kassu11/dom-testing/tree/main${path}">Code</a> & <a href="https://kassu11.github.io/dom-testing/${path}">Demo</a>`],
+		[depth + 1, `</blockquote>`],
+		[depth, `</li>`],
+	]);
+
+	return elements;
+}
+
+function createPWithText(texts) {
+	return texts.map(([indentation, text]) => {
+		const p = document.createElement("span");
+		p.textContent = `${"\t".repeat(indentation)}${text}\n`;
+		return p;
 	});
-};
+}
