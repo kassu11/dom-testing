@@ -21,7 +21,7 @@ const size = 250;
 const cameraOffset = size / 2;
 
 const camera = document.querySelector("#camera")
-const scane = document.querySelector("#scene")
+const scene = document.querySelector("#scene")
 
 for (let y = 0; y < map.length; y++) {
 	for (let x = 0; x < map[y].length; x++) {
@@ -52,7 +52,7 @@ function makeTile(x, y, dir, texture) {
 	else if (dir === "back") div.style.transform = `translate3d(${x * size + size}px, 0px, ${y * size}px) rotateY(180deg)`;
 	else if (dir === "front") div.style.transform = `translate3d(${x * size}px, 0px, ${y * size + size}px)`;
 	else div.style.transform = `translate3d(${x * size}px, 0px, ${y * size}px)`;
-	scane.append(div);
+	scene.append(div);
 }
 
 const player = {
@@ -113,8 +113,8 @@ function movePlayer() {
 }
 
 function updateCamera() {
-	scane.style.transformOrigin = `${player.x}px ${-player.y + cameraOffset}px ${player.z - cameraOffset}px`;
-	scane.style.transform = `translate3d(${-player.x}px, ${player.y - cameraOffset}px, ${-player.z + cameraOffset}px)`;
+	scene.style.transformOrigin = `${player.x}px ${-player.y + cameraOffset}px ${player.z - cameraOffset}px`;
+	scene.style.transform = `translate3d(${-player.x}px, ${player.y - cameraOffset}px, ${-player.z + cameraOffset}px)`;
 }
 
 document.body.onclick = () => !document.pointerLockElement && document.body.requestPointerLock({ unadjustedMovement: true });
