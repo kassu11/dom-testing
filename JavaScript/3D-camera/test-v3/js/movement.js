@@ -49,7 +49,10 @@ document.addEventListener("pointerlockerror", () => console.error("Error locking
 
 document.addEventListener("pointerlockchange", () => {
 	if (document.pointerLockElement) document.addEventListener("mousemove", mouseMovement);
-	else document.removeEventListener("mousemove", mouseMovement);
+	else {
+		document.removeEventListener("mousemove", mouseMovement);
+		userKeys.clear();
+	}
 });
 
 function mouseMovement(event) {
