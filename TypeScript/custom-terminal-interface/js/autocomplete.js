@@ -91,7 +91,7 @@ function updateIntellisense() {
         intellisense.index = 0;
         if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
             input.selectionStart = intellisense.renderedWord.length + 1;
-            input.selectionEnd = input.selectionStart + deltaSelection;
+            input.selectionEnd = input.selectionStart || 0 + deltaSelection;
         }
         else if (start > renderedWordLen) {
             input.selectionStart = start - autoTextLen;

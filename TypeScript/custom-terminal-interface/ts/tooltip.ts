@@ -14,7 +14,7 @@ tooltip.addEventListener("click", e => {
 
 function updateTooltip() {
 	tooltip.textContent = "";
-	intellisense.options.forEach((option, index: number) => {
+	intellisense.options.forEach((option: any, index: number) => {
 		const span = document.createElement("span");
 		span.setAttribute("data-index", index.toString());
 		if (index === intellisense.index) span.classList.add("selected");

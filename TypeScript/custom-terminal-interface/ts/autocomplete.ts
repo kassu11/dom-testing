@@ -76,7 +76,7 @@ function updateIntellisense() {
 	}
 
 	if (prevOptionLength !== intellisense.options.length) intellisense.index = 0;
-	intellisense.options.sort((a, b) => {
+	intellisense.options.sort((a: any, b: any) => {
 		const aValue = a.title || a.value;
 		const bValue = b.title || b.value;
 		return aValue.localeCompare(bValue);
@@ -93,7 +93,7 @@ function updateIntellisense() {
 
 		if (start > renderedWordLen && start <= renderedWordLen + autoTextLen) {
 			input.selectionStart = intellisense.renderedWord.length + 1;
-			input.selectionEnd = input.selectionStart + deltaSelection;
+			input.selectionEnd = input.selectionStart || 0 + deltaSelection;
 		} else if (start > renderedWordLen) {
 			input.selectionStart = start - autoTextLen;
 			input.selectionEnd = input.selectionStart + deltaSelection;
