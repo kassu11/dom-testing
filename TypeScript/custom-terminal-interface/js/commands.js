@@ -8,7 +8,7 @@ const colors = {
 };
 const commands = {
     help: {
-        help: "help [command] - Displays help for a command.",
+        help: "help - Displays more specific information about selected command.",
         commands: {
             index: {
                 list: [{ value: ["help"], next: "command" }],
@@ -18,9 +18,10 @@ const commands = {
             command: {
                 list: [{
                         get value() {
-                            return Object.keys(commands).map(key => key).filter(key => key !== "help");
+                            return Object.keys(commands).map(key => key);
                         }
                     }],
+                help: "[<command>]",
                 type: "optional",
                 color: colors.option,
             }
@@ -64,7 +65,7 @@ const commands = {
         }
     },
     give: {
-        help: "give [player] [item] [count] [data] [dataTag] - Gives an item to a player.",
+        help: "give - Gives an item to a player.",
         commands: {
             index: {
                 list: [{ value: ["give"], next: "selector" }],
@@ -104,7 +105,7 @@ const commands = {
         }
     },
     tp: {
-        help: "tp [player] [x] [y] [z] - Teleports a player to a location.",
+        help: "tp - Teleports a player to a specified location.",
         commands: {
             index: {
                 list: [{ value: ["tp"], next: "selector" }],
@@ -167,11 +168,11 @@ const commands = {
             textContentElem.textContent = "";
         },
     },
-    user: {
-        help: "user [action] [name] {values} - General user management command.",
+    player: {
+        help: "player - General player management command.",
         commands: {
             index: {
-                list: [{ value: ["user"], next: "second" }],
+                list: [{ value: ["player"], next: "second" }],
                 type: "required",
                 color: colors.argument
             },
@@ -194,19 +195,29 @@ const commands = {
                 color: colors.selector
             },
             modifyName: {
-                list: [{ value: ["name"], next: "uniqueName" }],
+                list: [{ value: ["name"], next: "uniqueName" }, { value: ["health"], next: "health" }],
                 type: "required",
                 help: "<property>",
                 color: colors.option
             },
             uniqueName: {
                 list: [{
-                        title: "<user name>",
-                        value: ["user_name"],
+                        title: "<player name>",
+                        value: ["player_name"],
                         match: (value) => value.length > 2 && users.every(user => user.name !== value)
                     }],
                 type: "required",
                 help: "<new name>",
+                color: colors.value
+            },
+            health: {
+                list: [{
+                        title: "<value>",
+                        value: ["50"],
+                        match: (value) => !isNaN(+value)
+                    }],
+                type: "required",
+                help: "<value>",
                 color: colors.value
             },
         },
@@ -217,42 +228,45 @@ const commands = {
                 return addErrorText(error);
             if (args[1] === "remove" || args[1] === "info") {
                 const selected = path[2].execute(args[2]);
-                for (const user of selected) {
+                for (const player of selected) {
                     if (args[1] === "remove") {
-                        users.splice(users.findIndex(u => u.name === user.name), 1);
-                        addText(`Removed user "${user.name}"`);
+                        users.splice(users.findIndex(u => u.name === player.name), 1);
+                        addText(`Removed player "${player.name}"`);
                     }
                     else if (args[1] === "info") {
-                        addText(`User "${user.name}":`);
-                        addText(`- Inventory: ${JSON.stringify(user.inventory)}`);
-                        addText(`- X: ${user.x}`);
-                        addText(`- Y: ${user.y}`);
-                        addText(`- Z: ${user.z}`);
+                        JSON.stringify(player, null, 2).split("\n").forEach(line => addText(line));
                     }
                 }
             }
             else if (args[1] === "add") {
                 users.push(new User(args[2]));
-                addText(`Added user "${args[2]}"`);
+                addText(`Added player "${args[2]}"`);
             }
             else if (args[1] === "modify") {
+                const selected = path[2].execute(args[2]);
                 if (args[3] === "name") {
-                    const selected = path[2].execute(args[2]);
                     const baseName = args[4];
                     if (selected.length === 1) {
-                        addText(`Changed user "${selected[0].name}" name to "${baseName}"`);
+                        addText(`Changed player "${selected[0].name}" name to "${baseName}"`);
                         selected[0].name = baseName;
                         return;
                     }
                     let counter = 1;
-                    main: for (const user of selected) {
+                    main: for (const player of selected) {
                         for (let i = 0; i < 100; i++) {
                             if (users.every(u => u.name !== baseName + counter)) {
-                                addText(`Changed user "${user.name}" name to "${baseName + counter}"`);
-                                user.name = `${baseName}${counter++}`;
+                                addText(`Changed player "${player.name}" name to "${baseName + counter}"`);
+                                player.name = `${baseName}${counter++}`;
                                 continue main;
                             }
                         }
+                    }
+                }
+                else if (args[3] === "health") {
+                    const value = +args[4];
+                    for (const player of selected) {
+                        player.hp = value;
+                        addText(`Changed player "${player.name}" health to "${value}"`);
                     }
                 }
             }
