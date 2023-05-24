@@ -75,6 +75,16 @@
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v2/">Demo</a>
 								</blockquote>
 							</li>
+							<li>test-v2-clean
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v2-clean">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v2-clean/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v3
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-camera/test-v3">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-camera/test-v3/">Demo</a>
+								</blockquote>
+							</li>
 						</ul>
 					</details>
 				</li>
@@ -87,6 +97,27 @@
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/detect-human-speech">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/detect-human-speech/">Demo</a>
 					</blockquote>
+				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally">📂</a> fill-tiles-optimally</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v3
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v3">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v3/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>heart-rate-from-signal
 					<blockquote>
