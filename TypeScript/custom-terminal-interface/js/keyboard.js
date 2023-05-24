@@ -6,8 +6,11 @@ window.addEventListener("keydown", e => {
         e.preventDefault();
         if (tooltip.textContent === "")
             openIntellisense();
-        else if (intellisense.options.length)
+        else if (intellisense.options.length) {
+            if (caretHistory.autocompleteLocation !== false)
+                moveIntellisense(e.shiftKey ? -1 : 1);
             fillInAutoComplite();
+        }
     }
     else if (e.key === "Escape") {
         removeAutocompliteText();
@@ -60,6 +63,7 @@ window.addEventListener("keydown", e => {
             return;
         intellisense.index += intellisense.options.length + 1 * directionMultipler;
         intellisense.index %= intellisense.options.length;
+        caretHistory.autocompleteLocation = false;
         removeAutocompliteText();
         updateCommandHightlight(true);
         updateTooltip();

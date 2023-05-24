@@ -3,7 +3,10 @@ window.addEventListener("keydown", e => {
 	else if (e.key === "Tab") {
 		e.preventDefault();
 		if (tooltip.textContent === "") openIntellisense();
-		else if (intellisense.options.length) fillInAutoComplite();
+		else if (intellisense.options.length) {
+			if (caretHistory.autocompleteLocation !== false) moveIntellisense(e.shiftKey ? -1 : 1);
+			fillInAutoComplite();
+		}
 	} else if (e.key === "Escape") {
 		removeAutocompliteText();
 		tooltip.textContent = "";
@@ -48,6 +51,7 @@ window.addEventListener("keydown", e => {
 
 		intellisense.index += intellisense.options.length + 1 * directionMultipler;
 		intellisense.index %= intellisense.options.length;
+		caretHistory.autocompleteLocation = false;
 
 		removeAutocompliteText();
 		updateCommandHightlight(true);

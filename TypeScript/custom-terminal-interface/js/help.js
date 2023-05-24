@@ -1,6 +1,10 @@
 "use strict";
 const commandHelpElem = document.querySelector("#commandHelp");
 function updateHelpText() {
+    if (!settings.commandStructureInfo) {
+        commandHelpElem.classList.add("hidden");
+        return;
+    }
     const commands = getInputValue().split(" ");
     const path = traceCommandPath(commands, true, false).filter((value) => value !== null);
     const selections = traceCommandPath(commands, true, true).filter((value) => value !== null);
@@ -40,7 +44,7 @@ function updateHelpText() {
     function nextPath(currentPath) {
         const next = [];
         currentPath?.list.forEach((listItem) => listItem.next && next.push(listItem.next));
-        if ("help" in currentPath)
+        if (currentPath && "help" in currentPath)
             helpTexts.push(currentPath.help);
         if (next.length === 0)
             return;

@@ -234,7 +234,7 @@ const commands = {
                         addText(`Removed player "${player.name}"`);
                     }
                     else if (args[1] === "info") {
-                        JSON.stringify(player, null, 2).split("\n").forEach(line => addText(line));
+                        JSON.stringify(player, null, 2).split("\n").forEach(line => addText(line.replaceAll('"', "")));
                     }
                 }
             }
@@ -271,6 +271,66 @@ const commands = {
                 }
             }
         },
+    },
+    settings: {
+        help: "settings - General settings about the terminal.",
+        commands: {
+            index: {
+                list: [{ value: ["settings"], next: "second" }],
+                type: "required",
+                color: colors.argument
+            },
+            second: {
+                list: [
+                    { value: ["commandStructureInfo"], next: "commandStructureInfo" },
+                    { value: ["hideIntellisenseBox"], next: "hideIntellisenseBox" },
+                    { value: ["closeIntellisenseAfterTab"], next: "closeIntellisenseAfterTab" },
+                    { value: ["smartIntellisense"], next: "smartIntellisense" },
+                ],
+                type: "required",
+                help: "<property>",
+                color: colors.option
+            },
+            commandStructureInfo: {
+                list: [{ value: ["true"] }, { value: ["false"] }],
+                type: "optional",
+                help: "[<boolean>]",
+                color: colors.value
+            },
+            hideIntellisenseBox: {
+                list: [{ value: ["true"] }, { value: ["false"] }],
+                type: "optional",
+                help: "[<boolean>]",
+                color: colors.value
+            },
+            closeIntellisenseAfterTab: {
+                list: [{ value: ["true"] }, { value: ["false"] }],
+                type: "optional",
+                help: "[<boolean>]",
+                color: colors.value
+            },
+            smartIntellisense: {
+                list: [{ value: ["true"] }, { value: ["false"] }],
+                type: "optional",
+                help: "[<boolean>]",
+                color: colors.value
+            },
+        },
+        execute(...args) {
+            const path = traceCommandPath(args, true, true);
+            const error = hasErrors(args, path, this);
+            if (error)
+                return addErrorText(error);
+            // @ts-ignore
+            if (args.length === 2)
+                addText(`${args[1]}: ${settings[args[1]]}`);
+            else if (args[1] in settings) {
+                // @ts-ignore
+                settings[args[1]] = args[2] === "true";
+                addText(`Changed ${args[1]} to ${args[2]}`);
+                localStorage.setItem("terminalSettings", JSON.stringify(settings));
+            }
+        }
     }
 };
 //# sourceMappingURL=commands.js.map

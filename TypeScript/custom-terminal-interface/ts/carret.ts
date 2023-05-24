@@ -1,6 +1,7 @@
 const caretHistory = {
 	"lastMoved": performance.now(),
 	"lastPosition": 0,
+	"autocompleteLocation": 0 as number | false
 }
 
 function updateCaret(intellisense: any = true) {
@@ -8,6 +9,7 @@ function updateCaret(intellisense: any = true) {
 	if (input.selectionStart !== caretHistory.lastPosition) {
 		caretHistory.lastMoved = performance.now();
 		caretHistory.lastPosition = input.selectionStart || 0;
+		if (caretHistory.autocompleteLocation !== caretHistory.lastPosition) caretHistory.autocompleteLocation = false;
 		if (intellisense) updateIntellisense();
 		caret.classList.remove("idle")
 		caret.style.setProperty("--left", Math.floor(caret.getBoundingClientRect().width - input.scrollLeft) + "px");

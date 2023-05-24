@@ -1,6 +1,10 @@
 const commandHelpElem = document.querySelector("#commandHelp") as HTMLPreElement;
 
 function updateHelpText() {
+	if (!settings.commandStructureInfo) {
+		commandHelpElem.classList.add("hidden");
+		return;
+	}
 	const commands = getInputValue().split(" ");
 	const path = traceCommandPath(commands, true, false).filter((value: any) => value !== null);
 	const selections = traceCommandPath(commands, true, true).filter((value: any) => value !== null);
@@ -37,7 +41,7 @@ function updateHelpText() {
 	function nextPath(currentPath: any): any {
 		const next: string[] = []
 		currentPath?.list.forEach((listItem: any) => listItem.next && next.push(listItem.next))
-		if ("help" in currentPath) helpTexts.push(currentPath.help)
+		if (currentPath && "help" in currentPath) helpTexts.push(currentPath.help)
 
 		if (next.length === 0) return
 		if (next.every((value: string) => value === next[0])) return nextPath(baseCommands[next[0]])

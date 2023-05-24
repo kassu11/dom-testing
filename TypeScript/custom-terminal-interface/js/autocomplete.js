@@ -20,7 +20,11 @@ function moveIntellisenseBox() {
     tooltip.style.left = Math.min(Math.max(16, value), maxValue) + "px";
 }
 function updateIntellisense() {
-    const currentCommand = input.value.substring(0, input.selectionStart || 0).split(" ");
+    tooltip.classList.toggle("hidden", settings.hideIntellisenseBox);
+    const actWordEndIndex = input.value.indexOf(" ", (input.selectionStart || 0));
+    const currentCommand = settings.hideIntellisenseBox || settings.smartIntellisense ?
+        input.value.substring(0, actWordEndIndex === -1 ? input.value.length : actWordEndIndex).split(" ") :
+        input.value.substring(0, input.selectionStart || 0).split(" ");
     const prevOptionLength = intellisense.options.length;
     //@ts-ignore
     intellisense.command = commands[currentCommand[0]]; // can be undefined if one argument is given
@@ -89,11 +93,14 @@ function updateIntellisense() {
         commandHelpElem.classList.add("hidden");
     intellisense.renderedWordNumber = currentCommand.length;
     intellisense.renderedWord = currentCommand.join(" ");
-    moveIntellisenseBox();
+    if (!settings.hideIntellisenseBox)
+        moveIntellisenseBox();
 }
 function fillInAutoComplite() {
     removeAutocompliteText();
     updateCaret(false);
+    if (settings.closeIntellisenseAfterTab)
+        tooltip.textContent = "";
     const lastSpaceIndex = input.value.indexOf(" ", input.selectionStart || 0);
     const lastSpace = lastSpaceIndex === -1 ? input.value.length : lastSpaceIndex;
     const startText = input.value.substring(0, lastSpace);
@@ -105,6 +112,7 @@ function fillInAutoComplite() {
     intellisense.renderedWord = input.value.substring(0, input.selectionStart || 0);
     updateCommandHightlight(true);
     carretIntoView();
+    caretHistory.autocompleteLocation = caretHistory.lastPosition;
 }
 function validCommands(terminalCommands) {
     const path = traceCommandPath(terminalCommands, false);

@@ -2,12 +2,15 @@
 const caretHistory = {
     "lastMoved": performance.now(),
     "lastPosition": 0,
+    "autocompleteLocation": 0
 };
 function updateCaret(intellisense = true) {
     caret.textContent = input.value.substring(0, input.selectionStart || 0);
     if (input.selectionStart !== caretHistory.lastPosition) {
         caretHistory.lastMoved = performance.now();
         caretHistory.lastPosition = input.selectionStart || 0;
+        if (caretHistory.autocompleteLocation !== caretHistory.lastPosition)
+            caretHistory.autocompleteLocation = false;
         if (intellisense)
             updateIntellisense();
         caret.classList.remove("idle");

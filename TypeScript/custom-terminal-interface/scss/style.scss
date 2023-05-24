@@ -73,6 +73,10 @@
 	}
 }
 
+.hidden {
+	display: none;
+}
+
 body {
 	position: absolute;
 	background: #0c0c0c;
@@ -256,7 +260,6 @@ body {
 	bottom: 45px;
 	background-color: black;
 
-	&.hidden,
 	&:empty {
 		display: none;
 	}
