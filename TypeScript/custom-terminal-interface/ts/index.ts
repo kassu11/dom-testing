@@ -20,16 +20,16 @@ input.addEventListener("scroll", () => {
 }, { passive: true });
 
 function submitCommand() {
-	const left = commandHighlight.querySelector(".left")
-	const right = commandHighlight.querySelector(".right")
+	const left = commandHighlight.querySelector(".left")!;
+	const right = commandHighlight.querySelector(".right")!;
 
 	colorHighlight();
 
-	if (left) textContentElem.append(left)
-	if (right) {
-		textContentElem.append(right)
-		right.innerHTML += "\n"
-	}
+	const submitContainer = document.createElement("div");
+	submitContainer.classList.add("command");
+	submitContainer.append(left, right)
+
+	textContentElem.append(submitContainer);
 
 	const rootKey = input.value.split(" ")[0]
 	const commandIndex = commandSubmitHistory.indexOf(input.value)
@@ -43,6 +43,8 @@ function submitCommand() {
 		addErrorText(`Type "help" for more information.`)
 	}
 
+	addErrorText("");
+
 	commandSubmitHistoryIndex = -1;
 	commandSubmitHistoryCurrent = null;
 	input.value = "";
@@ -51,7 +53,7 @@ function submitCommand() {
 	intellisense.renderedWord = "";
 	updateCommandHightlight(true)
 	updateCaret(false);
-	window.scrollBy(0, document.body.scrollHeight);
+	textContentElem.scrollBy(0, textContentElem.scrollHeight);
 }
 
 input.addEventListener("beforeinput", (beforeInputEvent: InputEvent) => {
@@ -95,4 +97,10 @@ function destructure(obj: any, obj2: any) {
 	);
 
 	return Object.assign(copy, obj2);
-} 
+}
+
+addText("#######################")
+addText("#                     #")
+addText("#   Custom Terminal   #")
+addText("#                     #")
+addText("#######################")

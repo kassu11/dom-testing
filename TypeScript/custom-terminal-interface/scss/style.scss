@@ -1,63 +1,125 @@
+::-webkit-scrollbar {
+	border-radius: 15px;
+	width: 12px;
+	height: 12px;
+
+	&-corner {
+		background: transparent
+	}
+}
+
+::-webkit-scrollbar-track:vertical {
+	background: transparent;
+
+	&:hover {
+		border-inline: 2px solid #171717;
+		border-radius: 15px;
+		background:
+			linear-gradient(60deg, #171717 5px, transparent 5px, transparent calc(100% - 5px), #171717 calc(100% - 5px)),
+			linear-gradient(300deg, #171717 5px, transparent 5px, transparent calc(100% - 5px), #171717 calc(100% - 5px)),
+			linear-gradient(0deg, #959595 9px, transparent 9px, transparent calc(100% - 9px), #959595 calc(100% - 9px)),
+			#171717; // Draws arrows
+	}
+}
+
+::-webkit-scrollbar-thumb:vertical {
+	border-right: 3px solid transparent; // right margin
+	border-top: 13px solid transparent; // top margin
+	border-bottom: 13px solid transparent; // top margin
+	box-shadow: inset -2px 0px 0px 0px #959595;
+	border-radius: 15px;
+
+	&:hover {
+		background:
+			radial-gradient(circle closest-side at 3px calc(100% - 18px), #959595 95%, transparent),
+			radial-gradient(circle closest-side at 3px 18px, #959595 95%, transparent),
+			linear-gradient(0deg, transparent 18px, #959595 18px, #959595 calc(100% - 18px), transparent calc(100% - 18px));
+		border: none;
+		border-inline: 3px solid #171717;
+		box-shadow: none;
+	}
+}
+
+
+::-webkit-scrollbar-track:horizontal {
+	background: transparent;
+
+	&:hover {
+		border-block: 2px solid #171717;
+		border-radius: 15px;
+		background:
+			linear-gradient(150deg, #171717 5px, transparent 5px, transparent calc(100% - 5px), #171717 calc(100% - 5px)),
+			linear-gradient(390deg, #171717 5px, transparent 5px, transparent calc(100% - 5px), #171717 calc(100% - 5px)),
+			linear-gradient(90deg, #959595 9px, transparent 9px, transparent calc(100% - 9px), #959595 calc(100% - 9px)),
+			#171717; // Draws arrows
+	}
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+	border-top: 3px solid transparent; // right margin
+	border-right: 13px solid transparent; // top margin
+	border-left: 13px solid transparent; // top margin
+	box-shadow: inset 0px 2px 0px 0px #959595;
+	border-radius: 15px;
+
+	&:hover {
+		background:
+			radial-gradient(circle closest-side at calc(100% - 18px) 3px, #959595 95%, transparent),
+			radial-gradient(circle closest-side at 18px 3px, #959595 95%, transparent),
+			linear-gradient(90deg, transparent 18px, #959595 18px, #959595 calc(100% - 18px), transparent calc(100% - 18px));
+		border: none;
+		border-block: 3px solid #171717;
+		box-shadow: none;
+	}
+}
+
 body {
 	position: absolute;
 	background: #0c0c0c;
 	font-size: 1.5rem;
 	color: #cccccc;
 	inset: 0px;
-	display: grid;
+	margin: 0px;
 
 	img.bg {
 		position: fixed;
-		object-fit: cover;
-		width: 100%;
-		height: 100%;
 		inset: 0px;
+		opacity: .25;
+		object-fit: cover;
 		pointer-events: none;
 		user-select: none;
-		opacity: .25;
 	}
 
-	input {
+	#terminalContainer {
 		position: relative;
-		background: none;
-		border: none;
-		outline: none;
-		caret: none;
-		caret-color: transparent;
-		color: transparent;
-		left: 0px;
-		width: calc(100% - 5px);
-		padding: 0px;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		gap: 5px;
+		padding-bottom: 10px;
 		box-sizing: border-box;
+		flex-direction: column;
+		overflow: hidden;
 
-		&::selection {
-			background-color: rgba(195, 0, 255, 0.25);
-			color: rgba(255, 255, 255, 0.5);
-			text-decoration: underline;
-			text-shadow:
-				black 0px 0px 3px,
-				black 0px 0px 3px,
-				black 0px 0px 3px,
-				black 0px 0px 3px;
-		}
-	}
-
-	#textContent {
-		position: relative;
-		word-wrap: break-word;
-		white-space: pre-wrap;
-		margin-top: auto;
-		margin-bottom: 35px;
-		word-break: break-word;
-
-		.commandText {
-			background-color: green;
+		#textContent {
+			position: relative;
+			height: 100%;
+			overflow: auto;
+			word-wrap: break-word;
+			white-space: pre-wrap;
+			padding: 10px;
 			color: white;
-		}
 
-		.error {
-			background-color: red;
-			color: white
+			.command {
+				background: #00000082;
+				padding: 5px 10px;
+				margin-bottom: 5px;
+			}
+
+			.error {
+				background-color: rgba(255, 0, 0, 0.1);
+				color: red
+			}
 		}
 	}
 
@@ -67,11 +129,6 @@ body {
 		font-family: monospace;
 		font-size: 1.5rem;
 	}
-}
-
-#terminalContainer {
-	position: relative;
-	margin-top: auto;
 }
 
 .highlightContainer {
@@ -96,20 +153,48 @@ body {
 }
 
 #commandInterfaceContainer {
-	position: sticky;
+	position: relative;
+	width: calc(100% - 20px);
+	margin-inline: auto;
 	bottom: 0px;
 	flex-shrink: 0;
 	padding: 3px 8px;
+	box-sizing: border-box;
 	background-color: rgba(0, 0, 0, 0.4);
 
 	.container {
 		position: relative;
 		overflow: hidden;
-	}
 
-	pre {
-		pointer-events: none;
-		user-select: none;
+		pre {
+			pointer-events: none;
+			user-select: none;
+		}
+
+		input {
+			position: relative;
+			background: none;
+			border: none;
+			outline: none;
+			caret: none;
+			caret-color: transparent;
+			color: transparent;
+			left: 0px;
+			width: calc(100% - 5px);
+			padding: 0px;
+			box-sizing: border-box;
+
+			&::selection {
+				background-color: rgba(195, 0, 255, 0.25);
+				color: rgba(255, 255, 255, 0.5);
+				text-decoration: underline;
+				text-shadow:
+					black 0px 0px 3px,
+					black 0px 0px 3px,
+					black 0px 0px 3px,
+					black 0px 0px 3px;
+			}
+		}
 	}
 }
 
@@ -149,7 +234,6 @@ body {
 	}
 
 	span {
-		position: relative;
 		cursor: pointer;
 		width: 100%;
 		display: block;
@@ -170,10 +254,7 @@ body {
 	bottom: 45px;
 	background-color: black;
 
-	&.hidden {
-		display: none;
-	}
-
+	&.hidden,
 	&:empty {
 		display: none;
 	}
@@ -190,9 +271,5 @@ body {
 
 	50% {
 		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
 	}
 }

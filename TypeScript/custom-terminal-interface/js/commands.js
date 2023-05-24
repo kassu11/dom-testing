@@ -12,7 +12,8 @@ const commands = {
         commands: {
             index: {
                 list: [{ value: ["help"], next: "command" }],
-                type: "required"
+                type: "required",
+                color: colors.argument,
             },
             command: {
                 list: [{
@@ -21,16 +22,45 @@ const commands = {
                         }
                     }],
                 type: "optional",
+                color: colors.option,
             }
         },
         execute(...args) {
+            const path = traceCommandPath(args, true, true);
+            const error = hasErrors(args, path, this);
+            if (error)
+                return addErrorText(error);
             if (args.length === 1) {
                 Object.values(commands).forEach((value) => {
                     if (value.help)
                         addText(value.help);
                 });
             }
-            console.log(args);
+            else {
+                // @ts-ignore
+                const command = commands[args[1]];
+                addText(command.help);
+                addText("\nCommand structure:");
+                console.log(command);
+                recursion(args[1], command.commands[command.commands.index.list[0].next]);
+                function recursion(text, curCommand) {
+                    const paths = [];
+                    if (!curCommand)
+                        return addText(text);
+                    const count = new Set(curCommand.list.map((list) => list?.next ?? "")).size;
+                    if (count > 1)
+                        addText(text + ` ${curCommand.help} ...`);
+                    curCommand?.list.forEach((list) => {
+                        if (paths.includes(list.next))
+                            return;
+                        paths.push(list.next);
+                        if (count > 1)
+                            recursion(text + ` ${list.value[0]}`, command.commands[list.next]);
+                        else
+                            recursion(text + ` ${curCommand.help}`, command.commands[list.next]);
+                    });
+                }
+            }
         }
     },
     give: {
