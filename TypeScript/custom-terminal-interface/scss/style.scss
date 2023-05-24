@@ -117,8 +117,10 @@ body {
 			}
 
 			.error {
-				background-color: rgba(255, 0, 0, 0.1);
-				color: red
+				background-color: rgb(50 0 0 / 56%);
+				color: red;
+				text-shadow: 0 0 3px black;
+				font-weight: 600;
 			}
 		}
 	}
