@@ -20,16 +20,18 @@ input.addEventListener("scroll", () => {
 }, { passive: true });
 
 function submitCommand() {
-	const left = commandHighlight.querySelector(".left")!;
-	const right = commandHighlight.querySelector(".right")!;
+	const left = commandHighlight.querySelector(".left");
+	const right = commandHighlight.querySelector(".right");
 
 	colorHighlight();
 
-	const submitContainer = document.createElement("div");
+	const submitContainer = document.createElement("div") as HTMLDivElement;
 	submitContainer.classList.add("command");
-	submitContainer.append(left, right)
+	if (left) submitContainer.append(left);
+	if (right) submitContainer.append(right);
 
-	textContentElem.append(submitContainer);
+	// @ts-ignore
+	if (submitContainer.textContent.length > 0) textContentElem.append(submitContainer);
 
 	const rootKey = input.value.split(" ")[0]
 	const commandIndex = commandSubmitHistory.indexOf(input.value)

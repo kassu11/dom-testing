@@ -22,8 +22,13 @@ function submitCommand() {
     colorHighlight();
     const submitContainer = document.createElement("div");
     submitContainer.classList.add("command");
-    submitContainer.append(left, right);
-    textContentElem.append(submitContainer);
+    if (left)
+        submitContainer.append(left);
+    if (right)
+        submitContainer.append(right);
+    // @ts-ignore
+    if (submitContainer.textContent.length > 0)
+        textContentElem.append(submitContainer);
     const rootKey = input.value.split(" ")[0];
     const commandIndex = commandSubmitHistory.indexOf(input.value);
     if (commandIndex !== -1)
