@@ -264,6 +264,18 @@ body {
 	span {
 		padding-inline: 5px;
 	}
+
+	.selected {
+		text-decoration: underline;
+	}
+
+	.done {
+		opacity: .5;
+	}
+
+	.error {
+		color: red;
+	}
 }
 
 @keyframes caret {

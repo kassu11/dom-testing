@@ -2,8 +2,8 @@ const commandHelpElem = document.querySelector("#commandHelp") as HTMLPreElement
 
 function updateHelpText() {
 	const commands = getInputValue().split(" ");
-	const path = traceCommandPath(commands, false, false).filter((value: any) => value !== null);
-	const selections = traceCommandPath(commands, false, true).filter((value: any) => value !== null);
+	const path = traceCommandPath(commands, true, false).filter((value: any) => value !== null);
+	const selections = traceCommandPath(commands, true, true).filter((value: any) => value !== null);
 	if (path.length === 0) return;
 
 	const baseCommands = intellisense.command?.commands;
@@ -27,6 +27,9 @@ function updateHelpText() {
 
 		const span = document.createElement("span");
 		if (prevHelpText) span.style.marginLeft = `${delta}px`;
+		if (intellisense.renderedWordNumber - 2 === index) span.classList.add("selected");
+		else if (commands[index + 1] && !path[index + 1] && path[index]) span.classList.add("error") // @ts-ignore
+		else if (commands[index + 1]) span.classList.add("done")
 		span.textContent = value;
 		commandHelpElem.append(span);
 	});
