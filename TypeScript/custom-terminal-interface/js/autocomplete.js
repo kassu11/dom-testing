@@ -1,13 +1,25 @@
 "use strict";
 const tooltip = document.getElementById("tooltip");
 const autocorrect = document.getElementById("autocorrect");
-const intellisense = {
+const intellisenseHandler = {
+    get(target, key) {
+        return target[key];
+    },
+    set(target, key, value) {
+        if (key === "renderedWordNumber" && target[key] !== value) {
+            target[key] = value;
+            updateHelpText();
+        }
+        return Reflect.set(target, key, value);
+    }
+};
+const intellisense = new Proxy({
     "index": 0,
     "options": [],
     "renderedWordNumber": 0,
     "command": "",
     "renderedWord": ""
-};
+}, intellisenseHandler);
 function moveIntellisenseBox() {
     const intellisenseWord = commandHighlight.querySelector(`span[data-index="${intellisense.renderedWordNumber - 1}"]`);
     if (!intellisenseWord)

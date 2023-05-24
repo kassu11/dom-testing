@@ -1,12 +1,24 @@
 const tooltip = document.getElementById("tooltip") as HTMLPreElement;
 const autocorrect = document.getElementById("autocorrect") as HTMLPreElement;
-const intellisense = {
+const intellisenseHandler = {
+	get(target: any, key: string) {
+		return target[key];
+	},
+	set(target: any, key: string, value: any) {
+		if (key === "renderedWordNumber" && target[key] !== value) {
+			target[key] = value;
+			updateHelpText();
+		}
+		return Reflect.set(target, key, value);
+	}
+}
+const intellisense = new Proxy({
 	"index": 0,
 	"options": [] as any[],
 	"renderedWordNumber": 0,
 	"command": "" as any,
 	"renderedWord": "" as string
-}
+}, intellisenseHandler);
 
 function moveIntellisenseBox() {
 	const intellisenseWord = commandHighlight.querySelector(`span[data-index="${intellisense.renderedWordNumber - 1}"]`);
