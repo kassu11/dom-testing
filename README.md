@@ -98,6 +98,11 @@
 						</ul>
 					</details>
 				</li>
+				<li>coding-challenges
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/coding-challenges/challenge-01">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/coding-challenges/challenge-01/">Demo</a>
+					</blockquote>
+				</li>
 				<li>destructuring-test
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/destructuring-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/destructuring-test/">Demo</a>
