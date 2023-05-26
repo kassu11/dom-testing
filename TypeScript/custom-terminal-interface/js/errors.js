@@ -13,7 +13,7 @@ function hasErrors(commands, path, baseCommand) {
         return customError;
     if (path[errorIndex - 1]?.next == null && commands[errorIndex - 1]) {
         const extra = commands.slice(errorIndex).join(" ");
-        return `The command is too long. Fix this by removing "${extra.length || ' '}" after "${commands[errorIndex - 1]}".`;
+        return `The command is too long. Fix this by removing "${extra.length ? extra : ' '}" after "${commands[errorIndex - 1]}".`;
     }
     if (baseCommand.commands[lastValidKey]?.type === "required") {
         if (commands[errorIndex]?.length)
@@ -21,7 +21,7 @@ function hasErrors(commands, path, baseCommand) {
         return `Part of the command is missing, continue by adding ${baseCommand.commands[lastValidKey].help}`;
     }
     if (errorIndex !== -1 && commands[errorIndex].length === 0)
-        return `Remove emtry space!`;
+        return `Remove empty space!`;
     if (errorIndex !== -1)
         return `Invalid argument "${commands[errorIndex]}"!`;
 }

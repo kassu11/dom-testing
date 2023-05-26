@@ -133,34 +133,34 @@ const commands = {
 				}
 			},
 			xCords: {
-				list: [{ ...commandArguments["cordinates"], next: "yCords" }],
+				list: [{ ...commandArguments["coordinates"], next: "yCords" }],
 				type: "required",
 				help: "<x>",
 				color: colors.value,
 				error(command: string) {
-					if (command.length === 0) return "X cordinate is missing!"
+					if (command.length === 0) return "X coordinate is missing!"
 					if (command.startsWith("~")) return `"${command.slice(1)}" is not a number!`;
 					return `"${command}" is not a number!`
 				}
 			},
 			yCords: {
-				list: [{ ...commandArguments["cordinates"], next: "zCords" }],
+				list: [{ ...commandArguments["coordinates"], next: "zCords" }],
 				type: "required",
 				help: "<y>",
 				color: colors.value,
 				error(command: string) {
-					if (command.length === 0) return "Y cordinate is missing!"
+					if (command.length === 0) return "Y coordinate is missing!"
 					if (command.startsWith("~")) return `"${command.slice(1)}" is not a number!`;
 					return `"${command}" is not a number!`
 				}
 			},
 			zCords: {
-				list: [{ ...commandArguments["cordinates"] }],
+				list: [{ ...commandArguments["coordinates"] }],
 				type: "required",
 				help: "<z>",
 				color: colors.value,
 				error(command: string) {
-					if (command.length === 0) return "Z cordinate is missing!"
+					if (command.length === 0) return "Z coordinate is missing!"
 					if (command.startsWith("~")) return `"${command.slice(1)}" is not a number!`;
 					return `"${command}" is not a number!`
 				}
