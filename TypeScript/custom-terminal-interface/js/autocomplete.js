@@ -13,13 +13,14 @@ const intellisenseHandler = {
         return Reflect.set(target, key, value);
     }
 };
-const intellisense = new Proxy({
+const intellisenseObj = {
     "index": 0,
     "options": [],
     "renderedWordNumber": 0,
     "command": "",
     "renderedWord": ""
-}, intellisenseHandler);
+};
+const intellisense = new Proxy(intellisenseObj, intellisenseHandler);
 function moveIntellisenseBox() {
     const intellisenseWord = commandHighlight.querySelector(`span[data-index="${intellisense.renderedWordNumber - 1}"]`);
     if (!intellisenseWord)

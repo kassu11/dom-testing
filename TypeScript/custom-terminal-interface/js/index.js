@@ -39,8 +39,8 @@ function submitCommand() {
     commands[rootKey]?.execute?.(...input.value.split(" "));
     // @ts-ignore
     if (!("execute" in (commands[rootKey] || {})) && input.value.length) {
-        addErrorText(`Command "${rootKey}" not found`);
-        addErrorText(`Type "help" for more information.`);
+        addErrorText(`Command "${rootKey}" is not supported!`);
+        addErrorText(`Type "help" to see all supported commands.`);
     }
     addErrorText("");
     commandSubmitHistoryIndex = -1;

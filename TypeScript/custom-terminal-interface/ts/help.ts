@@ -5,10 +5,11 @@ function updateHelpText() {
 		commandHelpElem.classList.add("hidden");
 		return;
 	}
-	const commands = getInputValue().split(" ");
-	const path = traceCommandPath(commands, true, false).filter((value: any) => value !== null);
-	const selections = traceCommandPath(commands, true, true).filter((value: any) => value !== null);
-	if (path.length === 0) return;
+	const currentCommands = getInputValue().split(" ");
+	const path = traceCommandPath(currentCommands, true, false).filter((value: any) => value !== null);
+	const selections = traceCommandPath(currentCommands, true, true).filter((value: any) => value !== null);
+	// @ts-ignore
+	if (path.length === 0 || commands[currentCommands[0]] == null) return;
 
 	const baseCommands = intellisense.command?.commands;
 	const helpTexts: string[] = [];
@@ -20,7 +21,7 @@ function updateHelpText() {
 	commandHelpElem.textContent = ""
 	const firstElem = commandHighlight.querySelector(`span[data-index="0"]`);
 	const right = firstElem?.getBoundingClientRect().right || 0
-	if (commands[1]) commandHelpElem.style.left = `${right - 10}px`;
+	if (currentCommands[1]) commandHelpElem.style.left = `${right - 10}px`;
 	else commandHelpElem.style.left = `${right}px`;
 	helpTexts.forEach((value, index) => {
 		const prevCommandElem = commandHighlight.querySelector(`span[data-index="${index}"]`);
@@ -32,8 +33,8 @@ function updateHelpText() {
 		const span = document.createElement("span");
 		if (prevHelpText) span.style.marginLeft = `${delta}px`;
 		if (intellisense.renderedWordNumber - 2 === index) span.classList.add("selected");
-		else if (commands[index + 1] && !path[index + 1] && path[index]) span.classList.add("error") // @ts-ignore
-		else if (commands[index + 1]) span.classList.add("done")
+		else if (currentCommands[index + 1] && !path[index + 1] && path[index]) span.classList.add("error") // @ts-ignore
+		else if (currentCommands[index + 1]) span.classList.add("done")
 		span.textContent = value;
 		commandHelpElem.append(span);
 	});

@@ -75,7 +75,7 @@ window.addEventListener("keydown", e => {
     if (e.altKey || e.ctrlKey || e.metaKey)
         return;
     if (e.key.includes("Arrow"))
-        return;
+        return input.focus();
     if (e.key === "Shift")
         return;
     if (document.activeElement !== input)

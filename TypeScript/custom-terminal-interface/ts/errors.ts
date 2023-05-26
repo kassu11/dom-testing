@@ -7,9 +7,20 @@ function addErrorText(text: string) {
 
 function hasErrors(commands: string[], path: any[], baseCommand: any) {
 	const errorIndex = path.findIndex(p => p === null)
-	const lastKey = (path.at(-1)?.next || "") as any
-	if (errorIndex !== -1) return `Invalid argument "${commands[errorIndex]}"`
-	else if (baseCommand.commands[lastKey]?.type === "required") return "Give more arguments"
+	const lastValidKey = (path.findLast(p => p !== null)?.next || "") as string;
+
+	const customError = baseCommand.commands[lastValidKey]?.error?.(commands[errorIndex] ?? "") ?? "";
+	if (customError && (baseCommand.commands[lastValidKey]?.type !== "optional" || commands[errorIndex]?.length)) return customError;
+	if (path[errorIndex - 1]?.next == null && commands[errorIndex - 1]) {
+		const extra = commands.slice(errorIndex).join(" ");
+		return `The command is too long. Fix this by removing "${extra.length || ' '}" after "${commands[errorIndex - 1]}".`
+	}
+	if (baseCommand.commands[lastValidKey]?.type === "required") {
+		if (commands[errorIndex]?.length) return `Expected ${baseCommand.commands[lastValidKey].help} but got "${commands[errorIndex]}".`
+		return `Part of the command is missing, continue by adding ${baseCommand.commands[lastValidKey].help}`
+	}
+	if (errorIndex !== -1 && commands[errorIndex].length === 0) return `Remove emtry space!`
+	if (errorIndex !== -1) return `Invalid argument "${commands[errorIndex]}"!`
 }
 
 const helpTextObserver = new MutationObserver((mutationList) => {

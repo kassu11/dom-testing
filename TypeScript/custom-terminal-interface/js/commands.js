@@ -24,6 +24,9 @@ const commands = {
                 help: "[<command>]",
                 type: "optional",
                 color: colors.option,
+                error(command) {
+                    return `Command "${command}" is not supported! Type "help" to see all supported commands.`;
+                }
             }
         },
         execute(...args) {
@@ -77,6 +80,13 @@ const commands = {
                 type: "required",
                 help: "<selector>",
                 color: colors.selector,
+                error(command) {
+                    if (command.length === 0)
+                        return "Selector is missing!";
+                    if (command.startsWith("@"))
+                        return `Selector "${command}" is not supported!`;
+                    return `Player "${command}" does not exist!`;
+                }
             },
             item: {
                 list: [{ value: ["apple"], next: "amount" }, { value: ["sword"], next: "amount" }],
@@ -88,7 +98,10 @@ const commands = {
                 list: [{ title: "<amount>", value: ["1"], match: (value) => !isNaN(+(value)) }],
                 type: "optional",
                 help: "[<amount>]",
-                color: colors.value
+                color: colors.value,
+                error(command) {
+                    return `"${command}" is not a number!`;
+                }
             },
         },
         execute(...args) {
@@ -118,25 +131,53 @@ const commands = {
                 type: "required",
                 help: "<selector>",
                 color: colors.selector,
-                next: "xCords"
+                next: "xCords",
+                error(command) {
+                    if (command.length === 0)
+                        return "Selector is missing!";
+                    if (command.startsWith("@"))
+                        return `Selector "${command}" is not supported!`;
+                    return `Player "${command}" does not exist!`;
+                }
             },
             xCords: {
                 list: [{ ...commandArguments["cordinates"], next: "yCords" }],
                 type: "required",
                 help: "<x>",
                 color: colors.value,
+                error(command) {
+                    if (command.length === 0)
+                        return "X cordinate is missing!";
+                    if (command.startsWith("~"))
+                        return `"${command.slice(1)}" is not a number!`;
+                    return `"${command}" is not a number!`;
+                }
             },
             yCords: {
                 list: [{ ...commandArguments["cordinates"], next: "zCords" }],
                 type: "required",
                 help: "<y>",
                 color: colors.value,
+                error(command) {
+                    if (command.length === 0)
+                        return "Y cordinate is missing!";
+                    if (command.startsWith("~"))
+                        return `"${command.slice(1)}" is not a number!`;
+                    return `"${command}" is not a number!`;
+                }
             },
             zCords: {
                 list: [{ ...commandArguments["cordinates"] }],
                 type: "required",
                 help: "<z>",
-                color: colors.value
+                color: colors.value,
+                error(command) {
+                    if (command.length === 0)
+                        return "Z cordinate is missing!";
+                    if (command.startsWith("~"))
+                        return `"${command.slice(1)}" is not a number!`;
+                    return `"${command}" is not a number!`;
+                }
             },
         },
         execute(...args) {
@@ -186,13 +227,27 @@ const commands = {
                 list: [commandArguments["@a"], commandArguments["@r"], commandArguments["playerName"]],
                 type: "required",
                 help: "<selector>",
-                color: colors.selector
+                color: colors.selector,
+                error(command) {
+                    if (command.length === 0)
+                        return "Selector is missing!";
+                    if (command.startsWith("@"))
+                        return `Selector "${command}" is not supported!`;
+                    return `Player "${command}" does not exist!`;
+                }
             },
             modifySelect: {
                 list: [{ ...commandArguments["@a"], next: "modifyName" }, { ...commandArguments["@r"], next: "modifyName" }, destructure(commandArguments["playerName"], { next: "modifyName" })],
                 type: "required",
                 help: "<selector>",
-                color: colors.selector
+                color: colors.selector,
+                error(command) {
+                    if (command.length === 0)
+                        return "Selector is missing!";
+                    if (command.startsWith("@"))
+                        return `Selector "${command}" is not supported!`;
+                    return `Player "${command}" does not exist!`;
+                }
             },
             modifyName: {
                 list: [{ value: ["name"], next: "uniqueName" }, { value: ["health"], next: "health" }],
@@ -204,11 +259,18 @@ const commands = {
                 list: [{
                         title: "<player name>",
                         value: ["player_name"],
-                        match: (value) => value.length > 2 && users.every(user => user.name !== value)
+                        match: (value) => value.length > 2 && users.every(user => user.name !== value) && !value.startsWith("@")
                     }],
                 type: "required",
                 help: "<new name>",
-                color: colors.value
+                color: colors.value,
+                error(command) {
+                    if (command.length < 3)
+                        return "Player name must be at least 3 characters long!";
+                    if (command.startsWith("@"))
+                        return `@ is reserved for selectors! You can't start player name with it!`;
+                    return `Player with name "${command}" already exists!`;
+                }
             },
             health: {
                 list: [{
@@ -218,7 +280,12 @@ const commands = {
                     }],
                 type: "required",
                 help: "<value>",
-                color: colors.value
+                color: colors.value,
+                error(command) {
+                    if (command.length === 0)
+                        return "Health value is missing!";
+                    return `"${command}" is not a number!`;
+                }
             },
         },
         execute(...args) {
@@ -282,39 +349,24 @@ const commands = {
             },
             second: {
                 list: [
-                    { value: ["commandStructureInfo"], next: "commandStructureInfo" },
-                    { value: ["hideIntellisenseBox"], next: "hideIntellisenseBox" },
-                    { value: ["closeIntellisenseAfterTab"], next: "closeIntellisenseAfterTab" },
-                    { value: ["smartIntellisense"], next: "smartIntellisense" },
+                    { value: ["commandStructureInfo"], next: "boolean" },
+                    { value: ["hideIntellisenseBox"], next: "boolean" },
+                    { value: ["closeIntellisenseAfterTab"], next: "boolean" },
+                    { value: ["smartIntellisense"], next: "boolean" },
                 ],
                 type: "required",
                 help: "<property>",
                 color: colors.option
             },
-            commandStructureInfo: {
+            boolean: {
                 list: [{ value: ["true"] }, { value: ["false"] }],
                 type: "optional",
                 help: "[<boolean>]",
-                color: colors.value
-            },
-            hideIntellisenseBox: {
-                list: [{ value: ["true"] }, { value: ["false"] }],
-                type: "optional",
-                help: "[<boolean>]",
-                color: colors.value
-            },
-            closeIntellisenseAfterTab: {
-                list: [{ value: ["true"] }, { value: ["false"] }],
-                type: "optional",
-                help: "[<boolean>]",
-                color: colors.value
-            },
-            smartIntellisense: {
-                list: [{ value: ["true"] }, { value: ["false"] }],
-                type: "optional",
-                help: "[<boolean>]",
-                color: colors.value
-            },
+                color: colors.value,
+                error(command) {
+                    return `"${command}" is not a boolean!`;
+                }
+            }
         },
         execute(...args) {
             const path = traceCommandPath(args, true, true);
