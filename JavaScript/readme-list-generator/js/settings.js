@@ -1,4 +1,5 @@
 const ignoreFoldersValue = localStorage.getItem("showDirectoryPickerIgnore") || ".git\nnode_modules\ndist\nbuild";
+const collapseFoldersValue = localStorage.getItem("showDirectoryPickercollapse") || "";
 const codeValue = localStorage.getItem("showDirectoryPickerCode") || "https://github.com/<user_name>/<repository>/tree/master";
 const demoValue = localStorage.getItem("showDirectoryPickerDemo") || "https://<user_name>.github.io/<repository>/";
 
@@ -8,6 +9,14 @@ let ignoreFolders = ignoreFoldersValue.split("\n");
 ignoreElement.addEventListener("input", () => {
 	localStorage.setItem("showDirectoryPickerIgnore", ignoreElement.value);
 	ignoreFolders = ignoreElement.value.split("\n");
+});
+
+const collapseElement = document.querySelector("#collapse");
+collapseElement.value = collapseFoldersValue;
+let collapseFolders = collapseFoldersValue.split("\n");
+collapseElement.addEventListener("input", () => {
+	localStorage.setItem("showDirectoryPickercollapse", collapseElement.value);
+	collapseFolders = collapseElement.value.split("\n");
 });
 
 const codeElement = document.querySelector("#code");
@@ -35,6 +44,7 @@ demoElement.addEventListener("input", () => {
 const resetElement = document.querySelector("#reset");
 resetElement.addEventListener("click", () => {
 	localStorage.removeItem("showDirectoryPickerIgnore");
+	localStorage.removeItem("showDirectoryPickercollapse");
 	localStorage.removeItem("showDirectoryPickerCode");
 	localStorage.removeItem("showDirectoryPickerDemo");
 	location.reload();

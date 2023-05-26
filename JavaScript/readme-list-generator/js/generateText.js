@@ -71,7 +71,7 @@ function createContainerMarkers() {
 function createSummaryElement(name, path, depth) {
 	return createTextElements([
 		[depth, `<li>`],
-		[depth + 1, `<details open><summary><a href="${codeTemplate}${path}">📂</a> ${name}</summary>`],
+		[depth + 1, `<details${!collapseFolders.includes(name) ? " open" : ""}><summary><a href="${codeTemplate}${path}">📂</a> ${name}</summary>`],
 		[depth + 2, `<ul>`],
 		[0, "<marker>"],
 		[depth + 2, `</ul>`],
