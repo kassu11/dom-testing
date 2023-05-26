@@ -40,6 +40,16 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/attribute-selectors">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/attribute-selectors/">Demo</a>
 					</blockquote>
 				</li>
+				<li>grid-max-rows
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/grid-max-rows">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/grid-max-rows/">Demo</a>
+					</blockquote>
+				</li>
+				<li>inverted-borders-radius
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/inverted-borders-radius">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/inverted-borders-radius/">Demo</a>
+					</blockquote>
+				</li>
 			</ul>
 		</details>
 	</li>
@@ -140,6 +150,11 @@
 							<li>test-v2
 								<blockquote>
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/module-testing/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/module-testing/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v3-global-variables
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/module-testing/test-v3-global-variables">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/module-testing/test-v3-global-variables/">Demo</a>
 								</blockquote>
 							</li>
 						</ul>
