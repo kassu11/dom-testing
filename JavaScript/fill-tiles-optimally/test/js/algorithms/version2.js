@@ -1,39 +1,7 @@
-const tiles = [
-	[0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-	[0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-	[0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-];
-
-const container = document.querySelector("#container");
-container.style.width = `${tiles[0].length * 50}px`;
-container.style.height = `${tiles.length * 50}px`;
-
-generateBase();
-function generateBase() {
-	for (let y = 0; y < tiles.length; y++) {
-		for (let x = 0; x < tiles[y].length; x++) {
-			if (tiles[y][x] == 1) {
-				const div = document.createElement("div");
-				div.classList.add("tile");
-				div.style.left = `${x * 50}px`;
-				div.style.top = `${y * 50}px`;
-				container.append(div);
-			}
-		}
-	}
+export default function main(grid) {
+	const baseTile = generateBaseTiles(grid.map);
+	const calculatedTiles = test(baseTile)
+	render(calculatedTiles, grid.tilesElem);
 }
 
 function generateBaseTiles(tiles) {
@@ -62,10 +30,6 @@ function generateBaseTiles(tiles) {
 	if (horizontalCount > verticalCount) return horizontal;
 	return vertical;
 }
-
-const baseTile = generateBaseTiles(tiles)
-const calculatedTiles = test(baseTile)
-render(calculatedTiles);
 
 function test(tiles) {
 	for (let i = 0; i < 5; i++) {
@@ -150,21 +114,26 @@ function test(tiles) {
 	}
 }
 
-function render(tiles) {
+function render(tiles, element) {
 	for (let y = 0; y < tiles.length; y++) {
 		for (let x = 0; x < tiles[y].length; x++) {
 			if (tiles[y][x] === 1) continue;
 			if (tiles[y][x].x !== x || tiles[y][x].y !== y) continue;
 			const div = document.createElement("div");
-			div.classList.add("bigTile");
+			div.classList.add("bigTile", "tile");
 			div.style.left = `${x * 50}px`;
 			div.style.top = `${y * 50}px`;
 			div.style.width = `${tiles[y][x].wx * 50}px`;
 			div.style.height = `${tiles[y][x].wy * 50}px`;
 			x += tiles[y][x].wx - 1;
-			container.append(div);
+			element.append(div);
 		}
 	}
 }
 
-console.log("score", container.querySelectorAll(".bigTile").length);
+// console.log("score", element.querySelectorAll(".bigTile").length);
+
+
+// window.addEventListener("click", e => {
+// 	e.target.style.background = "red";
+// })

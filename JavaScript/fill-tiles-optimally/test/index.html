@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fill tiles optimally</title>
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+	<fieldset id="settings">
+		<legend>Settings</legend>
+		<form>
+			<div>
+				<label for="width">Width</label>
+				<input type="text" data-type="number" min="1" max="100" value="10" autocomplete="off" placeholder="10" id="width" name="width">
+				<label for="height">Height</label>
+				<input type="text" data-type="number" min="1" max="100" value="14" autocomplete="off" placeholder="14" id="height" name="height">
+				<button type="button">Random walls</button>
+			</div>
+
+			<fieldset>
+				<legend>Algorithms</legend>
+				<!-- <label><input type="radio" name="algorithm" value="version1"> Version 1</label> -->
+				<label><input type="radio" name="algorithm" value="version2" checked> Version 2</label>
+				<!-- <label><input type="radio" name="algorithm" value="right"> right</label>
+				<label><input type="radio" name="algorithm" value="left"> left</label>
+				<label><input type="radio" name="algorithm" value="top"> top</label>
+				<label><input type="radio" name="algorithm" value="bottom"> bottom</label> -->
+			</fieldset>
+		</form>
+		<p id="bigTiles">Big tiles: <span>50</span></p>
+		<p id="totalTiles">Total tile space: <span>50</span></p>
+	</fieldset>
+	<div id="mapContainer">
+		<div class="borders">
+			<div class="border" id="right"></div>
+			<div class="border" id="left"></div>
+			<div class="border" id="top"></div>
+			<div class="border" id="bottom"></div>
+		</div>
+		<div id="tiles"></div>
+	</div>
+</body>
+
+</html>
+
+<script src="./js/index.js" type="module"></script>

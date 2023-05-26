@@ -1,0 +1,111 @@
+html {
+	color-scheme: dark;
+}
+
+body {
+	position: absolute;
+	display: grid;
+	min-width: 100%;
+	gap: 10px;
+	margin: 0px;
+	font-family: system-ui;
+}
+
+#settings {
+	position: sticky;
+	left: 50%;
+	top: 0px;
+	transform: translateX(-50%);
+	width: max-content;
+	background: black;
+	z-index: 1;
+
+	p {
+		margin: 0px;
+
+		span {
+			font-weight: 700;
+			color: springgreen;
+		}
+	}
+}
+
+#mapContainer {
+	position: relative;
+	border: 2px solid white;
+	width: 500px;
+	height: 500px;
+	margin-inline: auto;
+
+	.borders {
+		inset: 0px;
+		position: absolute;
+		--_size: 2px;
+		--_hitbox: 15px;
+		pointer-events: none;
+
+		.border {
+			position: absolute;
+			border-color: white;
+			height: 100%;
+			width: 100%;
+			pointer-events: all;
+		}
+
+		#right {
+			width: var(--_hitbox);
+			border-left: solid var(--_size);
+			left: 100%;
+			cursor: e-resize;
+		}
+
+		#left {
+			width: var(--_hitbox);
+			right: 100%;
+			border-right: solid var(--_size);
+			cursor: e-resize;
+		}
+
+		#top {
+			height: var(--_hitbox);
+			bottom: 100%;
+			border-bottom: solid var(--_size);
+			cursor: s-resize;
+		}
+
+		#bottom {
+			height: var(--_hitbox);
+			top: 100%;
+			border-top: solid var(--_size);
+			cursor: s-resize;
+		}
+	}
+
+	#tiles {
+		.tile {
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			box-sizing: border-box;
+		}
+
+		.wall {
+			border: 1px solid yellow;
+		}
+
+		.search {
+			background-color: red;
+			opacity: .5;
+		}
+
+		.bigTile {
+			background-color: greenyellow;
+			opacity: .5;
+			border: 1px solid green;
+		}
+	}
+
+
+
+
+}
