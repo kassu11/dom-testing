@@ -1,0 +1,31 @@
+body {
+	position: absolute;
+	inset: 0px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-family: system-ui;
+}
+
+.button {
+	position: relative;
+	width: 50%;
+	height: 150px;
+	transition: margin .5s, transform .5s, background .5s;
+	display: grid;
+	place-items: center;
+	font-size: 50px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.right {
+	margin-left: 100%;
+	transform: translateX(-100%);
+	background: orange;
+}
+
+.left {
+	margin-left: 0px;
+	background: lime;
+}
