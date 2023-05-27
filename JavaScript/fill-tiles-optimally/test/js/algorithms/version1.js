@@ -1,48 +1,12 @@
-// const tiles = [
-// 	[1, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-// 	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-// 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-// 	[1, 1, 1, 1, 1, 0, 0, 0, 1, 0],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-// 	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-// ]
-const tiles = [
-	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[0, 1, 0, 1, 0, 0, 1, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 1, 1, 0, 1, 0, 0, 0, 0, 0],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-]
+import { grid } from "../index.js";
 
-const container = document.querySelector("#container");
-
-generateBase();
-function generateBase() {
-	for (let y = 0; y < tiles.length; y++) {
-		for (let x = 0; x < tiles[y].length; x++) {
-			if (tiles[y][x] == 1) {
-				const div = document.createElement("div");
-				div.classList.add("tile");
-				div.style.left = `${x * 50}px`;
-				div.style.top = `${y * 50}px`;
-				container.append(div);
-			}
-		}
-	}
+export default function main() {
+	const newGrid = grid.map.map(row => [...row]);
+	const points = generateSearchPoints(newGrid, grid.tilesElem);
+	fillTiles(points, newGrid, grid.tilesElem);
 }
 
-
-const points = generateSearchPoints();
-function generateSearchPoints() {
+function generateSearchPoints(tiles, elem) {
 	const returnValues = {};
 	for (let y = 0; y < tiles.length; y++) {
 		const xValues = [];
@@ -76,17 +40,16 @@ function generateSearchPoints() {
 
 		for (const x of xValues) {
 			const div = document.createElement("div");
-			div.classList.add("search");
+			div.classList.add("search", "tile");
 			div.style.left = `${x * 50}px`;
 			div.style.top = `${y * 50}px`;
-			container.append(div);
+			elem.append(div);
 			returnValues[`${x}-${y}`] = { x, y };
 		}
 	} return returnValues;
 }
 
-fillTiles(points);
-function fillTiles(points) {
+function fillTiles(points, tiles, elem) {
 	const pointsArray = Object.values(points).sort((a, b) => {
 		let aNum = calcValue(a.x, a.y);
 		let bNum = calcValue(b.x, b.y);
@@ -105,7 +68,7 @@ function fillTiles(points) {
 		if (`${x + 1}-${y + 1}` in points) num += 0.5
 		return num;
 	}
-	console.log(pointsArray)
+
 	for (const value of pointsArray) {
 		let currentMaxData = { wx: 1, wy: 1, size: 0 };
 		let currentMaxX = Infinity;
@@ -134,13 +97,11 @@ function fillTiles(points) {
 		}
 
 		const div = document.createElement("div");
-		div.classList.add("bigTile");
+		div.classList.add("bigTile", "tile");
 		div.style.left = `${value.x * 50}px`;
 		div.style.top = `${value.y * 50}px`;
 		div.style.width = `${currentMaxData.wx * 50}px`;
 		div.style.height = `${currentMaxData.wy * 50}px`;
-		container.append(div);
+		elem.append(div);
 	}
-
-
 }

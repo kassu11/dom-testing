@@ -22,3 +22,9 @@ async function processFormValues(form) {
 	grid.updateAlgorithm(callback.default, formData.algorithm);
 	grid.resize(formData.width, formData.height);
 }
+
+export function updateFormSizeValues(width, height) {
+	const form = document.querySelector("#settings form");
+	form.querySelector("#width").value = width;
+	form.querySelector("#height").value = height;
+}

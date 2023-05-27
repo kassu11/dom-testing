@@ -1,4 +1,5 @@
 import { updateCounters } from "./counters.js";
+import { updateFormSizeValues } from "./settings.js";
 
 export class Grid {
 	constructor({ map, element, fillTiles, fillTilesName }) {
@@ -25,7 +26,7 @@ export class Grid {
 			});
 		});
 
-		if (this.fillTiles) this.fillTiles(this);
+		if (this.fillTiles) this.fillTiles();
 		updateCounters();
 	}
 
@@ -59,6 +60,7 @@ export class Grid {
 
 		this.width = width;
 		this.height = height;
+		updateFormSizeValues(this.width, this.height);
 		this.updateContainerSize();
 		this.render();
 	}

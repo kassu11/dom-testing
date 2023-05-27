@@ -1,4 +1,6 @@
-export default function main(grid) {
+import { grid } from "../index.js";
+
+export default function main() {
 	const baseTile = generateBaseTiles(grid.map);
 	const calculatedTiles = test(baseTile)
 	render(calculatedTiles, grid.tilesElem);
