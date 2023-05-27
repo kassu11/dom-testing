@@ -1,13 +1,16 @@
 import { grid } from "./index.js";
 
-export function resizeBox(element) {
+export function boxClickEvent(element) {
 	element.addEventListener("mousedown", e => {
-		const target = e.target?.closest(".border");
-		if (!target) return;
+		const border = e.target?.closest(".border");
+		if (border) resizeMap(e, border);
+		else modifyMap(e);
+	});
 
-		e.preventDefault();
+	function resizeMap(event, target) {
+		event.preventDefault();
 		const { width, height } = element.getBoundingClientRect();
-		const { x: startX, y: startY } = e;
+		const { x: startX, y: startY } = event;
 
 		window.addEventListener("mousemove", move)
 		window.addEventListener("mouseup", () => window.removeEventListener("mousemove", move), { once: true });
@@ -23,5 +26,20 @@ export function resizeBox(element) {
 			const pixelHeight = Math.max(Math.round(elemHeight / 50), 2);
 			grid.resize(pixelWidth, pixelHeight, target.id);
 		}
-	});
+	}
+
+	function modifyMap(event) {
+		const { left, top } = element.getBoundingClientRect();
+		const { x, y } = event;
+
+		const mouseX = Math.floor((x - left) / 50);
+		const mouseY = Math.floor((y - top) / 50);
+
+		const gridValue = grid.map[mouseY]?.[mouseX];
+
+		if (gridValue === 0) grid.map[mouseY][mouseX] = 1;
+		else if (gridValue === 1) grid.map[mouseY][mouseX] = 0;
+
+		grid.render();
+	}
 }

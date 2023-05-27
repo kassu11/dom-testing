@@ -1,4 +1,4 @@
-import { resizeBox } from "./resizeBox.js"
+import { boxClickEvent } from "./boxClickEvent.js"
 import { Grid } from "./grid.js"
 import { settings } from "./settings.js";
 
@@ -26,7 +26,7 @@ export const grid = new Grid({
 
 settings(settingsForm);
 
-resizeBox(container);
+boxClickEvent(container);
 
 console.log(grid)
 

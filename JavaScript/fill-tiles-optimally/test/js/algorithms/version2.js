@@ -132,10 +132,3 @@ function render(tiles, element) {
 		}
 	}
 }
-
-// console.log("score", element.querySelectorAll(".bigTile").length);
-
-
-// window.addEventListener("click", e => {
-// 	e.target.style.background = "red";
-// })
