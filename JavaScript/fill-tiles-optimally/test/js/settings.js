@@ -1,6 +1,7 @@
 import { grid } from "./index.js";
 
 export function settings(form) {
+	updateFormSizeValues(grid.width, grid.height);
 	processFormValues(form)
 
 	form.addEventListener("input", () => processFormValues(form));
