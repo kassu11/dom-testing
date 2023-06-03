@@ -14,10 +14,9 @@ body {
 
 #settings {
 	position: sticky;
-	left: 50%;
+	left: calc(50% - 300px);
 	top: 0px;
-	transform: translateX(-50%);
-	width: max-content;
+	width: 600px;
 	background: black;
 	z-index: 1;
 
@@ -30,6 +29,8 @@ body {
 		}
 	}
 }
+
+
 
 #mapContainer {
 	position: relative;

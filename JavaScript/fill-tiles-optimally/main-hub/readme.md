@@ -31,3 +31,31 @@
 - Now the `algorithm prefers to merge just by direction`, which is `not ideal`
 - Sometimes it might also take multiple merges to find the best solution, and this will not find that
 
+## Version 3
+
+- The algorithm starts by filling the whole map with a one big tile
+- Then the walls are looped end every time a wall is inside a tile it slits the tile into sections around the wall
+	- After the split, we check if there are other tiles around the slips that can be merged together
+	- If there are none, then just keep going to the next wall until every wall has been looped
+- This is the the easiest algorithm to explain and the code is also only 70 lines
+	- This is the fastest algorithm and has the least lines of code so far, but it is not perfect
+	- Version 3: [6 Tiles](https://i.imgur.com/zrIjOWu.png)
+	- The optimal solution: [5 Tiles](https://i.imgur.com/0jmpZeV.png)
+- This algorithm basically always loses to version 2, with is a little sad, but it is a good base because the code is a lot cleaner
+
+## Version 4
+
+- Version 4 tries to fix all the problems from version 3
+- Basically, it runs the same algorithm to fill the space as version 3
+- After this, it begins to merge these tiles together
+	- It picks a tile and then gets all the connected tiles to the selected tile
+	- If a 1x1 tile is in contact with a connected tile it will be counted in this group also
+	- Then this group is simulated into a new space where the group forms the empty space and everything else is walls
+	- After this, the space is filled with tiles horizontally and vertically and compared if the tile count was smaller than the original
+	- If the tile count didn't change the selected tile is marked as perfect and the next tile is selected
+	- If the tile count has gone down the new simulated tile structure will replace the tiles
+- After every tile has been marked perfect the algorithm is done
+	- You might think that this will give a perfect solution, but it doesn’t :D
+	- This also sometimes gives more tiles than version 2, but this is consistently better
+	- This is also about the same speed that version 2 is to compute
+

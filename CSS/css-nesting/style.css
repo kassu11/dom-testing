@@ -1,0 +1,15 @@
+div {
+	padding: 10px;
+}
+
+.first {
+	background-color: crimson;
+
+	.second {
+		background-color: darkcyan;
+
+		.third {
+			background-color: darkgoldenrod;
+		}
+	}
+}

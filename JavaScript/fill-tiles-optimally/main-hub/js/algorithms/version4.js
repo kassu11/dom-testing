@@ -89,16 +89,16 @@ function megaMergeTiles(bigTiles) {
 		}
 
 		for (let x = tile.x; x < tile.x + tile.wx; x++) {
-			if (nirestTileLogic(bigTiles[tile.y - 1]?.[x])) x += bigTiles[tile.y - 1][x].wx - 1;
+			if (nearestTileLogic(bigTiles[tile.y - 1]?.[x])) x += bigTiles[tile.y - 1][x].wx - 1;
 		};
 		for (let x = tile.x; x < tile.x + tile.wx; x++) {
-			if (nirestTileLogic(bigTiles[tile.y + tile.wy]?.[x])) x += bigTiles[tile.y + tile.wy][x].wx - 1;
+			if (nearestTileLogic(bigTiles[tile.y + tile.wy]?.[x])) x += bigTiles[tile.y + tile.wy][x].wx - 1;
 		};
 		for (let y = tile.y; y < tile.y + tile.wy; y++) {
-			if (nirestTileLogic(bigTiles[y][tile.x - 1])) y += bigTiles[y][tile.x - 1].wy - 1;
+			if (nearestTileLogic(bigTiles[y][tile.x - 1])) y += bigTiles[y][tile.x - 1].wy - 1;
 		};
 		for (let y = tile.y; y < tile.y + tile.wy; y++) {
-			if (nirestTileLogic(bigTiles[y][tile.x + tile.wx])) y += bigTiles[y][tile.x + tile.wx].wy - 1;
+			if (nearestTileLogic(bigTiles[y][tile.x + tile.wx])) y += bigTiles[y][tile.x + tile.wx].wy - 1;
 		};
 
 		const smallTiles = new Set();
@@ -116,7 +116,7 @@ function megaMergeTiles(bigTiles) {
 
 		return returnObject;
 
-		function nirestTileLogic(tile) {
+		function nearestTileLogic(tile) {
 			if (tile === 1 || tile == null) return;
 			if ((smallMode && tile.wx === 1 && tile.wy === 1) || !smallMode) {
 				if (tile.x < returnObject.minX) returnObject.minX = tile.x;
