@@ -40,6 +40,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/attribute-selectors">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/attribute-selectors/">Demo</a>
 					</blockquote>
 				</li>
+				<li>css-nesting
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/css-nesting">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/css-nesting/">Demo</a>
+					</blockquote>
+				</li>
 				<li>grid-max-rows
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/grid-max-rows">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/grid-max-rows/">Demo</a>
@@ -113,26 +118,10 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/detect-human-speech">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/detect-human-speech/">Demo</a>
 					</blockquote>
 				</li>
-				<li>
-					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally">📂</a> fill-tiles-optimally</summary>
-						<ul>
-							<li>test-v1
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v1/">Demo</a>
-								</blockquote>
-							</li>
-							<li>test-v2
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v2/">Demo</a>
-								</blockquote>
-							</li>
-							<li>test-v3
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/test-v3">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/test-v3/">Demo</a>
-								</blockquote>
-							</li>
-						</ul>
-					</details>
+				<li>fill-tiles-optimally
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/main-hub">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/main-hub/">Demo</a>
+					</blockquote>
 				</li>
 				<li>heart-rate-from-signal
 					<blockquote>
