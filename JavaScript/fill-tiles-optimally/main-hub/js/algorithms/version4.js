@@ -70,13 +70,6 @@ function megaMergeTiles(bigTiles) {
 		}
 	}
 
-	for (let y = 0; y < bigTiles.length; y++) {
-		for (let x = 0; x < bigTiles[y].length; x++) {
-			const tile = bigTiles[y][x];
-			if (tile === 1 || tile?.perfect) continue;
-			console.log(tile.perfect)
-		}
-	}
 
 	function getNierestTiles(tile, smallMode = false) {
 		const returnObject = {

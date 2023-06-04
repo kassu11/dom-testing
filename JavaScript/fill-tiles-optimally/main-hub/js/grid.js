@@ -13,7 +13,7 @@ export class Grid {
 		this.updateContainerSize();
 	}
 
-	render() {
+	async render() {
 		this.tilesElem.innerHTML = "";
 		this.map.forEach((row, y) => {
 			row.forEach((tile, x) => {
@@ -26,7 +26,7 @@ export class Grid {
 			});
 		});
 
-		if (this.fillTiles) this.fillTiles();
+		if (this.fillTiles) await this.fillTiles();
 		updateCounters();
 	}
 
