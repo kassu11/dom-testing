@@ -17,6 +17,12 @@
  */
 
 export function perfectMergeTiles(tile, grid) {
+	try {
+		grid[tile.y][tile.x + tile.wx]
+	} catch (e) {
+		console.log(tile, grid, tile.x, tile.wx)
+		throw new Error("Tile is out of bounds");
+	}
 	const right = grid[tile.y][tile.x + tile.wx] ?? {};
 	const left = grid[tile.y][tile.x - 1] ?? {};
 	const bottom = grid[tile.y + tile.wy]?.[tile.x] ?? {};
