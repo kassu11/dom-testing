@@ -24,13 +24,17 @@ export default function main() {
 function halfMerge(grid) {
 	const height = grid.length;
 	const width = grid[0].length;
-	for (let y = 0; y < height; y++) {
-		for (let x = 0; x < width; x++) {
-			if (grid[y][x] === 1) continue;
-			const tile = grid[y][x];
-			split2(tile);
+	let loop = false;
+	do {
+		loop = false;
+		for (let y = 0; y < height; y++) {
+			for (let x = 0; x < width; x++) {
+				if (grid[y][x] === 1) continue;
+				const tile = grid[y][x];
+				if (split3(tile)) loop = true;
+			}
 		}
-	}
+	} while (loop)
 
 	function split(tile) {
 		const ltTile = grid[tile.y - 1]?.[tile.x] ?? {};
@@ -73,26 +77,50 @@ function halfMerge(grid) {
 			} else if (curTile.x + curTile.wx === tile.x + tile.wx) {
 				fillAndMerge({ x: curTile.x, y: curTile.y, wx: curTile.wx - tile.wx, wy: curTile.wy });
 			}
+		});
+	}
+	function split3(tile) {
+		const bottomTiles = [];
+		while (true) {
+			const lastTile = bottomTiles.at(-1) ?? tile;
+			const bottomTile = grid[lastTile.y + lastTile.wy]?.[tile.x] ?? {};
+			if (bottomTile.wx >= tile.wx && (bottomTile.x === tile.x || bottomTile.x + bottomTile.wx === tile.x + tile.wx)) {
+				bottomTiles.push(bottomTile);
+			} else break;
+		}
 
-			console.log(curTile.x + curTile.wx, tile.x + tile.wx, curTile, tile)
+		const TopTiles = [];
+		while (true) {
+			const lastTile = TopTiles.at(-1) ?? tile;
+			const bottomTile = grid[lastTile.y - 1]?.[tile.x] ?? {};
+			if (bottomTile.wx >= tile.wx && (bottomTile.x === tile.x || bottomTile.x + bottomTile.wx === tile.x + tile.wx)) {
+				TopTiles.push(bottomTile);
+			} else break;
+		}
+
+
+		bottomTiles.forEach((curTile) => {
+			if (curTile.x === tile.x) {
+				fill(grid, { x: tile.x + tile.wx, y: curTile.y, wx: curTile.wx - tile.wx, wy: curTile.wy });
+			} else if (curTile.x + curTile.wx === tile.x + tile.wx) {
+				fill(grid, { x: curTile.x, y: curTile.y, wx: curTile.wx - tile.wx, wy: curTile.wy });
+			}
 		});
 
-		// const ltTile = grid[tile.y - 1]?.[tile.x] ?? {};
-		// const lbTile = grid[tile.y + 1]?.[tile.x] ?? {};
-		// const rtTile = grid[tile.y - 1]?.[tile.x + tile.wx - 1] ?? {};
-		// const rbTile = grid[tile.y + 1]?.[tile.x + tile.wx - 1] ?? {};
+		TopTiles.forEach((curTile) => {
+			if (curTile.x === tile.x) {
+				fill(grid, { x: tile.x + tile.wx, y: curTile.y, wx: curTile.wx - tile.wx, wy: curTile.wy });
+			} else if (curTile.x + curTile.wx === tile.x + tile.wx) {
+				fill(grid, { x: curTile.x, y: curTile.y, wx: curTile.wx - tile.wx, wy: curTile.wy });
+			}
+		});
 
-		// if (ltTile.wx === lbTile.wx && ltTile.wx < tile.wx && tile.x === ltTile.x && tile.x === lbTile.x) {
-		// 	const leftNew = { x: ltTile.x, y: ltTile.y, wx: ltTile.wx, wy: ltTile.wy + tile.wy + lbTile.wy };
-		// 	const rightNew = { x: tile.x + leftNew.wx, y: tile.y, wx: tile.wx - leftNew.wx, wy: tile.wy };
-		// 	fillAndMerge(leftNew);
-		// 	fillAndMerge(rightNew);
-		// } else if (rtTile.wx === rbTile.wx && rtTile.wx < tile.wx && tile.x + tile.wx === rtTile.x + rtTile.wx && tile.x + tile.wx === rbTile.x + rbTile.wx) {
-		// 	const rightNew = { x: rtTile.x, y: rtTile.y, wx: rtTile.wx, wy: rtTile.wy + tile.wy + rbTile.wy };
-		// 	const leftNew = { x: tile.x, y: tile.y, wx: tile.wx - rightNew.wx, wy: tile.wy };
-		// 	fillAndMerge(rightNew);
-		// 	fillAndMerge(leftNew);
-		// }
+		if (bottomTiles.length || TopTiles.length) {
+			const bottomTile = bottomTiles.at(-1) ?? tile;
+			const topTile = TopTiles.at(-1) ?? tile;
+			fillAndMerge({ x: tile.x, y: topTile.y, wx: tile.wx, wy: bottomTile.y + bottomTile.wy - topTile.y });
+			return true;
+		}
 	}
 
 	function fillAndMerge(tile) {
@@ -212,7 +240,6 @@ function findIntersections(bigTiles) {
 	}
 
 	function mergeIntersection(tiles) {
-		console.log("m", tiles)
 		mergeUnevenTiles(tiles[0], tiles.at(-1))
 
 		for (let i = 0; i < tiles.length; i++) {
