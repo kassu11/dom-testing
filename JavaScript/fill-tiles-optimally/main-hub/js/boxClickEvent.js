@@ -1,10 +1,16 @@
 import { grid } from "./index.js";
 
+const holdTiles = new Map();
+
 export function boxClickEvent(element) {
 	element.addEventListener("mousedown", e => {
+		holdTiles.clear();
 		const border = e.target?.closest(".border");
 		if (border) resizeMap(e, border);
-		else modifyMap(e);
+		else {
+			window.addEventListener("mousemove", moveOnGrid)
+			modifyMap(e);
+		}
 	});
 
 	function resizeMap(event, target) {
@@ -35,11 +41,20 @@ export function boxClickEvent(element) {
 		const mouseX = Math.floor((x - left) / 50);
 		const mouseY = Math.floor((y - top) / 50);
 
+		if (holdTiles.has(`${mouseX}-${mouseY}`)) return;
+
 		const gridValue = grid.map[mouseY]?.[mouseX];
 
 		if (gridValue === 0) grid.map[mouseY][mouseX] = 1;
 		else if (gridValue === 1) grid.map[mouseY][mouseX] = 0;
 
 		grid.render();
+		holdTiles.set(`${mouseX}-${mouseY}`, true);
+	}
+
+	function moveOnGrid(event) {
+		event.preventDefault();
+		if (event.buttons === 1) modifyMap(event);
+		else window.removeEventListener("mousemove", moveOnGrid);
 	}
 }

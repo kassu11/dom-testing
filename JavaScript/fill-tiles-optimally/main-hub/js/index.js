@@ -39,7 +39,6 @@ export const grid = new Grid({
 	]
 });
 
-
 // export const grid = new Grid({
 // 	element: container,
 // 	map: [
