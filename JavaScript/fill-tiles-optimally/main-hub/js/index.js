@@ -23,6 +23,7 @@ const settingsForm = document.querySelector("#settings form");
 // 		[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
 // 	]
 // });
+
 export const grid = new Grid({
 	element: container,
 	map: [
@@ -37,6 +38,7 @@ export const grid = new Grid({
 		[0, 0, 1, 1, 0, 0, 0]
 	]
 });
+
 
 // export const grid = new Grid({
 // 	element: container,
