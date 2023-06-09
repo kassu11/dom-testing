@@ -59,3 +59,36 @@
 	- This also sometimes gives more tiles than version 2, but this is consistently better
 	- This is also about the same speed that version 2 is to compute
 
+## Version 5
+
+- `Version 5` is a modified version of `version 4`
+- The start is identical to `version 3` and then the simulation is the same as version 4
+	- The `only difference is the simulation size` and the `number of tries before giving up`
+	- The simulation group is comprised of tiles that are touching the selected tile
+	- Every tile that is in contact with a touching tile and shares the same `y` or `x` value is also part of the group
+	- The iterations stop only when there `are no changes in a full grid loop`
+		- `Version 4` was optimized to not calculate the same group simulation multiple times, but this sometimes caused the simulation to end too soon, so `version 5` removes this optimation
+		- Because of this `version 5` is by far the `slowest algorithm to run`
+		- It gets good results, but the speed is so bad that my browser will struggle to generate `100x100` random wall grid
+		- This also sometimes loses to `version 2`, but this is not common
+- `I dislike this algorithm` probably the most `because the lag` and the simulation code are `a nightmare to debug`
+- I will try to make a totally different algorithm next
+
+## Version 6 & 7
+
+- `Version 6` and `7` are very similar and the only `difference is the direction`
+- `Version 6` will `start` by filling the tiles `horizontally` and `7` by filling them `vertically`
+- Then the perfectly matching `tiles are merged together`
+- After this, the tiles `are stretched in the opposite direction we started`
+	- This stretching is broken into `2 steps` so `up/down` and `left/right`
+		- The stretching is just a check that can a selected tile grow more in the selected direction without making more tiles
+			- If this is true, then grow if not then stay
+	- So the whole algorithm is just `fill`, `merge` and `stretch`
+	- This gives by far the best results, but it's `not perfect`, because `depending on your starting direction` your result may vary
+	- Because of this I made horizontal and vertical versions (6 and 7)
+- Now in a 100x100 grid versions 6 and 7 give nearly identical results, but sometimes the other is about 5 tiles ahead
+	- Of course, these walls are generated with random numbers, so they should be very evenly distributed which is the reason why direction isn't a big factor
+	- If the grid was an actual map the directions would have more of a difference and because of this, they are not perfect algorithms yet
+	- I don't have an idea to perfect them without losing speed or using simulation, so I'm taking a break until so new ideas come up
+	- These are still `super good algorithms` and in my opinion best a have done
+	- `Version 3` is a tiny bit faster, but not by much
