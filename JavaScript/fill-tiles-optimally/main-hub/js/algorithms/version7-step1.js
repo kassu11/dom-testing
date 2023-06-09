@@ -4,7 +4,7 @@ import { perfectMergeTiles } from "../perfectMergeTiles.js";
 export default function main() {
 	const gridClone = structuredClone(grid.map);
 	verticalFill(gridClone);
-	stretchMergeHorizontal(gridClone);
+	// stretchMergeHorizontal(gridClone);
 	render(gridClone, grid.tilesElem);
 }
 
@@ -98,13 +98,13 @@ function verticalFill(grid) {
 		}
 	}
 
-	for (let y = 0; y < gridHeight; y++) {
-		for (let x = 0; x < gridWidth; x++) {
-			if (grid[y][x] === 1) continue;
-			const tile = grid[y][x];
-			perfectMergeTiles(tile, grid);
-		}
-	}
+	// for (let y = 0; y < gridHeight; y++) {
+	// 	for (let x = 0; x < gridWidth; x++) {
+	// 		if (grid[y][x] === 1) continue;
+	// 		const tile = grid[y][x];
+	// 		perfectMergeTiles(tile, grid);
+	// 	}
+	// }
 }
 
 

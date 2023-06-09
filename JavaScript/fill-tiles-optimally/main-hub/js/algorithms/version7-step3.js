@@ -33,13 +33,13 @@ function stretchMergeHorizontal(grid) {
 		}
 
 		const leftTiles = [];
-		while (true) {
-			const lastTile = leftTiles.at(-1) ?? tile;
-			const leftTile = grid[tile.y][lastTile.x - 1] ?? {};
-			if (leftTile.wy >= tile.wy && (leftTile.y === tile.y || leftTile.y + leftTile.wy === tile.y + tile.wy)) {
-				leftTiles.push(leftTile);
-			} else break;
-		}
+		// while (true) {
+		// 	const lastTile = leftTiles.at(-1) ?? tile;
+		// 	const leftTile = grid[tile.y][lastTile.x - 1] ?? {};
+		// 	if (leftTile.wy >= tile.wy && (leftTile.y === tile.y || leftTile.y + leftTile.wy === tile.y + tile.wy)) {
+		// 		leftTiles.push(leftTile);
+		// 	} else break;
+		// }
 
 		const strechTile = (curTile) => {
 			if (curTile.y === tile.y) {
@@ -50,7 +50,7 @@ function stretchMergeHorizontal(grid) {
 		}
 
 		rightTiles.forEach(strechTile);
-		leftTiles.forEach(strechTile);
+		// leftTiles.forEach(strechTile);
 
 		if (rightTiles.length || leftTiles.length) {
 			const rightTile = rightTiles.at(-1) ?? tile;

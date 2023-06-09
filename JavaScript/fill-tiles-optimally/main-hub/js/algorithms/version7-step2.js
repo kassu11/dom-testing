@@ -4,7 +4,7 @@ import { perfectMergeTiles } from "../perfectMergeTiles.js";
 export default function main() {
 	const gridClone = structuredClone(grid.map);
 	verticalFill(gridClone);
-	stretchMergeHorizontal(gridClone);
+	// stretchMergeHorizontal(gridClone);
 	render(gridClone, grid.tilesElem);
 }
 
