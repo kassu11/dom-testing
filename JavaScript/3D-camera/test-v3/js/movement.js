@@ -6,10 +6,10 @@ window.addEventListener("keydown", ({ code, repeat }) => {
 
 	if (code === "ArrowRight") {
 		camera.mouseX += 90;
-		mouseMovement(null, true);
+		camera.updateRotation(true);
 	} else if (code === "ArrowLeft") {
 		camera.mouseX -= 90;
-		mouseMovement(null, true);
+		camera.updateRotation(true);
 	}
 });
 

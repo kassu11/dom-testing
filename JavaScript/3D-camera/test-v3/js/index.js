@@ -1,9 +1,10 @@
 const perspective = 400;
 const size = 250;
 
-const viewportElem = document.querySelector("#viewport")
-const cameraElem = document.querySelector("#camera")
-const sceneElem = document.querySelector("#scene")
+const viewportElem = document.querySelector("#mapViewport")
+const cameraElem = document.querySelector("#mapCamera")
+const skyboxCameraElem = document.querySelector("#skyboxCamera")
+const sceneElem = document.querySelector("#mapScene")
 
 const map = new createMap({ map: map1, size, scene: sceneElem });
 
@@ -12,6 +13,7 @@ const camera = new Camera({
 	cameraElem,
 	viewportElem,
 	perspective,
+	skyboxCameraElem,
 	mouseSensitivity: 0.15,
 });
 

@@ -7,57 +7,115 @@ class createMap {
 	}
 
 	generate() {
-		const height = this.map.length;
-		for (let y = 0; y < height; y++) {
-			const width = this.map[y].length
-			for (let x = 0; x < width; x++) {
-				const currentTile = this.map[y][x];
-				let texture = "floor"
-				if (currentTile === 1) texture = "wall";
-				else if (currentTile === 2) texture = "rock";
-
-				if (currentTile === 0) { this.appendTile(x, y, "bottom", texture); continue };
-
-				if (currentTile !== 0) this.appendTile(x, y, "top", texture);
-				if (this.map[y][x + 1] === 0) this.appendTile(x, y, "right", texture);
-				if (this.map[y][x - 1] === 0) this.appendTile(x, y, "left", texture);
-				if (this.map[y + 1]?.[x] === 0) this.appendTile(x, y, "front", texture);
-				if (this.map[y - 1]?.[x] === 0) this.appendTile(x, y, "back", texture);
+		const maxY = this.map.length;
+		for (let y = 0; y < maxY; y++) {
+			const maxZ = this.map[y].length;
+			for (let z = 0; z < maxZ; z++) {
+				const maxX = this.map[y][z].length;
+				for (let x = 0; x < maxX; x++) {
+					const currentTile = this.map[y][z][x];
+					if (currentTile === 0) continue;
+					if (maxY === 1 || this.map[y + 1]?.[z]?.[x] === 0) this.appendTile(x, y, z, "top", currentTile);
+					if (y > 0 && this.map[y - 1]?.[z]?.[x] === 0) this.appendTile(x, y, z, "bottom", currentTile);
+					if (y > 0 && this.map[y]?.[z]?.[x - 1] === 0) this.appendTile(x, y, z, "left", currentTile);
+					if (y > 0 && this.map[y]?.[z]?.[x + 1] === 0) this.appendTile(x, y, z, "right", currentTile);
+					if (y > 0 && this.map[y]?.[z + 1]?.[x] === 0) this.appendTile(x, y, z, "front", currentTile);
+					if (y > 0 && this.map[y]?.[z - 1]?.[x] === 0) this.appendTile(x, y, z, "back", currentTile);
+				}
 			}
 		}
+
 	}
 
-	appendTile(x, y, dir, texture) {
+	appendTile(x, y, z, dir, tile) {
 		const div = document.createElement("div");
-		div.classList.add("tile", dir, texture);
+		div.classList.add("tile", dir, textures[tile]);
 		div.style.width = this.size + "px";
 		div.style.height = this.size + "px";
 
-		if (dir === "bottom") div.style.transform = `translate3d(${x * this.size}px, ${this.size}px, ${y * this.size}px) rotateX(90deg)`;
-		else if (dir === "top") div.style.transform = `translate3d(${x * this.size}px, 0px, ${y * this.size}px) rotateX(90deg)`;
-		else if (dir === "right") div.style.transform = `translate3d(${x * this.size + this.size}px, 0px, ${y * this.size + this.size}px) rotateY(90deg)`;
-		else if (dir === "left") div.style.transform = `translate3d(${x * this.size}px, 0px, ${y * this.size}px) rotateY(-90deg)`;
-		else if (dir === "back") div.style.transform = `translate3d(${x * this.size + this.size}px, 0px, ${y * this.size}px) rotateY(180deg)`;
-		else if (dir === "front") div.style.transform = `translate3d(${x * this.size}px, 0px, ${y * this.size + this.size}px)`;
-		else div.style.transform = `translate3d(${x * this.size}px, 0px, ${y * this.size}px)`;
+		if (dir === "bottom") div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size + this.size}px, ${z * this.size + this.size}px) rotateX(270deg)`;
+		else if (dir === "top") div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size}px, ${z * this.size}px) rotateX(90deg)`;
+		else if (dir === "right") div.style.transform = `translate3d(${x * this.size + this.size}px, ${-y * this.size}px, ${z * this.size + this.size}px) rotateY(90deg)`;
+		else if (dir === "left") div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size}px, ${z * this.size}px) rotateY(-90deg)`;
+		else if (dir === "back") div.style.transform = `translate3d(${x * this.size + this.size}px, ${-y * this.size}px, ${z * this.size}px) rotateY(180deg)`;
+		else if (dir === "front") div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size}px, ${z * this.size + this.size}px)`;
 		sceneElem.append(div);
 	}
 }
 
 const map1 = [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[
+		[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
+		[1, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 1, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[3, 3, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[3, 2, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[3, 2, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[3, 2, 3, 3, 3, 1, 3, 3, 1, 3, 3, 3, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	],
+	[
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+		[1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 1, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	],
+	[
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	],
+	[
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 3, 3, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 3, 3, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 3, 3, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 3, 3, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 1, 3, 3, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	],
 ];
+
+const textures = {
+	1: "wall",
+	2: "rock",
+	3: "floor",
+}

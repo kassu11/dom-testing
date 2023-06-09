@@ -2,7 +2,7 @@ class Camera {
 	constructor(playerData) {
 		/** @type {createMap} */ this.map = playerData.map;
 		/** @type {number} */ this.x = playerData.x ?? this.map.size / 2;
-		/** @type {number} */ this.y = playerData.y ?? 0;
+		/** @type {number} */ this.y = playerData.y ?? this.map.size;
 		/** @type {number} */ this.z = playerData.z ?? this.map.size / 2;
 		/** @type {number} */ this.mouseY = playerData.mouseY ?? 0;
 		/** @type {number} */ this.mouseX = playerData.mouseX ?? 180;
@@ -12,6 +12,7 @@ class Camera {
 
 		/** @type {HTMLElement} */ this.viewportElem = playerData.viewportElem;
 		/** @type {HTMLElement} */ this.cameraElem = playerData.cameraElem;
+		/** @type {HTMLElement} */ this.skyboxCameraElem = playerData.skyboxCameraElem;
 		/** @type {HTMLElement} */ this.sceneElem = this.map.scene;
 		/** @type {number} */ this.perspective = playerData.perspective ?? this.viewportElem.clientHeight / 5 / Math.tan(Math.PI * 60 / 360);
 
@@ -23,6 +24,8 @@ class Camera {
 		this.updateRotation = (smooth = false) => {
 			this.cameraElem.style.transition = smooth ? "transform .25s" : null;
 			this.cameraElem.style.transform = `translate3d(0px, 0px, ${this.perspective}px) rotateX(${this.mouseY}deg) rotateY(${this.mouseX}deg)`;
+			this.skyboxCameraElem.style.transition = smooth ? "transform .25s" : null;
+			this.skyboxCameraElem.style.transform = `translate3d(0px, 0px, ${this.perspective}px) rotateX(${this.mouseY}deg) rotateY(${this.mouseX}deg)`;
 		}
 
 		this.updatePosition = () => {

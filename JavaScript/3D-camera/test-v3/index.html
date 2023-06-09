@@ -10,10 +10,23 @@
 </head>
 
 <body>
+	<div class="viewport skybox">
+		<div class="camera" id="skyboxCamera">
+			<div id="skybox">
+				<div class="skybox front"></div>
+				<div class="skybox back"></div>
+				<div class="skybox left"></div>
+				<div class="skybox right"></div>
+				<div class="skybox top"></div>
+				<div class="skybox bottom"></div>
+			</div>
+		</div>
+	</div>
+
 	<div class="crossHair">+</div>
-	<div id="viewport">
-		<div id="camera">
-			<div id="scene"></div>
+	<div class="viewport" id="mapViewport">
+		<div class="camera" id="mapCamera">
+			<div id="mapScene"></div>
 		</div>
 	</div>
 </body>
