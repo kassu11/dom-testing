@@ -21,14 +21,20 @@
 				<button type="button">Random walls</button>
 			</div>
 
-			<fieldset>
+			<fieldset class="algorithms">
 				<legend>Algorithms</legend>
 				<label><input type="radio" name="algorithm" value="version1"> Version 1</label>
 				<label><input type="radio" name="algorithm" value="version2"> Version 2</label>
 				<label><input type="radio" name="algorithm" value="version3"> Version 3</label>
 				<label><input type="radio" name="algorithm" value="version4"> Version 4</label>
 				<label><input type="radio" name="algorithm" value="version5"> Version 5</label>
-				<label><input type="radio" name="algorithm" value="version6" checked> Version 6</label>
+				<div class="column">
+					<label><input type="radio" name="algorithm" value="version6" checked> Version 6</label>
+					<label><input type="radio" name="algorithm" value="version6-step1"> Step 1</label>
+					<label><input type="radio" name="algorithm" value="version6-step2"> Step 2</label>
+					<label><input type="radio" name="algorithm" value="version6-step3"> Step 3</label>
+					<label><input type="radio" name="algorithm" value="version6"> Final</label>
+				</div>
 			</fieldset>
 		</form>
 		<p id="bigTiles">Big tiles: <span>50</span></p>

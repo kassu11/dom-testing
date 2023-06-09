@@ -14,9 +14,10 @@ body {
 
 #settings {
 	position: sticky;
-	left: calc(50% - 300px);
+	--_width: 450px;
+	left: calc(50% - calc(var(--_width) / 2));
 	top: 0px;
-	width: 600px;
+	width: var(--_width);
 	background: black;
 	z-index: 1;
 
@@ -106,8 +107,15 @@ body {
 			opacity: .5;
 		}
 	}
+}
 
+.column {
+	display: flex;
+	flex-direction: column;
+}
 
-
-
+.algorithms {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
 }
