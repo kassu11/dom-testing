@@ -1,5 +1,23 @@
+html {
+	color-scheme: dark;
+}
+
 body {
 	background: black;
+	font-family: system-ui;
+}
+
+#fps {
+	position: absolute;
+	z-index: 999;
+	margin: 0px;
+	top: 5px;
+	left: 5px;
+	background: rgba(0, 128, 0, 0.466);
+	padding-inline: 5px;
+	font-weight: 600;
+	color: lime;
+	user-select: none;
 }
 
 .crossHair {
@@ -12,6 +30,7 @@ body {
 	z-index: 100;
 	user-select: none;
 	pointer-events: none;
+	color: black;
 }
 
 .viewport {

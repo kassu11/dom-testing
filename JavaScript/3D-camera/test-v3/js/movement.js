@@ -16,8 +16,7 @@ window.addEventListener("keydown", ({ code, repeat }) => {
 window.addEventListener("keyup", ({ code }) => userKeys.delete(code));
 window.onblur = () => userKeys.clear();
 
-function movePlayer(curentTime, previousTime = 0) {
-	const deltaTime = curentTime - previousTime;
+function movePlayer(deltaTime) {
 	const moveSpeed = (size * 5) * deltaTime / 1000;
 
 	if (userKeys.has("KeyW")) {
@@ -40,8 +39,6 @@ function movePlayer(curentTime, previousTime = 0) {
 	if (userKeys.has("ShiftLeft")) camera.y -= moveSpeed;
 
 	if (camera.positionMoved) camera.updatePosition();
-
-	window.requestAnimationFrame(time => movePlayer(time, curentTime));
 }
 
 document.body.onclick = () => !document.pointerLockElement && document.body.requestPointerLock({ unadjustedMovement: true });
