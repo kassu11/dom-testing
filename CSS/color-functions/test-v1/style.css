@@ -1,0 +1,221 @@
+html {
+	color-scheme: dark;
+}
+
+body {
+	font-family: system-ui;
+}
+
+.block {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	font-size: 25px;
+	font-weight: 600;
+	display: grid;
+	place-items: center;
+	text-align: center;
+}
+
+#color-space {
+	display: flex;
+	gap: 10px;
+}
+
+#color-space .block {
+	color: black;
+}
+
+#color-space .rgb {
+	background-color: rgb(0 255 0);
+}
+
+#color-space .lab {
+	background-color: lab(87 -100.26 103.81);
+}
+
+#color-space .oklab {
+	background-color: oklab(0.85 -0.29 0.21);
+}
+
+#color-space .lch {
+	background-color: lch(87 145.26 133.52);
+}
+
+#color-space .oklch {
+	background-color: oklch(0.85 0.36 144.09);
+}
+
+
+[id*="gradient"] {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+
+[id*="gradient"] .block {
+	width: 100%;
+	height: 50px;
+}
+
+#gradient .rgb {
+	background: linear-gradient(to right, blue, red);
+}
+
+#gradient .hsl {
+	background: linear-gradient(in hsl to right, blue, red);
+}
+
+#gradient .lch {
+	background: linear-gradient(in lch to right, blue, red);
+}
+
+#gradient .lab {
+	background: linear-gradient(in lab to right, blue, red);
+}
+
+#gradient .oklch {
+	background: linear-gradient(in oklch to right, blue, red);
+}
+
+#gradient .oklab {
+	background: linear-gradient(in oklab to right, blue, red);
+}
+
+
+
+#gradient-2 .rgb {
+	background: linear-gradient(to right in rgb longer hue, blue, red);
+}
+
+#gradient-2 .hsl {
+	background: linear-gradient(to right in hsl longer hue, blue, red);
+	color: black;
+}
+
+#gradient-2 .lch {
+	background: linear-gradient(to right in lch longer hue, blue, red);
+}
+
+#gradient-2 .lab {
+	background: linear-gradient(to right in lab longer hue, blue, red);
+}
+
+#gradient-2 .oklch {
+	background: linear-gradient(to right in oklch longer hue, blue, red);
+}
+
+#gradient-2 .oklab {
+	background: linear-gradient(to right in oklab longer hue, blue, red);
+}
+
+[id*="color-mix"] .row {
+	display: flex;
+	gap: 10px;
+}
+
+[id*="color-mix"] .block {
+	background-color: color-mix(in var(--mode, srgb), var(--end-color) var(--percentage, 50%), var(--start-color));
+}
+
+#color-mix .block {
+	--start-color: blue;
+	--end-color: red;
+}
+
+#color-mix-2 .block {
+	--start-color: black;
+	--end-color: #6200ff;
+}
+
+#color-mix-3 .block,
+#color-mix-4 .block {
+	--start-color: #ffa500;
+	--end-color: #3a9700;
+}
+
+#color-mix-4 .block {
+	background-color: color-mix(in var(--mode, srgb) longer hue, var(--end-color) var(--percentage, 50%), var(--start-color));
+}
+
+[data-percentage="0"] {
+	--percentage: 0%;
+}
+
+[data-percentage="10"] {
+	--percentage: 10%;
+}
+
+[data-percentage="20"] {
+	--percentage: 20%;
+}
+
+[data-percentage="40"] {
+	--percentage: 40%;
+}
+
+[data-percentage="60"] {
+	--percentage: 60%;
+}
+
+[data-percentage="80"] {
+	--percentage: 80%;
+}
+
+[data-percentage="90"] {
+	--percentage: 90%;
+}
+
+[data-percentage="100"] {
+	--percentage: 100%;
+}
+
+[id*="color-mix"] .block.rgb {
+	--mode: srgb;
+}
+
+[id*="color-mix"] .block.hsl {
+	--mode: hsl;
+}
+
+[id*="color-mix"] .block.lch {
+	--mode: lch;
+}
+
+[id*="color-mix"] .block.lab {
+	--mode: lab;
+}
+
+[id*="color-mix"] .block.oklch {
+	--mode: oklch;
+}
+
+[id*="color-mix"] .block.oklab {
+	--mode: oklab;
+}
+
+
+#complementary-colors {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+#complementary-colors .block {
+	border: 20px solid var(--color);
+	box-sizing: border-box;
+	color: var(--color);
+}
+
+#complementary-colors .hsl.block {
+	background-color: color-mix(in hsl longer hue, var(--color), var(--color));
+}
+
+#complementary-colors .lch.block {
+	background-color: color-mix(in lch longer hue, var(--color), var(--color));
+}
+
+#complementary-colors .oklch.block {
+	background-color: color-mix(in oklch longer hue, var(--color), var(--color));
+}

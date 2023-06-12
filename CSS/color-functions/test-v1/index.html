@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Color functions test 1</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+	<h1>Color functions</h1>
+
+	<fieldset id="color-space">
+		<legend>Color spaces</legend>
+		<div class="block rgb">rgb</div>
+		<div class="block lab">Lab</div>
+		<div class="block oklab">Oklab</div>
+		<div class="block lch">lch</div>
+		<div class="block oklch">Oklch</div>
+	</fieldset>
+
+	<fieldset id="gradient">
+		<legend>Gradient colors</legend>
+		<div class="block rgb">rgb</div>
+		<div class="block hsl">hsl</div>
+		<div class="block lch">lch</div>
+		<div class="block lab">Lab</div>
+		<div class="block oklch">Oklch</div>
+		<div class="block oklab">Oklab</div>
+	</fieldset>
+
+	<fieldset id="gradient-2">
+		<legend>Gradient colors 2 (longer hue)</legend>
+		<div class="block rgb">rgb</div>
+		<div class="block hsl">hsl</div>
+		<div class="block lch">lch</div>
+		<div class="block lab">Lab</div>
+		<div class="block oklch">Oklch</div>
+		<div class="block oklab">Oklab</div>
+	</fieldset>
+
+	<fieldset id="color-mix">
+		<legend>Color mix 1</legend>
+		<div class="row">
+			<div class="block rgb" data-percentage="0">rgb 0%</div>
+			<div class="block rgb" data-percentage="10">rgb 10%</div>
+			<div class="block rgb" data-percentage="20">rgb 20%</div>
+			<div class="block rgb" data-percentage="40">rgb 40%</div>
+			<div class="block rgb" data-percentage="60">rgb 60%</div>
+			<div class="block rgb" data-percentage="80">rgb 80%</div>
+			<div class="block rgb" data-percentage="90">rgb 90%</div>
+			<div class="block rgb" data-percentage="100">rgb 100%</div>
+		</div>
+		<div class="row">
+			<div class="block hsl" data-percentage="0">hsl 0%</div>
+			<div class="block hsl" data-percentage="10">hsl 10%</div>
+			<div class="block hsl" data-percentage="20">hsl 20%</div>
+			<div class="block hsl" data-percentage="40">hsl 40%</div>
+			<div class="block hsl" data-percentage="60">hsl 60%</div>
+			<div class="block hsl" data-percentage="80">hsl 80%</div>
+			<div class="block hsl" data-percentage="90">hsl 90%</div>
+			<div class="block hsl" data-percentage="100">hsl 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lch" data-percentage="0">lch 0%</div>
+			<div class="block lch" data-percentage="10">lch 10%</div>
+			<div class="block lch" data-percentage="20">lch 20%</div>
+			<div class="block lch" data-percentage="40">lch 40%</div>
+			<div class="block lch" data-percentage="60">lch 60%</div>
+			<div class="block lch" data-percentage="80">lch 80%</div>
+			<div class="block lch" data-percentage="90">lch 90%</div>
+			<div class="block lch" data-percentage="100">lch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lab" data-percentage="0">lab 0%</div>
+			<div class="block lab" data-percentage="10">lab 10%</div>
+			<div class="block lab" data-percentage="20">lab 20%</div>
+			<div class="block lab" data-percentage="40">lab 40%</div>
+			<div class="block lab" data-percentage="60">lab 60%</div>
+			<div class="block lab" data-percentage="80">lab 80%</div>
+			<div class="block lab" data-percentage="90">lab 90%</div>
+			<div class="block lab" data-percentage="100">lab 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklch" data-percentage="0">oklch 0%</div>
+			<div class="block oklch" data-percentage="10">oklch 10%</div>
+			<div class="block oklch" data-percentage="20">oklch 20%</div>
+			<div class="block oklch" data-percentage="40">oklch 40%</div>
+			<div class="block oklch" data-percentage="60">oklch 60%</div>
+			<div class="block oklch" data-percentage="80">oklch 80%</div>
+			<div class="block oklch" data-percentage="90">oklch 90%</div>
+			<div class="block oklch" data-percentage="100">oklch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklab" data-percentage="0">oklab 0%</div>
+			<div class="block oklab" data-percentage="10">oklab 10%</div>
+			<div class="block oklab" data-percentage="20">oklab 20%</div>
+			<div class="block oklab" data-percentage="40">oklab 40%</div>
+			<div class="block oklab" data-percentage="60">oklab 60%</div>
+			<div class="block oklab" data-percentage="80">oklab 80%</div>
+			<div class="block oklab" data-percentage="90">oklab 90%</div>
+			<div class="block oklab" data-percentage="100">oklab 100%</div>
+		</div>
+	</fieldset>
+	<fieldset id="color-mix-2">
+		<legend>Color mix 2</legend>
+		<div class="row">
+			<div class="block rgb" data-percentage="0">rgb 0%</div>
+			<div class="block rgb" data-percentage="10">rgb 10%</div>
+			<div class="block rgb" data-percentage="20">rgb 20%</div>
+			<div class="block rgb" data-percentage="40">rgb 40%</div>
+			<div class="block rgb" data-percentage="60">rgb 60%</div>
+			<div class="block rgb" data-percentage="80">rgb 80%</div>
+			<div class="block rgb" data-percentage="90">rgb 90%</div>
+			<div class="block rgb" data-percentage="100">rgb 100%</div>
+		</div>
+		<div class="row">
+			<div class="block hsl" data-percentage="0">hsl 0%</div>
+			<div class="block hsl" data-percentage="10">hsl 10%</div>
+			<div class="block hsl" data-percentage="20">hsl 20%</div>
+			<div class="block hsl" data-percentage="40">hsl 40%</div>
+			<div class="block hsl" data-percentage="60">hsl 60%</div>
+			<div class="block hsl" data-percentage="80">hsl 80%</div>
+			<div class="block hsl" data-percentage="90">hsl 90%</div>
+			<div class="block hsl" data-percentage="100">hsl 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lch" data-percentage="0">lch 0%</div>
+			<div class="block lch" data-percentage="10">lch 10%</div>
+			<div class="block lch" data-percentage="20">lch 20%</div>
+			<div class="block lch" data-percentage="40">lch 40%</div>
+			<div class="block lch" data-percentage="60">lch 60%</div>
+			<div class="block lch" data-percentage="80">lch 80%</div>
+			<div class="block lch" data-percentage="90">lch 90%</div>
+			<div class="block lch" data-percentage="100">lch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lab" data-percentage="0">lab 0%</div>
+			<div class="block lab" data-percentage="10">lab 10%</div>
+			<div class="block lab" data-percentage="20">lab 20%</div>
+			<div class="block lab" data-percentage="40">lab 40%</div>
+			<div class="block lab" data-percentage="60">lab 60%</div>
+			<div class="block lab" data-percentage="80">lab 80%</div>
+			<div class="block lab" data-percentage="90">lab 90%</div>
+			<div class="block lab" data-percentage="100">lab 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklch" data-percentage="0">oklch 0%</div>
+			<div class="block oklch" data-percentage="10">oklch 10%</div>
+			<div class="block oklch" data-percentage="20">oklch 20%</div>
+			<div class="block oklch" data-percentage="40">oklch 40%</div>
+			<div class="block oklch" data-percentage="60">oklch 60%</div>
+			<div class="block oklch" data-percentage="80">oklch 80%</div>
+			<div class="block oklch" data-percentage="90">oklch 90%</div>
+			<div class="block oklch" data-percentage="100">oklch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklab" data-percentage="0">oklab 0%</div>
+			<div class="block oklab" data-percentage="10">oklab 10%</div>
+			<div class="block oklab" data-percentage="20">oklab 20%</div>
+			<div class="block oklab" data-percentage="40">oklab 40%</div>
+			<div class="block oklab" data-percentage="60">oklab 60%</div>
+			<div class="block oklab" data-percentage="80">oklab 80%</div>
+			<div class="block oklab" data-percentage="90">oklab 90%</div>
+			<div class="block oklab" data-percentage="100">oklab 100%</div>
+		</div>
+	</fieldset>
+	<fieldset id="color-mix-3">
+		<legend>Color mix 3</legend>
+		<div class="row">
+			<div class="block rgb" data-percentage="0">rgb 0%</div>
+			<div class="block rgb" data-percentage="10">rgb 10%</div>
+			<div class="block rgb" data-percentage="20">rgb 20%</div>
+			<div class="block rgb" data-percentage="40">rgb 40%</div>
+			<div class="block rgb" data-percentage="60">rgb 60%</div>
+			<div class="block rgb" data-percentage="80">rgb 80%</div>
+			<div class="block rgb" data-percentage="90">rgb 90%</div>
+			<div class="block rgb" data-percentage="100">rgb 100%</div>
+		</div>
+		<div class="row">
+			<div class="block hsl" data-percentage="0">hsl 0%</div>
+			<div class="block hsl" data-percentage="10">hsl 10%</div>
+			<div class="block hsl" data-percentage="20">hsl 20%</div>
+			<div class="block hsl" data-percentage="40">hsl 40%</div>
+			<div class="block hsl" data-percentage="60">hsl 60%</div>
+			<div class="block hsl" data-percentage="80">hsl 80%</div>
+			<div class="block hsl" data-percentage="90">hsl 90%</div>
+			<div class="block hsl" data-percentage="100">hsl 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lch" data-percentage="0">lch 0%</div>
+			<div class="block lch" data-percentage="10">lch 10%</div>
+			<div class="block lch" data-percentage="20">lch 20%</div>
+			<div class="block lch" data-percentage="40">lch 40%</div>
+			<div class="block lch" data-percentage="60">lch 60%</div>
+			<div class="block lch" data-percentage="80">lch 80%</div>
+			<div class="block lch" data-percentage="90">lch 90%</div>
+			<div class="block lch" data-percentage="100">lch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lab" data-percentage="0">lab 0%</div>
+			<div class="block lab" data-percentage="10">lab 10%</div>
+			<div class="block lab" data-percentage="20">lab 20%</div>
+			<div class="block lab" data-percentage="40">lab 40%</div>
+			<div class="block lab" data-percentage="60">lab 60%</div>
+			<div class="block lab" data-percentage="80">lab 80%</div>
+			<div class="block lab" data-percentage="90">lab 90%</div>
+			<div class="block lab" data-percentage="100">lab 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklch" data-percentage="0">oklch 0%</div>
+			<div class="block oklch" data-percentage="10">oklch 10%</div>
+			<div class="block oklch" data-percentage="20">oklch 20%</div>
+			<div class="block oklch" data-percentage="40">oklch 40%</div>
+			<div class="block oklch" data-percentage="60">oklch 60%</div>
+			<div class="block oklch" data-percentage="80">oklch 80%</div>
+			<div class="block oklch" data-percentage="90">oklch 90%</div>
+			<div class="block oklch" data-percentage="100">oklch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklab" data-percentage="0">oklab 0%</div>
+			<div class="block oklab" data-percentage="10">oklab 10%</div>
+			<div class="block oklab" data-percentage="20">oklab 20%</div>
+			<div class="block oklab" data-percentage="40">oklab 40%</div>
+			<div class="block oklab" data-percentage="60">oklab 60%</div>
+			<div class="block oklab" data-percentage="80">oklab 80%</div>
+			<div class="block oklab" data-percentage="90">oklab 90%</div>
+			<div class="block oklab" data-percentage="100">oklab 100%</div>
+		</div>
+	</fieldset>
+	<fieldset id="color-mix-4">
+		<legend>Color mix 4 (longer hue)</legend>
+		<div class="row">
+			<div class="block rgb" data-percentage="0">rgb 0%</div>
+			<div class="block rgb" data-percentage="10">rgb 10%</div>
+			<div class="block rgb" data-percentage="20">rgb 20%</div>
+			<div class="block rgb" data-percentage="40">rgb 40%</div>
+			<div class="block rgb" data-percentage="60">rgb 60%</div>
+			<div class="block rgb" data-percentage="80">rgb 80%</div>
+			<div class="block rgb" data-percentage="90">rgb 90%</div>
+			<div class="block rgb" data-percentage="100">rgb 100%</div>
+		</div>
+		<div class="row">
+			<div class="block hsl" data-percentage="0">hsl 0%</div>
+			<div class="block hsl" data-percentage="10">hsl 10%</div>
+			<div class="block hsl" data-percentage="20">hsl 20%</div>
+			<div class="block hsl" data-percentage="40">hsl 40%</div>
+			<div class="block hsl" data-percentage="60">hsl 60%</div>
+			<div class="block hsl" data-percentage="80">hsl 80%</div>
+			<div class="block hsl" data-percentage="90">hsl 90%</div>
+			<div class="block hsl" data-percentage="100">hsl 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lch" data-percentage="0">lch 0%</div>
+			<div class="block lch" data-percentage="10">lch 10%</div>
+			<div class="block lch" data-percentage="20">lch 20%</div>
+			<div class="block lch" data-percentage="40">lch 40%</div>
+			<div class="block lch" data-percentage="60">lch 60%</div>
+			<div class="block lch" data-percentage="80">lch 80%</div>
+			<div class="block lch" data-percentage="90">lch 90%</div>
+			<div class="block lch" data-percentage="100">lch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block lab" data-percentage="0">lab 0%</div>
+			<div class="block lab" data-percentage="10">lab 10%</div>
+			<div class="block lab" data-percentage="20">lab 20%</div>
+			<div class="block lab" data-percentage="40">lab 40%</div>
+			<div class="block lab" data-percentage="60">lab 60%</div>
+			<div class="block lab" data-percentage="80">lab 80%</div>
+			<div class="block lab" data-percentage="90">lab 90%</div>
+			<div class="block lab" data-percentage="100">lab 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklch" data-percentage="0">oklch 0%</div>
+			<div class="block oklch" data-percentage="10">oklch 10%</div>
+			<div class="block oklch" data-percentage="20">oklch 20%</div>
+			<div class="block oklch" data-percentage="40">oklch 40%</div>
+			<div class="block oklch" data-percentage="60">oklch 60%</div>
+			<div class="block oklch" data-percentage="80">oklch 80%</div>
+			<div class="block oklch" data-percentage="90">oklch 90%</div>
+			<div class="block oklch" data-percentage="100">oklch 100%</div>
+		</div>
+		<div class="row">
+			<div class="block oklab" data-percentage="0">oklab 0%</div>
+			<div class="block oklab" data-percentage="10">oklab 10%</div>
+			<div class="block oklab" data-percentage="20">oklab 20%</div>
+			<div class="block oklab" data-percentage="40">oklab 40%</div>
+			<div class="block oklab" data-percentage="60">oklab 60%</div>
+			<div class="block oklab" data-percentage="80">oklab 80%</div>
+			<div class="block oklab" data-percentage="90">oklab 90%</div>
+			<div class="block oklab" data-percentage="100">oklab 100%</div>
+		</div>
+	</fieldset>
+	<fieldset id="complementary-colors">
+		<legend>Complementary colors</legend>
+		<div class="block hsl" style="--color: red">hsl</div>
+		<div class="block lch" style="--color: red">lch</div>
+		<div class="block oklch" style="--color: red">oklch</div>
+		<div class="block hsl" style="--color: blue">hsl</div>
+		<div class="block lch" style="--color: blue">lch</div>
+		<div class="block oklch" style="--color: blue">oklch</div>
+		<div class="block hsl" style="--color: green">hsl</div>
+		<div class="block hsl" style="--color: yellow">hsl</div>
+		<div class="block hsl" style="--color: #5c2992">hsl</div>
+		<div class="block hsl" style="--color: orange">hsl</div>
+	</fieldset>
+</body>
+
+</html>
