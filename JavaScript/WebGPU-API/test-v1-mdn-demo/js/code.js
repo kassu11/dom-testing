@@ -10,7 +10,7 @@ async function init() {
 
 	const device = await adapter.requestDevice();
 
-	const shaders = `
+	const shaders = /* wgsl */`
 	struct VertexOut {
 		@builtin(position) position : vec4f,
 		@location(0) color : vec4f
