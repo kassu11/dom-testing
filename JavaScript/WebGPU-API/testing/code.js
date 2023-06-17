@@ -29,9 +29,14 @@ const pass = encoder.beginRenderPass({
 	}]
 });
 
+
+const minCubeMargin = Math.min(canvas.width, canvas.height) * .8
+const y = minCubeMargin / canvas.height
+const x = minCubeMargin / canvas.width
+
 const cubeVertices = new Float32Array([
-	0.8, -0.8, 0.8, 0.8, -0.8, -0.8,
-	-0.8, 0.8, 0.8, 0.8, -0.8, -0.8
+	x, -y, x, y, -x, -y,
+	-x, y, x, y, -x, -y
 ]);
 
 const cubeVertexBuffer = device.createBuffer({
