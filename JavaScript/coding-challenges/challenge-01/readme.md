@@ -1,7 +1,7 @@
 # Moving elements
 
 - Your goal is to make at least `3 buttons on the screen`
-- The buttons are vertically alinged below each other
+- The buttons are vertically aligned below each other
 - The buttons can have any text you want inside them
 - When `pressed` the button `moves to the opposite side of the screen` (left to right or right to left)
 	- The `movement` has to be `smooth` so the button `doesn't just teleport` to the other side
