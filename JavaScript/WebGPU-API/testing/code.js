@@ -1,6 +1,6 @@
-const CANVAS_WIDTH = 2;
-const CANVAS_HEIGHT = 5;
-const PIXEL_SIZE = 100;
+const CANVAS_WIDTH = 40;
+const CANVAS_HEIGHT = 20;
+const PIXEL_SIZE = 30;
 
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("webgpu");
@@ -48,7 +48,7 @@ const cubeVertexBuffer = device.createBuffer({
 device.queue.writeBuffer(cubeVertexBuffer, 0, cubeVertices);
 
 const cubeVertexBufferLayout = {
-	arrayStride: 8,
+	arrayStride: 8, // x and y values take up 4 bytes each
 	attributes: [{
 		format: "float32x2",
 		offset: 0,
@@ -81,8 +81,9 @@ const cubeShaderModule = device.createShaderModule({
 	code: /* wgsl */ `
 		@group(0) @binding(0) var<uniform> grid: vec2f;
 
-		@vertex fn vertexMain(@location(0) pos: vec2f) -> @builtin(position) vec4f {
-			let cell = vec2f(0, 0);
+		@vertex fn vertexMain(@location(0) pos: vec2f, @builtin(instance_index) instance: u32) -> @builtin(position) vec4f {
+			let i = f32(instance);
+			let cell = vec2f(i % grid.x, floor(i / grid.x));
 			let scale = min(grid.x, grid.y);
 			let offset = cell / grid * 2 + 1 / grid;
 			return vec4f(pos / scale - 1 + offset, 0, 1);
@@ -128,7 +129,7 @@ const pass = encoder.beginRenderPass({
 pass.setPipeline(cubePipeline);
 pass.setBindGroup(0, bindGroup);
 pass.setVertexBuffer(0, cubeVertexBuffer);
-pass.draw(cubeVertices.length / 2);
+pass.draw(cubeVertices.length / 2, CANVAS_WIDTH * CANVAS_HEIGHT);
 
 pass.end();
 device.queue.submit([encoder.finish()]);
