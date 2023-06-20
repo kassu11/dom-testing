@@ -1,6 +1,6 @@
-const CANVAS_WIDTH = 40;
-const CANVAS_HEIGHT = 20;
-const PIXEL_SIZE = 30;
+const CANVAS_WIDTH = 16;
+const CANVAS_HEIGHT = 9;
+const PIXEL_SIZE = 20;
 
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("webgpu");
@@ -81,16 +81,31 @@ const cubeShaderModule = device.createShaderModule({
 	code: /* wgsl */ `
 		@group(0) @binding(0) var<uniform> grid: vec2f;
 
-		@vertex fn vertexMain(@location(0) pos: vec2f, @builtin(instance_index) instance: u32) -> @builtin(position) vec4f {
-			let i = f32(instance);
+		struct VertexInput {
+			@location(0) pos: vec2f,
+			@builtin(instance_index) instance: u32,
+		}
+
+		struct VertexOutput {
+			@builtin(position) pos: vec4f,
+			@location(0) cell: vec2f,
+		}
+
+		@vertex fn vertexMain(input: VertexInput) -> VertexOutput {
+			var output: VertexOutput;
+
+			let i = f32(input.instance);
 			let cell = vec2f(i % grid.x, floor(i / grid.x));
 			let scale = min(grid.x, grid.y);
 			let offset = cell / grid * 2 + 1 / grid;
-			return vec4f(pos / scale - 1 + offset, 0, 1);
+			output.pos = vec4f(input.pos / scale - 1 + offset, 0, 1);
+			output.cell = cell;
+			return output;
 		}
 
-		@fragment fn fragmentMain() -> @location(0) vec4f {
-			return vec4f(1.0, 0.0, 0.0, 1.0);
+		@fragment fn fragmentMain(input: VertexOutput) -> @location(0) vec4f {
+			let color = input.cell / grid;
+			return vec4f(color, 1 - color.y, 1.0);
 		}
 	`
 });
