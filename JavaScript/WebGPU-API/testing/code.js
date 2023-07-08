@@ -1,5 +1,7 @@
-const CANVAS_WIDTH = 16;
-const CANVAS_HEIGHT = 9;
+const SUMALATION_WIDTH = 560;
+const SUMALATION_HEIGHT = 200;
+const CANVAS_WIDTH = 60;
+const CANVAS_HEIGHT = 35;
 const PIXEL_SIZE = 20;
 
 const canvas = document.querySelector("canvas");
@@ -31,8 +33,15 @@ const gridUniformBuffer = device.createBuffer({
 	size: gridUniforms.byteLength,
 	usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
 });
+const simulationUniforms = new Float32Array([SUMALATION_WIDTH, SUMALATION_HEIGHT]);
+const simulationUniformBuffer = device.createBuffer({
+	label: "Simulation size Uniforms",
+	size: simulationUniforms.byteLength,
+	usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+});
 
 device.queue.writeBuffer(gridUniformBuffer, 0, gridUniforms);
+device.queue.writeBuffer(simulationUniformBuffer, 0, simulationUniforms);
 
 const cubeVertices = new Float32Array([
 	x, -y, x, y, -x, -y,
@@ -62,6 +71,11 @@ const bindGroupLayout = device.createBindGroupLayout({
 		binding: 0,
 		visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
 		buffer: {}
+	},
+	{
+		binding: 1,
+		visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+		buffer: {}
 	}]
 });
 
@@ -70,9 +84,11 @@ const bindGroup = device.createBindGroup({
 	layout: bindGroupLayout,
 	entries: [{
 		binding: 0,
-		resource: {
-			buffer: gridUniformBuffer
-		}
+		resource: { buffer: gridUniformBuffer }
+	},
+	{
+		binding: 1,
+		resource: { buffer: simulationUniformBuffer }
 	}]
 });
 
@@ -80,6 +96,7 @@ const cubeShaderModule = device.createShaderModule({
 	label: "Cube shader",
 	code: /* wgsl */ `
 		@group(0) @binding(0) var<uniform> grid: vec2f;
+		@group(0) @binding(1) var<uniform> simulation: vec2f;
 
 		struct VertexInput {
 			@location(0) pos: vec2f,
@@ -95,7 +112,7 @@ const cubeShaderModule = device.createShaderModule({
 			var output: VertexOutput;
 
 			let i = f32(input.instance);
-			let cell = vec2f(i % grid.x, floor(i / grid.x));
+			let cell = vec2f(i % simulation.x, floor(i / simulation.x));
 			let scale = min(grid.x, grid.y);
 			let offset = cell / grid * 2 + 1 / grid;
 			output.pos = vec4f(input.pos / scale - 1 + offset, 0, 1);
@@ -137,14 +154,14 @@ const pass = encoder.beginRenderPass({
 		view: context.getCurrentTexture().createView(),
 		loadOp: "clear",
 		storeOp: "store",
-		clearValue: { r: 0, g: 0, b: 0.5, a: 1 },
+		clearValue: [0, 0, 0, 1],
 	}]
 });
 
 pass.setPipeline(cubePipeline);
 pass.setBindGroup(0, bindGroup);
 pass.setVertexBuffer(0, cubeVertexBuffer);
-pass.draw(cubeVertices.length / 2, CANVAS_WIDTH * CANVAS_HEIGHT);
+pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
 
 pass.end();
 device.queue.submit([encoder.finish()]);
