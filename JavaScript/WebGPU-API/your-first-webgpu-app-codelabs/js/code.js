@@ -74,12 +74,6 @@ for (let i = 0; i < cellStateArray.length; ++i) {
 
 device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
 
-for (let i = 0; i < cellStateArray.length; i++) {
-	cellStateArray[i] = i % 2;
-}
-
-device.queue.writeBuffer(cellStateStorage[1], 0, cellStateArray);
-
 const cellShaderModule = device.createShaderModule({
 	label: "Cell shader",
 	code: /* wgsl */`
@@ -111,15 +105,14 @@ const cellShaderModule = device.createShaderModule({
 
 		var output: VertexOutput;
 		output.pos = vec4f(gridPos, 0, 1);
-		output.cell = cell; 
+		output.cell = cell / grid; 
 		return output;
 	}
 
 	@fragment
 	fn fragmentMain(input: VertexOutput) -> FragmentOutput {
 		var output: FragmentOutput;
-		let cell = input.cell / grid;
-		output.pos = vec4f(cell, 1 - cell.x, 1); // (Red, Green, Blue, Alpha)
+		output.pos = vec4f(input.cell, 1 - input.cell.x, 1); // (Red, Green, Blue, Alpha)
 		return output;
 	}
 	`
@@ -131,11 +124,11 @@ const bindGroupLayout = device.createBindGroupLayout({
 	label: "Cell Bind Group Layout",
 	entries: [{
 		binding: 0,
-		visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT | GPUShaderStage.COMPUTE,
+		visibility: GPUShaderStage.VERTEX | GPUShaderStage.COMPUTE,
 		buffer: {} // Grid uniform buffer
 	}, {
 		binding: 1,
-		visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT | GPUShaderStage.COMPUTE,
+		visibility: GPUShaderStage.VERTEX | GPUShaderStage.COMPUTE,
 		buffer: { type: "read-only-storage" } // Cell state input buffer
 	}, {
 		binding: 2,
