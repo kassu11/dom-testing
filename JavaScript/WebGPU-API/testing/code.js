@@ -1,5 +1,5 @@
-const SUMALATION_WIDTH = 560;
-const SUMALATION_HEIGHT = 200;
+const SUMALATION_WIDTH = 500;
+const SUMALATION_HEIGHT = 500;
 const CANVAS_WIDTH = 60;
 const CANVAS_HEIGHT = 35;
 const PIXEL_SIZE = 20;
@@ -43,6 +43,14 @@ const simulationUniformBuffer = device.createBuffer({
 device.queue.writeBuffer(gridUniformBuffer, 0, gridUniforms);
 device.queue.writeBuffer(simulationUniformBuffer, 0, simulationUniforms);
 
+const positionArray = new Float32Array([0, 0]);
+const positionBuffer = device.createBuffer({
+	label: "Position buffer",
+	size: positionArray.byteLength,
+	usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+});
+device.queue.writeBuffer(positionBuffer, 0, positionArray);
+
 const cubeVertices = new Float32Array([
 	x, -y, x, y, -x, -y,
 	-x, y, x, y, -x, -y
@@ -74,8 +82,13 @@ const bindGroupLayout = device.createBindGroupLayout({
 	},
 	{
 		binding: 1,
-		visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+		visibility: GPUShaderStage.VERTEX,
 		buffer: {}
+	},
+	{
+		binding: 2,
+		visibility: GPUShaderStage.VERTEX,
+		buffer: { type: "read-only-storage" }
 	}]
 });
 
@@ -89,6 +102,10 @@ const bindGroup = device.createBindGroup({
 	{
 		binding: 1,
 		resource: { buffer: simulationUniformBuffer }
+	},
+	{
+		binding: 2,
+		resource: { buffer: positionBuffer }
 	}]
 });
 
@@ -97,6 +114,7 @@ const cubeShaderModule = device.createShaderModule({
 	code: /* wgsl */ `
 		@group(0) @binding(0) var<uniform> grid: vec2f;
 		@group(0) @binding(1) var<uniform> simulation: vec2f;
+		@group(0) @binding(2) var<storage> gridPos: vec2f;
 
 		struct VertexInput {
 			@location(0) pos: vec2f,
@@ -115,7 +133,7 @@ const cubeShaderModule = device.createShaderModule({
 			let cell = vec2f(i % simulation.x, floor(i / simulation.x));
 			let scale = min(grid.x, grid.y);
 			let offset = cell / grid * 2 + 1 / grid;
-			output.pos = vec4f(input.pos / scale - 1 + offset, 0, 1);
+			output.pos = vec4f(input.pos / scale - 1 + offset - gridPos, 0, 1);
 			output.cell = cell;
 			return output;
 		}
