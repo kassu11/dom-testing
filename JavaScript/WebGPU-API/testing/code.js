@@ -1,5 +1,5 @@
-const SUMALATION_WIDTH = 500;
-const SUMALATION_HEIGHT = 500;
+const SUMALATION_WIDTH = 5;
+const SUMALATION_HEIGHT = 5;
 const CANVAS_WIDTH = 60;
 const CANVAS_HEIGHT = 35;
 const PIXEL_SIZE = 20;
@@ -43,7 +43,7 @@ const simulationUniformBuffer = device.createBuffer({
 device.queue.writeBuffer(gridUniformBuffer, 0, gridUniforms);
 device.queue.writeBuffer(simulationUniformBuffer, 0, simulationUniforms);
 
-const positionArray = new Float32Array([0, 0]);
+const positionArray = new Float32Array([.5, 0.5]);
 const positionBuffer = device.createBuffer({
 	label: "Position buffer",
 	size: positionArray.byteLength,
@@ -133,7 +133,7 @@ const cubeShaderModule = device.createShaderModule({
 			let cell = vec2f(i % simulation.x, floor(i / simulation.x));
 			let scale = min(grid.x, grid.y);
 			let offset = cell / grid * 2 + 1 / grid;
-			output.pos = vec4f(input.pos / scale - 1 + offset - gridPos, 0, 1);
+			output.pos = vec4f(input.pos / scale - 1 + offset + gridPos, 0, 1);
 			output.cell = cell;
 			return output;
 		}
@@ -183,3 +183,69 @@ pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
 
 pass.end();
 device.queue.submit([encoder.finish()]);
+
+canvas.addEventListener("mousedown", e => {
+	e.preventDefault();
+	window.addEventListener("mousemove", move);
+	window.addEventListener("mouseup", () => window.removeEventListener("mousemove", move), { once: true });
+	const rect = canvas.getBoundingClientRect();
+	const x = e.x;
+	const y = e.y;
+	const startX = positionArray[0];
+	const startY = positionArray[1];
+
+	function move(e) {
+		if (e.buttons === 0) {
+			window.removeEventListener("mousemove", move);
+			return;
+		}
+
+		const dx = (e.x - x) / rect.width * 2 + startX;
+		const dy = (e.y - y) / rect.height * -2 + startY;
+		positionArray[0] = dx;
+		positionArray[1] = dy;
+
+		const encoder = device.createCommandEncoder();
+
+		const pass = encoder.beginRenderPass({
+			colorAttachments: [{
+				view: context.getCurrentTexture().createView(),
+				loadOp: "clear",
+				clearValue: [0, 0, 0, 1],
+				storeOp: "store",
+			}]
+		});
+
+		const positionBuffer = device.createBuffer({
+			label: "Position buffer",
+			size: positionArray.byteLength,
+			usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+		});
+		device.queue.writeBuffer(positionBuffer, 0, positionArray);
+
+		const bindGroup = device.createBindGroup({
+			label: "Cube grid bind group",
+			layout: bindGroupLayout,
+			entries: [{
+				binding: 0,
+				resource: { buffer: gridUniformBuffer }
+			},
+			{
+				binding: 1,
+				resource: { buffer: simulationUniformBuffer }
+			},
+			{
+				binding: 2,
+				resource: { buffer: positionBuffer }
+			}]
+		});
+
+		pass.setPipeline(cubePipeline);
+		pass.setBindGroup(0, bindGroup);
+		pass.setVertexBuffer(0, cubeVertexBuffer);
+		pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
+
+		pass.end();
+		device.queue.submit([encoder.finish()]);
+	}
+})
