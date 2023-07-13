@@ -147,11 +147,12 @@ const cubeShaderModule = device.createShaderModule({
 		@vertex fn vertexMain(input: VertexInput) -> VertexOutput {
 			var output: VertexOutput;
 
+			let scaleAmount = 0.75;
 			let i = f32(input.instance);
 			let cell = vec2f(i % simulation.x, floor(i / simulation.x));
-			let scale = min(grid.x, grid.y);
+			let scale = min(grid.x, grid.y) / scaleAmount;
 			let state = f32(cellState[input.instance]);
-			let offset = cell / grid * 2 + 1 / grid;
+			let offset = cell / grid * 2 * scaleAmount + 1 / grid;
 			output.pos = vec4f(input.pos * state / scale - 1 + offset + gridPos, 0, 1);
 			output.cell = cell;
 			return output;
@@ -346,7 +347,7 @@ function updateCanvas() {
 	device.queue.submit([encoder.finish()]);
 }
 
-setInterval(e => {
+setInterval(() => {
 	const encoder = device.createCommandEncoder();
 	const computePass = encoder.beginComputePass();
 
@@ -427,4 +428,4 @@ setInterval(e => {
 
 	pass.end();
 	device.queue.submit([encoder.finish()]);
-}, 100);
+}, 1 / 60 * 1000);
