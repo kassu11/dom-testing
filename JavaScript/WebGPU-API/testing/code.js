@@ -1,5 +1,5 @@
-const SUMALATION_WIDTH = 5;
-const SUMALATION_HEIGHT = 5;
+const SUMALATION_WIDTH = 50;
+const SUMALATION_HEIGHT = 50;
 const CANVAS_WIDTH = 60;
 const CANVAS_HEIGHT = 35;
 const PIXEL_SIZE = 20;
@@ -43,7 +43,7 @@ const simulationUniformBuffer = device.createBuffer({
 device.queue.writeBuffer(gridUniformBuffer, 0, gridUniforms);
 device.queue.writeBuffer(simulationUniformBuffer, 0, simulationUniforms);
 
-const positionArray = new Float32Array([.5, 0.5]);
+const positionArray = new Float32Array([0, 0]);
 const positionBuffer = device.createBuffer({
 	label: "Position buffer",
 	size: positionArray.byteLength,
@@ -89,23 +89,6 @@ const bindGroupLayout = device.createBindGroupLayout({
 		binding: 2,
 		visibility: GPUShaderStage.VERTEX,
 		buffer: { type: "read-only-storage" }
-	}]
-});
-
-const bindGroup = device.createBindGroup({
-	label: "Cube grid bind group",
-	layout: bindGroupLayout,
-	entries: [{
-		binding: 0,
-		resource: { buffer: gridUniformBuffer }
-	},
-	{
-		binding: 1,
-		resource: { buffer: simulationUniformBuffer }
-	},
-	{
-		binding: 2,
-		resource: { buffer: positionBuffer }
 	}]
 });
 
@@ -167,22 +150,7 @@ const cubePipeline = device.createRenderPipeline({
 	},
 });
 
-const pass = encoder.beginRenderPass({
-	colorAttachments: [{
-		view: context.getCurrentTexture().createView(),
-		loadOp: "clear",
-		storeOp: "store",
-		clearValue: [0, 0, 0, 1],
-	}]
-});
-
-pass.setPipeline(cubePipeline);
-pass.setBindGroup(0, bindGroup);
-pass.setVertexBuffer(0, cubeVertexBuffer);
-pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
-
-pass.end();
-device.queue.submit([encoder.finish()]);
+updateCanvas();
 
 canvas.addEventListener("mousedown", e => {
 	e.preventDefault();
@@ -205,47 +173,46 @@ canvas.addEventListener("mousedown", e => {
 		positionArray[0] = dx;
 		positionArray[1] = dy;
 
-		const encoder = device.createCommandEncoder();
-
-		const pass = encoder.beginRenderPass({
-			colorAttachments: [{
-				view: context.getCurrentTexture().createView(),
-				loadOp: "clear",
-				clearValue: [0, 0, 0, 1],
-				storeOp: "store",
-			}]
-		});
-
-		const positionBuffer = device.createBuffer({
-			label: "Position buffer",
-			size: positionArray.byteLength,
-			usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
-		});
-		device.queue.writeBuffer(positionBuffer, 0, positionArray);
-
-		const bindGroup = device.createBindGroup({
-			label: "Cube grid bind group",
-			layout: bindGroupLayout,
-			entries: [{
-				binding: 0,
-				resource: { buffer: gridUniformBuffer }
-			},
-			{
-				binding: 1,
-				resource: { buffer: simulationUniformBuffer }
-			},
-			{
-				binding: 2,
-				resource: { buffer: positionBuffer }
-			}]
-		});
-
-		pass.setPipeline(cubePipeline);
-		pass.setBindGroup(0, bindGroup);
-		pass.setVertexBuffer(0, cubeVertexBuffer);
-		pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
-
-		pass.end();
-		device.queue.submit([encoder.finish()]);
+		updateCanvas();
 	}
 })
+
+function updateCanvas() {
+	const encoder = device.createCommandEncoder();
+
+	const pass = encoder.beginRenderPass({
+		colorAttachments: [{
+			view: context.getCurrentTexture().createView(),
+			loadOp: "clear",
+			clearValue: [0, 0, 0, 1],
+			storeOp: "store",
+		}]
+	});
+
+	device.queue.writeBuffer(positionBuffer, 0, positionArray);
+
+	const bindGroup = device.createBindGroup({
+		label: "Cube grid bind group",
+		layout: bindGroupLayout,
+		entries: [{
+			binding: 0,
+			resource: { buffer: gridUniformBuffer }
+		},
+		{
+			binding: 1,
+			resource: { buffer: simulationUniformBuffer }
+		},
+		{
+			binding: 2,
+			resource: { buffer: positionBuffer }
+		}]
+	});
+
+	pass.setPipeline(cubePipeline);
+	pass.setBindGroup(0, bindGroup);
+	pass.setVertexBuffer(0, cubeVertexBuffer);
+	pass.draw(cubeVertices.length / 2, SUMALATION_WIDTH * SUMALATION_HEIGHT);
+
+	pass.end();
+	device.queue.submit([encoder.finish()]);
+}
