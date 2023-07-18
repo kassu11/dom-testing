@@ -40,9 +40,19 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/attribute-selectors">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/attribute-selectors/">Demo</a>
 					</blockquote>
 				</li>
+				<li>color-functions
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/color-functions/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/color-functions/test-v1/">Demo</a>
+					</blockquote>
+				</li>
 				<li>css-nesting
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/css-nesting">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/css-nesting/">Demo</a>
+					</blockquote>
+				</li>
+				<li>grid
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/grid">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/grid/">Demo</a>
 					</blockquote>
 				</li>
 				<li>grid-max-rows
@@ -107,6 +117,22 @@
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/coding-challenges/challenge-01">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/coding-challenges/challenge-01/">Demo</a>
 					</blockquote>
+				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/crypto-js">📂</a> crypto-js</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/crypto-js/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/crypto-js/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/crypto-js/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/crypto-js/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>destructuring-test
 					<blockquote>
@@ -190,6 +216,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/readme-list-generator">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/readme-list-generator/">Demo</a>
 					</blockquote>
 				</li>
+				<li>sha512
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/sha512/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/sha512/test-v1/">Demo</a>
+					</blockquote>
+				</li>
 				<li>shadow-DOM
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/shadow-DOM/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/shadow-DOM/test-v1/">Demo</a>
@@ -211,9 +242,35 @@
 						</ul>
 					</details>
 				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API">📂</a> WebGPU-API</summary>
+						<ul>
+							<li>mdn-demo
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/mdn-demo">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/mdn-demo/">Demo</a>
+								</blockquote>
+							</li>
+							<li>testing
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/testing">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/testing/">Demo</a>
+								</blockquote>
+							</li>
+							<li>your-first-webgpu-app-codelabs
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/your-first-webgpu-app-codelabs">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/your-first-webgpu-app-codelabs/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
+				</li>
 				<li>window-getSelection
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-getSelection">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-getSelection/">Demo</a>
+					</blockquote>
+				</li>
+				<li>window-open-method
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-open-method/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-open-method/test-v1/">Demo</a>
 					</blockquote>
 				</li>
 			</ul>
