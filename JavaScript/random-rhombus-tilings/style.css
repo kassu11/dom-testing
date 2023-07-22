@@ -1,7 +1,8 @@
 #container {
 	position: relative;
-	width: 800px;
-	height: 800px;
+	width: 0px;
+	height: 0px;
+	transform-origin: left top;
 }
 
 
