@@ -11,29 +11,26 @@
 	box-sizing: border-box;
 }
 
-.green {
+.bottom {
 	width: 81px;
 	height: 81px;
 	left: 60px;
 	top: 91px;
-	border: 2px solid black;
-	background: green;
+	background: #f9c537;
 	transform: scaleX(1.75) rotate(45deg);
 }
 
-.blue {
+.left {
 	width: 100px;
 	height: 100px;
-	border: 3px solid black;
-	background: blue;
+	background: #ff7f51;
 	transform: skewY(330deg);
 }
 
-.orange {
+.right {
 	width: 100px;
 	height: 100px;
-	border: 3px solid black;
-	background: orange;
+	background: #26cdd1;
 	transform: skewY(30deg);
 	left: 100px;
 }
