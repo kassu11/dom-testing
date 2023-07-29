@@ -11,6 +11,10 @@
 	box-sizing: border-box;
 }
 
+.animate div {
+	transition: left .5s, top .5s;
+}
+
 .bottom {
 	width: 81px;
 	height: 81px;
@@ -33,4 +37,21 @@
 	background: #26cdd1;
 	transform: skewY(30deg);
 	left: 100px;
+}
+
+fieldset {
+	position: relative;
+	top: 800px;
+	width: max-content;
+	display: flex;
+}
+
+input[type="text"] {
+	margin-right: 10px;
+	margin-left: 5px;
+	width: 70px;
+}
+
+button {
+	margin-left: 10px;
 }
