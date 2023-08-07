@@ -65,6 +65,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/inverted-borders-radius">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/inverted-borders-radius/">Demo</a>
 					</blockquote>
 				</li>
+				<li>is-selector
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/is-selector/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/is-selector/test-v1/">Demo</a>
+					</blockquote>
+				</li>
 			</ul>
 		</details>
 	</li>
@@ -206,6 +211,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/proxy/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/proxy/test-v1/">Demo</a>
 					</blockquote>
 				</li>
+				<li>random-rhombus-tilings
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/random-rhombus-tilings">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/random-rhombus-tilings/">Demo</a>
+					</blockquote>
+				</li>
 				<li>random-seed-numbers
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/random-seed-numbers/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/random-seed-numbers/test-v1/">Demo</a>
@@ -245,14 +255,9 @@
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API">📂</a> WebGPU-API</summary>
 						<ul>
-							<li>mdn-demo
+							<li>advanced-game-of-life
 								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/mdn-demo">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/mdn-demo/">Demo</a>
-								</blockquote>
-							</li>
-							<li>testing
-								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/testing">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/testing/">Demo</a>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/WebGPU-API/advanced-game-of-life">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/WebGPU-API/advanced-game-of-life/">Demo</a>
 								</blockquote>
 							</li>
 							<li>your-first-webgpu-app-codelabs
