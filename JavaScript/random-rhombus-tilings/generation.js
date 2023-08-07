@@ -63,11 +63,11 @@ function moveUp(x, y, z) {
 	bottom.setAttribute("data-y", y + 1);
 
 	left.style.top = `${parseFloat(left.style.top) + tileOffset}px`;
-	left.style.left = `${parseFloat(left.style.left) + tilePixelSize}px`;
+	left.style.left = `${parseInt(left.style.left) + tilePixelSize}px`;
 	left.setAttribute("data-z", z + 1);
 
 	right.style.top = `${parseFloat(right.style.top) + tileOffset}px`;
-	right.style.left = `${parseFloat(right.style.left) - tilePixelSize}px`;
+	right.style.left = `${parseInt(right.style.left) - tilePixelSize}px`;
 	right.setAttribute("data-x", x + 1);
 
 	const returnCorners = [];

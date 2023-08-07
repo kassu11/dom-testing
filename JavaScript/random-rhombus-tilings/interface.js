@@ -14,8 +14,15 @@ simulationsInput.addEventListener("input", e => {
 	e.target.value = e.target.value.split("").filter(char => numbers.includes(+char)).join("");
 });
 
+document.querySelector("button#add").addEventListener("click", e => {
+	const amount = Math.max(0, parseInt(simulationsInput.value)) || 0;
+	simulateCorners(amount);
+});
+
 document.querySelector("button#generate").addEventListener("click", e => {
 	const amount = Math.max(0, parseInt(simulationsInput.value)) || 0;
+	const size = Math.max(2, parseInt(sizeInput.value)) || 2;
+	generateEmptyGrid(size);
 	simulateCorners(amount);
 });
 
