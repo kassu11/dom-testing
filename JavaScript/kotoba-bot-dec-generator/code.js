@@ -67,6 +67,7 @@ startButton.addEventListener("click", async () => {
 				else card.meaning = row.english_definitions.join(", ");
 			});
 
+			card.meaning = card.meaning.substring(0, 590);
 			deck.cards.push(card);
 		}
 
