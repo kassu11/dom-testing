@@ -104,6 +104,7 @@ csvButton.addEventListener("click", () => {
 
 function csvValue(value) {
 	if (value === null || value === undefined) return "";
+	value = value.replaceAll('"', '""');
 	if (value?.includes(",")) return `"${value}"`;
 	return value;
 }
