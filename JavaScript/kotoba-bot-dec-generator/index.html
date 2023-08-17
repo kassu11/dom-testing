@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kotoba bot dec generator</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+	<h1>Kotoba discord bot deck generator</h1>
+
+	<p>This application uses the <a href="https://jisho.org/">Jisho.org</a> API to generate CSV and JSON files. These files can be imported to Kotoba from the <a href="https://kotobaweb.com/dashboard/decks/new">Kotoba dashboard</a> as custom decks.</p>
+
+	<p>The API rate limit has been set to 2 calls per second and one page contains 20 results. So if your search has 3000 results, the process would take 75 seconds to finish.</p>
+
+	<h2>Settings</h2>
+
+	<label for="url">Jisho.org search parameter: </label>
+	<input type="text" id="url" lang="ja" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="#jlpt-n5 #words"><br>
+
+	<label for="startPage">Start page: <i>(default is 0)</i></label>
+	<input type="number" id="startPage" lang="ja" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0"><br>
+
+	<label for="endPage">End page: <i>(leave empty to get all)</i></label>
+	<input type="number" id="endPage" lang="ja" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0"><br>
+
+	<button id="start">Start</button>
+	<button id="stop" disabled>Stop</button>
+
+	<!-- https://cors-anywhere.herokuapp.com/corsdemo -->
+
+	<h2>Info</h2>
+	<ul>
+		<li>
+			<span>Pages processed: <output id="processed">0</output></span>
+		</li>
+		<li>
+			<span>Process status: <output id="status">Not running</output></span>
+		</li>
+	</ul>
+
+
+	<button id="json" disabled>Get JSON</button>
+	<button id="csv" disabled>Get CSV</button>
+
+	<dialog id="error">
+		<form method="dialog">
+			<h1>Error</h1>
+			<p id="errorMessage">message</p>
+			<button type="close">Close</button>
+		</form>
+	</dialog>
+
+</body>
+
+</html>
+
+<script src="./code.js"></script>
