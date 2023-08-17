@@ -51,13 +51,15 @@ startButton.addEventListener("click", async () => {
 
 		for (const entry of json) {
 			const card = {
-				"question": entry.japanese.some(row => row.word === entry.slug) ? entry.slug : entry.japanese[0].word,
+				"question": entry.japanese[0].word ?? entry.slug,
 				"answer": [],
 				"meaning": ""
 			};
 
 			entry.japanese.forEach(row => {
-				if (row.word === entry.slug) card.answer.push(row.reading);
+				if (!row.reading) return;
+				if (!row.word) card.answer.push(row.reading);
+				else if (row.word === card.question) card.answer.push(row.reading);
 			});
 			entry.senses.forEach(row => {
 				if (!row.english_definitions) return;
