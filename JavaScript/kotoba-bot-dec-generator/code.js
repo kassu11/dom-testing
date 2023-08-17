@@ -9,7 +9,9 @@ const startButton = document.querySelector("#start");
 const processedElem = document.querySelector("#processed");
 
 const jsonButton = document.querySelector("#json");
+const jsonFormatButton = document.querySelector("#jsonFormat");
 const csvButton = document.querySelector("#csv");
+const downloadElem = document.querySelector("#download");
 
 const errorDialogElem = document.querySelector("#error");
 const errorMessageElem = errorDialogElem.querySelector("#errorMessage");
@@ -42,10 +44,14 @@ startButton.addEventListener("click", async () => {
 		processed++;
 		processedElem.textContent = processed;
 		statusElem.textContent = "Processing...";
+		jsonButton.disabled = false;
+		jsonFormatButton.disabled = false;
+		csvButton.disabled = false;
+
 
 		for (const entry of json) {
 			const card = {
-				"question": entry.slug,
+				"question": entry.japanese.some(row => row.word === entry.slug) ? entry.slug : entry.japanese[0].word,
 				"answer": [],
 				"meaning": ""
 			};
@@ -62,15 +68,43 @@ startButton.addEventListener("click", async () => {
 			deck.cards.push(card);
 		}
 
-
-
-		if (true || ++startPage >= endPage && endPage !== 0) {
+		if (++startPage >= endPage && endPage !== 0) {
 			stopSearch(interval);
 			return;
 		}
 	}, 500);
 });
 
+
+jsonButton.addEventListener("click", () => {
+	const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(deck));
+	downloadElem.setAttribute("href", dataStr);
+	downloadElem.setAttribute("download", "deck.json");
+	downloadElem.click();
+});
+
+jsonFormatButton.addEventListener("click", () => {
+	const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(deck, null, 2));
+	downloadElem.setAttribute("href", dataStr);
+	downloadElem.setAttribute("download", "deck.json");
+	downloadElem.click();
+});
+
+csvButton.addEventListener("click", () => {
+	const array = deck.cards.map(card => {
+		return `${card.question},${csvValue(card.answer.join(","))},${csvValue(card.meaning)},Type the reading!,Image`;
+	});
+	const dataStr = "data:text/txt;charset=utf-8," + "Question,Answers,Comment,Instructions,Render as\n" + encodeURIComponent(array.join("\n"));
+	downloadElem.setAttribute("href", dataStr);
+	downloadElem.setAttribute("download", "deck.csv");
+	downloadElem.click();
+});
+
+function csvValue(value) {
+	if (value === null || value === undefined) return "";
+	if (value?.includes(",")) return `"${value}"`;
+	return value;
+}
 
 function stopSearch(interval) {
 	clearInterval(interval);

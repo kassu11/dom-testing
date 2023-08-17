@@ -13,7 +13,9 @@
 
 	<p>This application uses the <a href="https://jisho.org/">Jisho.org</a> API to generate CSV and JSON files. These files can be imported to Kotoba from the <a href="https://kotobaweb.com/dashboard/decks/new">Kotoba dashboard</a> as custom decks.</p>
 
-	<p>The API rate limit has been set to 2 calls per second and one page contains 20 results. So if your search has 3000 results, the process would take 75 seconds to finish.</p>
+	<p>The API rate limit has been set to 2 calls per second and one page call contains 20 results. So if your search has 3000 results, the process would take 75 seconds to finish. The fetching uses <a href="https://cors-anywhere.herokuapp.com/corsdemo">cors-anywhere</a> so you will have to go to the page and enable it by clicking <b>"Request temporary access to the demo server"</b></p>
+
+	<p>If you are getting a search error, that is most likely because too many requests have been sent to <a href="https://jisho.org/">Jisho.org</a>. You can't do anything about this, but wait it out.</p>
 
 	<h2>Settings</h2>
 
@@ -43,7 +45,9 @@
 
 
 	<button id="json" disabled>Get JSON</button>
+	<button id="jsonFormat" disabled>Get JSON (formatted)</button>
 	<button id="csv" disabled>Get CSV</button>
+	<a id="download" download=""></a>
 
 	<dialog id="error">
 		<form method="dialog">
