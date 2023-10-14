@@ -164,6 +164,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/innerText-vs-textContent">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/innerText-vs-textContent/">Demo</a>
 					</blockquote>
 				</li>
+				<li>kotoba-bot-dec-generator
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/kotoba-bot-dec-generator">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/kotoba-bot-dec-generator/">Demo</a>
+					</blockquote>
+				</li>
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/module-testing">📂</a> module-testing</summary>
 						<ul>
@@ -249,6 +254,11 @@
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/02-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/02-test/">Demo</a>
 								</blockquote>
 							</li>
+							<li>03-test
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API/03-test">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/Web-Workers-API/03-test/">Demo</a>
+								</blockquote>
+							</li>
 						</ul>
 					</details>
 				</li>
@@ -273,10 +283,21 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-getSelection">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-getSelection/">Demo</a>
 					</blockquote>
 				</li>
-				<li>window-open-method
-					<blockquote>
-						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-open-method/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-open-method/test-v1/">Demo</a>
-					</blockquote>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-open-method">📂</a> window-open-method</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-open-method/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-open-method/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2-multithreading
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/window-open-method/test-v2-multithreading">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/window-open-method/test-v2-multithreading/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 			</ul>
 		</details>
