@@ -70,6 +70,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/is-selector/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/is-selector/test-v1/">Demo</a>
 					</blockquote>
 				</li>
+				<li>sub-grid
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/CSS/sub-grid">Code</a> & <a href="https://kassu11.github.io/dom-testing/CSS/sub-grid/">Demo</a>
+					</blockquote>
+				</li>
 			</ul>
 		</details>
 	</li>
