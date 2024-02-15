@@ -1,4 +1,4 @@
-# QuadTree
+# Static QuadTree with points
 
 - This is a simple `QuadTree` implementation in `JavaScript`
 	- The code was inspired by CodingTrain's YouTube [coding challenge video](https://www.youtube.com/watch?v=OJxEcs0w_kE)
