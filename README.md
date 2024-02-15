@@ -221,10 +221,21 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/proxy/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/proxy/test-v1/">Demo</a>
 					</blockquote>
 				</li>
-				<li>quadtree
-					<blockquote>
-						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/quadtree/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/quadtree/test-v1/">Demo</a>
-					</blockquote>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/quadtree">📂</a> quadtree</summary>
+						<ul>
+							<li>test-v1
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/quadtree/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/quadtree/test-v1/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/quadtree/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/quadtree/test-v2/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>random-rhombus-tilings
 					<blockquote>
