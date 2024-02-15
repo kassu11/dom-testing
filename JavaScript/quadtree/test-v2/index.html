@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quadtree</title>
+		<meta name="color-scheme" content="light dark" />
+		<meta name="supported-color-schemes" content="light dark only" />
+		<style type="text/css">
+			:root {
+				color-scheme: light dark;
+				supported-color-schemes: light dark;
+				font-family: system-ui;
+			}
+
+			strong,
+			output {
+				color: greenyellow;
+				font-weight: bolder;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>QuadTree in JavaScript v2</h1>
+		<canvas id="canvas"></canvas>
+		<h2>Information</h2>
+		<p>Hold <strong>mouse 1</strong> to draw points</p>
+		<ul>
+			<li>Total points: <output id="totalPointCount"></output></li>
+			<li>Point count: <output id="pointCount"></output></li>
+		</ul>
+	</body>
+</html>
+
+<script src="./quadtree.js"></script>
+<script src="./code.js"></script>
