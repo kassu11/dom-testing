@@ -2,7 +2,7 @@ function runGreedyMeshingAlgorithm(array, combineValue = 0) {
 	const gridClone = structuredClone(array);
 	verticalFill(gridClone, combineValue);
 	stretchMergeHorizontal(gridClone, combineValue);
-	return [...new Set(gridClone.flat())];
+	return [...new Set(gridClone.flat())].filter((tile) => typeof tile !== "number");
 }
 
 function stretchMergeHorizontal(grid, combineValue) {
