@@ -31,25 +31,12 @@ class createMap {
 
 	generateGreedyMeshing() {
 		const draws = [];
-		let maxZ = 0;
-		// console.log(this.map);
-		// Top
-		// for (let y = 0; y < this.map.length; y++) {
-		// 	if (!(0 in this.map[y])) continue;
-		// 	if (this.map[y][0].length > maxZ) maxZ = this.map[y][0].length;
-		// 	const textures = [...new Set(this.map[y].flat())];
-		// 	for (const texture of textures) {
-		// 		if (texture == 0) continue;
-		// 		draws.push(...runGreedyMeshingAlgorithm(this.map[y], texture).map((info) => ({ ...info, dir: "top", texture, y, z: info.y })));
-		// 	}
-		// }
 
 		// Top & Bottom
 		for (let y = 0; y < this.map.length; y++) {
 			const topArr = [];
 			const bottomArr = [];
 			for (let z = 0; z < this.map[y].length; z++) {
-				maxZ = Math.max(maxZ, this.map[y][z].length);
 				topArr.push([]);
 				bottomArr.push([]);
 				for (let x = 0; x < this.map[y][z]?.length; x++) {
@@ -98,7 +85,7 @@ class createMap {
 			for (let y = 0; y < this.map.length; y++) {
 				backArr.push([]);
 				frontArr.push([]);
-				for (let z = 0; z < maxZ; z++) {
+				for (let z = 0; z < this.map[y][x].length; z++) {
 					const prevFront = this.map[y][x + 1]?.[z];
 					const prevBack = this.map[y][x - 1]?.[z];
 					if (!prevBack) backArr[y].push(this.map[y][x][z] ?? 0);
@@ -107,8 +94,6 @@ class createMap {
 					else frontArr[y].push(0);
 				}
 			}
-
-			// console.log(backArr, maxZ);
 
 			for (const texture of [...new Set(backArr.flat())]) {
 				if (texture == 0) continue;
@@ -138,49 +123,50 @@ class createMap {
 		}
 
 		// left & right
-		// for (let x = 0; x < maxZ; x++) {
-		// 	const rightArr = [];
-		// 	const leftArr = [];
-		// 	for (let y = 0; y < this.map.length; y++) {
-		// 		rightArr.push([]);
-		// 		leftArr.push([]);
-		// 		for (let z = 0; z < this.map[y].length; z++) {
-		// 			const prevRight = this.map[y][x + 1]?.[z];
-		// 			const prevLeft = this.map[y]?.[x - 1]?.[z];
-		// 			if (!prevLeft) rightArr[y].push(this.map[y][x][z] ?? 0);
-		// 			else rightArr[y].push(0);
-		// 			if (!prevLeft) leftArr[y].push(this.map[y][z][x] ?? 0);
-		// 			else leftArr[y].push(0);
-		// 		}
-		// 	}
+		for (let x = 0; x < this.map[0][0].length; x++) {
+			const rightArr = [];
+			const leftArr = [];
+			for (let y = 0; y < this.map.length; y++) {
+				rightArr.push([]);
+				leftArr.push([]);
+				for (let z = 0; z < this.map[y].length; z++) {
+					const prevRight = this.map[y][z][x + 1];
+					const prevLeft = this.map[y]?.[z][x - 1];
+					if (!prevRight) rightArr[y].push(this.map[y][z][x] ?? 0);
+					else rightArr[y].push(0);
+					if (!prevLeft) leftArr[y].push(this.map[y][z][x] ?? 0);
+					else leftArr[y].push(0);
+				}
+			}
 
-		// 	for (const texture of [...new Set(rightArr.flat())]) {
-		// 		if (texture == 0) continue;
-		// 		draws.push(
-		// 			...runGreedyMeshingAlgorithm(rightArr, texture).map((info) => ({
-		// 				...info,
-		// 				dir: "right",
-		// 				texture,
-		// 				z: x + info.wx - 1,
-		// 				x: info.x + info.wx - 1,
-		// 				y: info.y + info.wy - 1,
-		// 			}))
-		// 		);
-		// 	}
-		// 	for (const texture of [...new Set(leftArr.flat())]) {
-		// 		if (texture == 0) continue;
-		// 		draws.push(
-		// 			...runGreedyMeshingAlgorithm(leftArr, texture).map((info) => ({
-		// 				...info,
-		// 				dir: "left",
-		// 				texture,
-		// 				z: x,
-		// 				y: info.y + info.wy - 1,
-		// 			}))
-		// 		);
-		// 	}
-		// 	// console.log(leftArr);
-		// }
+			for (const texture of [...new Set(rightArr.flat())]) {
+				if (texture == 0) continue;
+				draws.push(
+					...runGreedyMeshingAlgorithm(rightArr, texture).map((info) => ({
+						...info,
+						dir: "right",
+						texture,
+						z: info.x + info.wx - 1,
+						x: x,
+						y: info.y + info.wy - 1,
+					}))
+				);
+			}
+			for (const texture of [...new Set(leftArr.flat())]) {
+				if (texture == 0) continue;
+				draws.push(
+					...runGreedyMeshingAlgorithm(leftArr, texture).map((info) => ({
+						...info,
+						dir: "left",
+						texture,
+						z: info.x,
+						x: x,
+						y: info.y + info.wy - 1,
+					}))
+				);
+			}
+			// console.log(leftArr);
+		}
 
 		for (const draw of draws) {
 			this.appendTile2(draw);

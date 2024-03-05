@@ -8,7 +8,7 @@ const sceneElem = document.querySelector("#mapScene");
 const fpsElem = document.querySelector("#fps");
 
 // const gameMap = new createMap({ map: map1, size, scene: sceneElem });
-const noise = new PerlinNoise(123, 25, 25);
+const noise = new PerlinNoise(435345, 45, 45);
 const gameMap = createMap.fromNoise(noise, size, sceneElem);
 
 const camera = new Camera({
