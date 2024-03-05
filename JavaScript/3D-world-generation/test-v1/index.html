@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>3D camera v3</title>
+		<link rel="stylesheet" href="./css/style.css" />
+	</head>
+
+	<body>
+		<p id="fps"></p>
+		<div class="viewport skybox">
+			<div class="camera" id="skyboxCamera">
+				<div id="skybox">
+					<div class="skybox front"></div>
+					<div class="skybox back"></div>
+					<div class="skybox left"></div>
+					<div class="skybox right"></div>
+					<div class="skybox top"></div>
+					<div class="skybox bottom"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="crossHair">+</div>
+		<div class="viewport" id="mapViewport">
+			<div class="camera" id="mapCamera">
+				<div id="mapScene"></div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="./js/requestAnimationFrame.js"></script>
+<script src="./js/greedyMeshing/greedyMeshingAlgorithm.js"></script>
+<script src="./js/greedyMeshing/perfectMergeTiles.js"></script>
+<script src="./js/random.js"></script>
+<script src="./js/perlinNoise.js"></script>
+<script src="./js/camera.js"></script>
+<script src="./js/map.js"></script>
+<script src="./js/movement.js"></script>
+<script src="./js/index.js"></script>

@@ -1,0 +1,155 @@
+html {
+	color-scheme: dark;
+}
+
+body {
+	background: black;
+	font-family: system-ui;
+}
+
+#fps {
+	position: absolute;
+	z-index: 999;
+	margin: 0px;
+	top: 5px;
+	left: 5px;
+	background: rgba(0, 128, 0, 0.466);
+	padding-inline: 5px;
+	font-weight: 600;
+	color: lime;
+	user-select: none;
+}
+
+.crossHair {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	font-size: 24px;
+	font-weight: 900;
+	transform: translate(-50%, -50%);
+	z-index: 100;
+	user-select: none;
+	pointer-events: none;
+	color: black;
+}
+
+.viewport {
+	position: absolute;
+	perspective: 400px;
+	inset: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	&.skybox {
+		pointer-events: none;
+		perspective: 400px;
+	}
+
+	.camera {
+		position: relative;
+		transform-style: preserve-3d;
+		width: 0px;
+		height: 0px;
+		left: 50%;
+		top: 50%;
+	}
+}
+
+#mapScene {
+	transform-style: preserve-3d;
+
+	.tile {
+		position: absolute;
+		backface-visibility: hidden;
+		transform-origin: 0 0;
+		background-size: cover;
+		image-rendering: pixelated;
+	}
+
+	// Textures
+
+	.floor {
+		background-image: url("../images/cobblestone.png");
+	}
+
+	.wall {
+		background-image: url("../images/ancient_debris_side.png");
+	}
+	.wall:not(.top, .bottom) {
+		filter: brightness(0.8);
+	}
+
+	.wall.top,
+	.wall.bottom {
+		background-image: url("../images/ancient_debris_top.png");
+	}
+
+	.rock {
+		background-image: url("../images/rock-sus.gif");
+	}
+}
+
+#skybox {
+	transform-style: preserve-3d;
+	animation: rotate 500s linear infinite;
+
+	.skybox {
+		position: absolute;
+		--_size: 500px;
+		width: 510px;
+		height: 510px;
+		backface-visibility: hidden;
+		transform-origin: 0 0;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	.bottom {
+		background-color: red;
+		background-image: url("../images/skybox-bottom.png");
+		transform: translate3d(calc(var(--_size) / -2 - 5px), calc(var(--_size) / 2), calc(var(--_size) / -2 - 5px)) rotateX(90deg);
+	}
+
+	.back {
+		background-color: green;
+		background-image: url("../images/skybox-back.png");
+		transform: translate3d(calc(var(--_size) / 2 + 5px), calc(var(--_size) / -2 - 5px), calc(var(--_size) / -2)) rotateZ(90deg);
+	}
+
+	.front {
+		background-color: blue;
+		background-image: url("../images/skybox-front.png");
+		transform: translate3d(calc(var(--_size) / -2 - 5px), calc(var(--_size) / 2 + 5px), calc(var(--_size) / 2)) rotateX(180deg);
+	}
+
+	.left {
+		background-color: purple;
+		background-image: url("../images/skybox-left.png");
+		transform: translate3d(calc(var(--_size) / 2), calc(var(--_size) / 2 + 5px), calc(var(--_size) / 2 + 5px)) rotateX(180deg)
+			rotateY(270deg);
+	}
+
+	.right {
+		background-color: orange;
+		background-image: url("../images/skybox-right.png");
+		transform: translate3d(calc(var(--_size) / -2), calc(var(--_size) / 2 + 5px), calc(var(--_size) / -2 - 5px)) rotateX(180deg)
+			rotateY(90deg);
+	}
+
+	.top {
+		background-color: pink;
+		background-image: url("../images/skybox-top.png");
+		transform: translate3d(calc(var(--_size) / -2 - 5px), calc(var(--_size) / -2), calc(var(--_size) / 2 + 5px)) rotateX(270deg);
+	}
+}
+
+@keyframes rotate {
+	from {
+		transform: rotateY(0deg) rotateZ(0deg);
+	}
+
+	to {
+		transform: rotateY(360deg) rotateZ(360deg);
+	}
+}
