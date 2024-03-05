@@ -39,7 +39,7 @@ class PerlinNoise {
 
 		for (let y = 0; y < canvas.height; y += pixelSize) {
 			for (let x = 0; x < canvas.width; x += pixelSize) {
-				const color = Math.floor(this.coordinatesRandom.from(x, y) * 75);
+				const color = Math.floor(this.coordinatesRandom.from(x, y) * 15);
 				ctx.fillStyle = `rgb(${color}, 0, 0)`;
 				ctx.fillRect(x, y, pixelSize, pixelSize);
 			}
@@ -55,6 +55,3 @@ class PerlinNoise {
 		return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 	}
 }
-
-const p = new PerlinNoise(123, 800, 800);
-console.log(p.generate());
