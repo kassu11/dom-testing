@@ -123,6 +123,22 @@
 						</ul>
 					</details>
 				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/canvas-copy-content">📂</a> canvas-copy-content</summary>
+						<ul>
+							<li>test-v1-single-color
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/canvas-copy-content/test-v1-single-color">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/canvas-copy-content/test-v1-single-color/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v2-combine-colors
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/canvas-copy-content/test-v2-combine-colors">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/canvas-copy-content/test-v2-combine-colors/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
+				</li>
 				<li>coding-challenges
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/coding-challenges/challenge-01">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/coding-challenges/challenge-01/">Demo</a>
@@ -208,9 +224,14 @@
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v2">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v2/">Demo</a>
 								</blockquote>
 							</li>
-							<li>test-v3
+							<li>test-v3-slow-gen
 								<blockquote>
-									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v3">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v3/">Demo</a>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v3-slow-gen">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v3-slow-gen/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v4-stack-noise
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v4-stack-noise">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v4-stack-noise/">Demo</a>
 								</blockquote>
 							</li>
 						</ul>
