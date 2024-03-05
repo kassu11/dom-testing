@@ -1,0 +1,33 @@
+html {
+	color-scheme: dark;
+	font-family: system-ui;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+p {
+	max-width: 70ch;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: auto auto auto;
+
+	.container {
+		display: grid;
+		place-items: center;
+
+		canvas {
+			border: 2px solid currentColor;
+		}
+	}
+}
