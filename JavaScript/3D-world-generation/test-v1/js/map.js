@@ -31,7 +31,7 @@ class createMap {
 
 	generateGreedyMeshing() {
 		const draws = [];
-		let maxZ = 10;
+		let maxZ = 0;
 		// console.log(this.map);
 		// Top
 		// for (let y = 0; y < this.map.length; y++) {
@@ -44,14 +44,15 @@ class createMap {
 		// 	}
 		// }
 
+		// Top & Bottom
 		for (let y = 0; y < this.map.length; y++) {
 			const topArr = [];
 			const bottomArr = [];
-			maxZ = Math.max(maxZ, this.map[y].length);
 			for (let z = 0; z < this.map[y].length; z++) {
+				maxZ = Math.max(maxZ, this.map[y][z].length);
 				topArr.push([]);
 				bottomArr.push([]);
-				for (let x = 0; x < this.map[z]?.length; x++) {
+				for (let x = 0; x < this.map[y][z]?.length; x++) {
 					const prevBottom = this.map[y - 1]?.[z][x];
 					const prevTop = this.map[y + 1]?.[z][x];
 					// topArr[z].push(this.map[y][z][x] ?? 0);
@@ -83,29 +84,31 @@ class createMap {
 						...info,
 						dir: "bottom",
 						texture,
+						z: info.y + info.wy - 1,
 						y,
-						z: info.x + info.wx - 1,
 					}))
 				);
 			}
 		}
 
 		// back & front
-		for (let z = 0; z < maxZ; z++) {
+		for (let x = 0; x < this.map[0].length; x++) {
 			const backArr = [];
 			const frontArr = [];
 			for (let y = 0; y < this.map.length; y++) {
 				backArr.push([]);
 				frontArr.push([]);
-				for (let x = 0; x < this.map[y].length; x++) {
-					const prevFront = this.map[y][x]?.[z + 1];
-					const prevBack = this.map[y][x]?.[z - 1];
+				for (let z = 0; z < maxZ; z++) {
+					const prevFront = this.map[y][x + 1]?.[z];
+					const prevBack = this.map[y][x - 1]?.[z];
 					if (!prevBack) backArr[y].push(this.map[y][x][z] ?? 0);
 					else backArr[y].push(0);
 					if (!prevFront) frontArr[y].push(this.map[y][x][z] ?? 0);
 					else frontArr[y].push(0);
 				}
 			}
+
+			// console.log(backArr, maxZ);
 
 			for (const texture of [...new Set(backArr.flat())]) {
 				if (texture == 0) continue;
@@ -114,7 +117,7 @@ class createMap {
 						...info,
 						dir: "back",
 						texture,
-						z,
+						z: x,
 						x: info.x + info.wx - 1,
 						y: info.y + info.wy - 1,
 					}))
@@ -128,56 +131,56 @@ class createMap {
 						dir: "front",
 						texture,
 						y: info.y + info.wy - 1,
-						z,
+						z: x,
 					}))
 				);
 			}
 		}
 
 		// left & right
-		for (let x = 0; x < maxZ; x++) {
-			const rightArr = [];
-			const leftArr = [];
-			for (let y = 0; y < this.map.length; y++) {
-				rightArr.push([]);
-				leftArr.push([]);
-				for (let z = 0; z < this.map[y].length; z++) {
-					const prevRight = this.map[y][x + 1]?.[z];
-					const prevLeft = this.map[y]?.[x - 1]?.[z];
-					if (!prevLeft) rightArr[y].push(this.map[y][x][z] ?? 0);
-					else rightArr[y].push(0);
-					if (!prevLeft) leftArr[y].push(this.map[y][z][x] ?? 0);
-					else leftArr[y].push(0);
-				}
-			}
+		// for (let x = 0; x < maxZ; x++) {
+		// 	const rightArr = [];
+		// 	const leftArr = [];
+		// 	for (let y = 0; y < this.map.length; y++) {
+		// 		rightArr.push([]);
+		// 		leftArr.push([]);
+		// 		for (let z = 0; z < this.map[y].length; z++) {
+		// 			const prevRight = this.map[y][x + 1]?.[z];
+		// 			const prevLeft = this.map[y]?.[x - 1]?.[z];
+		// 			if (!prevLeft) rightArr[y].push(this.map[y][x][z] ?? 0);
+		// 			else rightArr[y].push(0);
+		// 			if (!prevLeft) leftArr[y].push(this.map[y][z][x] ?? 0);
+		// 			else leftArr[y].push(0);
+		// 		}
+		// 	}
 
-			for (const texture of [...new Set(rightArr.flat())]) {
-				if (texture == 0) continue;
-				draws.push(
-					...runGreedyMeshingAlgorithm(rightArr, texture).map((info) => ({
-						...info,
-						dir: "right",
-						texture,
-						z: x + info.wx - 1,
-						x: info.x + info.wx - 1,
-						y: info.y + info.wy - 1,
-					}))
-				);
-			}
-			for (const texture of [...new Set(leftArr.flat())]) {
-				if (texture == 0) continue;
-				draws.push(
-					...runGreedyMeshingAlgorithm(leftArr, texture).map((info) => ({
-						...info,
-						dir: "left",
-						texture,
-						z: x,
-						y: info.y + info.wy - 1,
-					}))
-				);
-			}
-			// console.log(leftArr);
-		}
+		// 	for (const texture of [...new Set(rightArr.flat())]) {
+		// 		if (texture == 0) continue;
+		// 		draws.push(
+		// 			...runGreedyMeshingAlgorithm(rightArr, texture).map((info) => ({
+		// 				...info,
+		// 				dir: "right",
+		// 				texture,
+		// 				z: x + info.wx - 1,
+		// 				x: info.x + info.wx - 1,
+		// 				y: info.y + info.wy - 1,
+		// 			}))
+		// 		);
+		// 	}
+		// 	for (const texture of [...new Set(leftArr.flat())]) {
+		// 		if (texture == 0) continue;
+		// 		draws.push(
+		// 			...runGreedyMeshingAlgorithm(leftArr, texture).map((info) => ({
+		// 				...info,
+		// 				dir: "left",
+		// 				texture,
+		// 				z: x,
+		// 				y: info.y + info.wy - 1,
+		// 			}))
+		// 		);
+		// 	}
+		// 	// console.log(leftArr);
+		// }
 
 		for (const draw of draws) {
 			this.appendTile2(draw);
@@ -239,7 +242,7 @@ class createMap {
 	static fromNoise(noise, size, scene) {
 		const map = [];
 		const perlinNoise = noise.generate();
-		for (let z = -1; z < 10; z++) {
+		for (let z = -1; z < 255; z++) {
 			const layer = [];
 			for (let y = 0; y < noise.height; y++) {
 				layer.push([]);

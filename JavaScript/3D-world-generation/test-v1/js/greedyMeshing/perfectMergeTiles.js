@@ -20,7 +20,7 @@ function perfectMergeTiles(tile, grid) {
 	try {
 		grid[tile.y][tile.x + tile.wx];
 	} catch (e) {
-		console.trace(tile, grid, tile.x, tile.wx);
+		console.trace(tile, grid, tile?.x, tile?.wx);
 		throw new Error("Tile is out of bounds");
 	}
 	const right = grid[tile.y][tile.x + tile.wx] ?? {};
