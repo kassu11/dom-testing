@@ -1,4 +1,7 @@
 class PerlinNoise {
+	#maxNoise = 100;
+	#padding = 200;
+
 	constructor(seed, width, height) {
 		this.seed = Number(seed) || Math.random() * 10 ** 6;
 		this.width = width;
@@ -7,39 +10,38 @@ class PerlinNoise {
 		this.random = new Random(this.seed);
 	}
 
-	generate() {
+	generate(genX, genY) {
 		const perlinNoiseArray = new Float32Array(this.width * this.height);
 		const max = 5;
 
 		for (let i = max; i > 1; i--) {
 			const pixelSize = ~~(75 / i);
 			const blurSize = ~~((pixelSize / 10) * 4);
-			const layarNoise = this.#generateLayer(pixelSize, blurSize);
+			const layarNoise = this.#generateLayer(pixelSize, blurSize, genX, genY);
 			for (let i = 0, j = 0; i < layarNoise.length; i += 4, j++) {
-				const rand = this.random.next() / 7 + 1.7;
-				perlinNoiseArray[j] = ~~((layarNoise[i] + perlinNoiseArray[j]) / rand);
+				perlinNoiseArray[j] = ~~((layarNoise[i] + perlinNoiseArray[j]) / 1.8);
 			}
 		}
 
 		return perlinNoiseArray;
 	}
 
-	#generateLayer(pixelSize, blurSize) {
+	#generateLayer(pixelSize, blurSize, genX, genY) {
 		const canvas = document.createElement("canvas");
 		const blurCanvas = document.createElement("canvas");
 		const ctx = canvas.getContext("2d", { alpha: false });
 		const blurContext = blurCanvas.getContext("2d");
 
-		canvas.width = this.width;
-		canvas.height = this.height;
+		canvas.width = this.width + this.#padding;
+		canvas.height = this.height + this.#padding;
 		blurCanvas.width = canvas.width;
 		blurCanvas.height = canvas.height;
 
-		this.coordinatesRandom.setSeed(this.random.next());
+		// this.coordinatesRandom.setSeed(this.random.next());
 
 		for (let y = 0; y < canvas.height; y += pixelSize) {
 			for (let x = 0; x < canvas.width; x += pixelSize) {
-				const color = Math.floor(this.coordinatesRandom.from(x, y) * 100);
+				const color = Math.floor(this.coordinatesRandom.from(x + genX, y + genY) * this.#maxNoise);
 				ctx.fillStyle = `rgb(${color}, 0, 0)`;
 				ctx.fillRect(x, y, pixelSize, pixelSize);
 			}
@@ -52,6 +54,6 @@ class PerlinNoise {
 		const height = canvas.height - pixelSize * 2;
 		ctx.drawImage(blurCanvas, pixelSize, pixelSize, width, height, 0, 0, canvas.width, canvas.height);
 
-		return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+		return ctx.getImageData(this.#padding / 2, this.#padding / 2, this.width, this.height).data;
 	}
 }
