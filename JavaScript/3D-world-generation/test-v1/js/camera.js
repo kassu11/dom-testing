@@ -2,11 +2,10 @@ class Camera {
 	constructor(playerData) {
 		/** @type {WorldMap} */ this.map = playerData.map;
 		/** @type {number} */ this.x = playerData.x ?? this.map.size / 2;
-		/** @type {number} */ this.y = playerData.y ?? this.map.size;
+		/** @type {number} */ this.y = playerData.y ?? this.map.getChunk(0, 0).length * this.map.size;
 		/** @type {number} */ this.z = playerData.z ?? this.map.size / 2;
-		/** @type {number} */ this.renderX = this.x;
-		/** @type {number} */ this.renderX = this.y;
-		/** @type {number} */ this.renderX = this.z;
+		/** @type {number} */ this.chunkX = Math.floor(this.x / this.map.getChunkSize());
+		/** @type {number} */ this.chunkZ = Math.floor(this.x / this.map.getChunkSize());
 		/** @type {number} */ this.mouseY = playerData.mouseY ?? 0;
 		/** @type {number} */ this.mouseX = playerData.mouseX ?? 180;
 		/** @type {number} */ this.mouseSensitivity = playerData.mouseSensitivity ?? 0.1;
@@ -21,7 +20,7 @@ class Camera {
 
 		console.log(playerData.map.scene);
 
-		this.map.renderNewChunk(this.x, this.z);
+		this.map.renderNewChunk(this.chunkX, this.chunkZ);
 
 		this.updatePosition();
 		this.updateFov();
@@ -45,26 +44,30 @@ class Camera {
 		this.positionMoved = false;
 	};
 
-	setX = (x) => {
+	setX(x) {
 		this.x = x;
 		this.positionMoved = true;
-	};
+		this.#updateChuck();
+	}
 
-	setY = (y) => {
+	setY(y) {
 		this.y = y;
 		this.positionMoved = true;
-	};
+	}
 
-	setZ = (z) => {
+	setZ(z) {
 		this.z = z;
 		this.positionMoved = true;
-	};
+		this.#updateChuck();
+	}
 
-	renderNewChunk = () => {
-		const { x, z } = this;
-		const chunk = this.map.getChunk(x, z);
-		if (chunk) {
-			this.map.renderChunk(chunk);
+	#updateChuck() {
+		const chunkX = Math.floor(this.x / this.map.getChunkSize());
+		const chunkZ = Math.floor(this.z / this.map.getChunkSize());
+		if (chunkX !== this.chunkX || chunkZ !== this.chunkZ) {
+			this.chunkX = chunkX;
+			this.chunkZ = chunkZ;
+			this.map.renderNewChunk(chunkX, chunkZ, chunkX, chunkZ);
 		}
-	};
+	}
 }

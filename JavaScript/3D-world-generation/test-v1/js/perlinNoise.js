@@ -1,5 +1,5 @@
 class PerlinNoise {
-	#maxNoise = 100;
+	#maxNoise = 10;
 	#padding = 200;
 
 	constructor(seed, width, height) {
@@ -7,7 +7,6 @@ class PerlinNoise {
 		this.width = width;
 		this.height = height;
 		this.coordinatesRandom = new RandomFromCoordinates(this.seed);
-		this.random = new Random(this.seed);
 	}
 
 	generate(genX, genY) {
@@ -36,8 +35,6 @@ class PerlinNoise {
 		canvas.height = this.height + this.#padding;
 		blurCanvas.width = canvas.width;
 		blurCanvas.height = canvas.height;
-
-		// this.coordinatesRandom.setSeed(this.random.next());
 
 		for (let y = 0; y < canvas.height; y += pixelSize) {
 			for (let x = 0; x < canvas.width; x += pixelSize) {

@@ -1,6 +1,7 @@
 class WorldMap {
-	#chunkSize = 32;
+	#chunkSize = 5;
 	#worldHeight = 100;
+	#loadedChunks = new Map();
 
 	/**
 	 * @param {number} seed
@@ -171,7 +172,7 @@ class WorldMap {
 			}
 		}
 
-		for (const draw of draws) this.appendTile2(draw);
+		return draws;
 	}
 
 	appendTile(x, y, z, dir, tile) {
@@ -197,12 +198,15 @@ class WorldMap {
 		sceneElem.append(div);
 	}
 
-	appendTile2({ x, y, z, wx, wy, dir, texture }) {
+	renderGreedyMeshing({ x, y, z, wx, wy, dir, texture }, marginX, marginZ) {
 		const div = document.createElement("div");
 		div.classList.add("tile", dir, textures[texture]);
 		div.style.width = this.size * wx + "px";
 		div.style.height = this.size * wy + "px";
 		div.style.backgroundSize = `${this.size}px ${this.size}px`;
+
+		x = x + marginX * this.#chunkSize;
+		z = z + marginZ * this.#chunkSize;
 
 		if (dir === "bottom")
 			div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size + this.size}px, ${
@@ -246,7 +250,7 @@ class WorldMap {
 
 	getChunk(x, z) {
 		const chunk = [];
-		const noiseData = this.noise.generate(x, z);
+		const noiseData = this.noise.generate(x * this.#chunkSize, z * this.#chunkSize);
 
 		for (let y = 0; y < this.#worldHeight; y++) {
 			chunk.push([]);
@@ -263,10 +267,21 @@ class WorldMap {
 		return chunk;
 	}
 
-	renderNewChunk(x, z) {
-		const chunk = this.getChunk(x, z);
-		console.log(chunk);
-		this.generateGreedyMeshing(chunk);
+	renderNewChunk(x, z, offerX = 0, offerZ = 0) {
+		console.log("renderNewChunk", x, z, offerX, offerZ);
+		if (this.#loadedChunks.has(`${x},${z}`)) {
+			const meshing = this.#loadedChunks.get(`${x},${z}`);
+			for (const mesh of meshing) this.renderGreedyMeshing(mesh, offerX, offerZ);
+		} else {
+			const chunk = this.getChunk(x, z);
+			const meshing = this.generateGreedyMeshing(chunk);
+			this.#loadedChunks.set(`${x},${z}`, meshing);
+			for (const mesh of meshing) this.renderGreedyMeshing(mesh, offerX, offerZ);
+		}
+	}
+
+	getChunkSize() {
+		return this.#chunkSize * this.size;
 	}
 }
 
