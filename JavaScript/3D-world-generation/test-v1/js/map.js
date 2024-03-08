@@ -256,12 +256,11 @@ class WorldMap {
 
 		for (let y = 0; y < this.#worldHeight; y++) {
 			chunk.push([]);
-			for (let z = 0; z < this.#chunkSize; z++) {
+			for (let z = 0; z < this.noise.height; z++) {
 				chunk[y].push([]);
-				for (let x = 0; x < this.#chunkSize; x++) {
+				for (let x = 0; x < this.noise.width; x++) {
 					const value = noiseData[z * this.noise.width + x];
-					// console.log(value);
-					chunk[y][z].push(value < y ? 0 : 1);
+					chunk[y][z].push(value < y ? 0 : 4);
 				}
 			}
 		}
@@ -311,4 +310,6 @@ const textures = {
 	1: "wall",
 	2: "rock",
 	3: "floor",
+	4: "bookshelf",
+	5: "quartz",
 };

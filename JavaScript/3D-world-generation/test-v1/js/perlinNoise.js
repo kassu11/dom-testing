@@ -5,8 +5,8 @@ class PerlinNoise {
 
 	constructor(seed, width, height) {
 		this.seed = Number(seed) || Math.random() * 10 ** 6;
-		this.width = width;
-		this.height = height;
+		this.width = width + 1;
+		this.height = height + 1;
 		this.coordinatesRandom = new RandomFromCoordinates(this.seed);
 	}
 
