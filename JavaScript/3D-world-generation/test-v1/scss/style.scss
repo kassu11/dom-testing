@@ -67,10 +67,24 @@ body {
 		image-rendering: pixelated;
 	}
 
+	.chunk {
+		display: contents;
+	}
+
 	// Textures
 
 	.floor {
 		background-image: url("../images/cobblestone.png");
+	}
+	.quartz {
+		background-image: url("../images/block-of-quartz.webp");
+	}
+	.bookshelf {
+		background-image: url("../images/bookshelf.png");
+
+		&.top, &.bottom {
+			background-image: url("../images/oak-planks.webp");
+		}
 	}
 
 	.wall {

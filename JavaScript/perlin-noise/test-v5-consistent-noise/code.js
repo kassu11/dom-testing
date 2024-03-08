@@ -1,12 +1,31 @@
+class RandomFromCoordinates {
+	constructor(seed) {
+		this.seed = seed;
+	}
+
+	from(x, y) {
+		const rx = 4421.8904;
+		const ry = 84103.2963;
+		const rScale = 15722.5951;
+
+		const dot = rx * x + ry * y;
+		return Math.cos(Math.sin(this.seed * dot) * rScale);
+	}
+
+	setSeed(seed) {
+		this.seed = seed;
+	}
+}
+
 class PerlinNoise {
-	#maxNoise = 50;
+	#maxNoise = 255;
 	#padding = 250;
 	#maxGridSize = 75;
 
 	constructor(seed, width, height) {
 		this.seed = Number(seed) || Math.random() * 10 ** 6;
-		this.width = width + 1;
-		this.height = height + 1;
+		this.width = width;
+		this.height = height;
 		this.coordinatesRandom = new RandomFromCoordinates(this.seed);
 	}
 
@@ -58,7 +77,59 @@ class PerlinNoise {
 		blurContext.drawImage(canvas, 0, 0);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(blurCanvas, 0, 0, canvas.width, canvas.height);
-		
+
 		return ctx.getImageData(this.#padding / 2 + genX % this.#maxGridSize, this.#padding / 2 + genY % this.#maxGridSize, this.width, this.height).data;
 	}
+}
+
+function badHash(string) {
+	let hash = 0;
+	for (i = 0; i < string.length; i++) {
+		const ch = string.charCodeAt(i);
+		hash = (hash << 5) - hash + ch;
+		hash = hash & hash;
+	}
+
+	if (Math.abs(hash) < 100) return badHash(hash.toString() + "a");
+	return hash;
+}
+
+let seed = 234234;
+let inputX = 0;
+let inputY = 0;
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d", { alpha: false });
+
+document.querySelector("#cordsX").addEventListener("input", (e) => {
+	inputX = Number(e.target.value);
+	renderCanvas();
+});
+
+document.querySelector("#cordsY").addEventListener("input", (e) => {
+	inputY = Number(e.target.value);
+	renderCanvas();
+});
+
+document.querySelector("#seed").addEventListener("input", (e) => {
+	seed = badHash(e.target.value);
+	renderCanvas();
+});
+
+renderCanvas();
+
+function renderCanvas() {
+	const perlinNoise = new PerlinNoise(seed, 600, 600);
+	const noise = perlinNoise.generate(inputX, inputY);
+	canvas.width = perlinNoise.width;
+	canvas.height = perlinNoise.height;
+
+	const imageData = new ImageData(perlinNoise.width, perlinNoise.height);
+	for (let i = 0, j = 0; i < noise.length; i++, j += 4) {
+		imageData.data[j] = noise[i];
+		imageData.data[j + 1] = noise[i];
+		imageData.data[j + 2] = noise[i];
+		imageData.data[j + 3] = 255;
+	}
+	ctx.putImageData(imageData, 0, 0);
 }

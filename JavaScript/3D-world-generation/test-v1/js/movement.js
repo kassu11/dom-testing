@@ -17,26 +17,26 @@ window.addEventListener("keyup", ({ code }) => userKeys.delete(code));
 window.onblur = () => userKeys.clear();
 
 function movePlayer(deltaTime) {
-	const moveSpeed = (size * 5) * deltaTime / 1000;
+	const moveSpeed = (size * 50 * deltaTime) / 1000;
 
 	if (userKeys.has("KeyW")) {
-		camera.z += moveSpeed * Math.cos((camera.mouseX + 180) * Math.PI / 180)
-		camera.x += moveSpeed * Math.sin(camera.mouseX * Math.PI / 180)
+		camera.setZ(camera.z + moveSpeed * Math.cos(((camera.mouseX + 180) * Math.PI) / 180));
+		camera.setX(camera.x + moveSpeed * Math.sin((camera.mouseX * Math.PI) / 180));
 	}
 	if (userKeys.has("KeyA")) {
-		camera.z += moveSpeed * Math.cos((camera.mouseX + 90) * Math.PI / 180)
-		camera.x += moveSpeed * Math.sin((camera.mouseX - 90) * Math.PI / 180)
+		camera.setZ(camera.z + moveSpeed * Math.cos(((camera.mouseX + 90) * Math.PI) / 180));
+		camera.setX(camera.x + moveSpeed * Math.sin(((camera.mouseX - 90) * Math.PI) / 180));
 	}
 	if (userKeys.has("KeyS")) {
-		camera.z += moveSpeed * Math.cos(camera.mouseX * Math.PI / 180)
-		camera.x += moveSpeed * Math.sin((camera.mouseX + 180) * Math.PI / 180)
+		camera.setZ(camera.z + moveSpeed * Math.cos((camera.mouseX * Math.PI) / 180));
+		camera.setX(camera.x + moveSpeed * Math.sin(((camera.mouseX + 180) * Math.PI) / 180));
 	}
 	if (userKeys.has("KeyD")) {
-		camera.z += moveSpeed * Math.cos((camera.mouseX - 90) * Math.PI / 180);
-		camera.x += moveSpeed * Math.sin((camera.mouseX + 90) * Math.PI / 180);
+		camera.setZ(camera.z + moveSpeed * Math.cos(((camera.mouseX - 90) * Math.PI) / 180));
+		camera.setX(camera.x + moveSpeed * Math.sin(((camera.mouseX + 90) * Math.PI) / 180));
 	}
-	if (userKeys.has("Space")) camera.y += moveSpeed;
-	if (userKeys.has("ShiftLeft")) camera.y -= moveSpeed;
+	if (userKeys.has("Space")) camera.setY(camera.y + moveSpeed);
+	if (userKeys.has("ShiftLeft")) camera.setY(camera.y - moveSpeed);
 
 	if (camera.positionMoved) camera.updatePosition();
 }
