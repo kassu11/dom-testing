@@ -1,7 +1,9 @@
 class WorldMap {
-	#chunkSize = 5;
-	#worldHeight = 100;
-	#loadedChunks = new Map();
+	#chunkSize = 16;
+	#worldHeight = 255;
+	#loadedChunkMeshings = new Map();
+	#loadedChunkElements = new Map();
+	#activeChunks = new Map();
 
 	/**
 	 * @param {number} seed
@@ -198,7 +200,7 @@ class WorldMap {
 		sceneElem.append(div);
 	}
 
-	renderGreedyMeshing({ x, y, z, wx, wy, dir, texture }, marginX, marginZ) {
+	generateGreedyMeshingElementTile({ x, y, z, wx, wy, dir, texture }, marginX, marginZ) {
 		const div = document.createElement("div");
 		div.classList.add("tile", dir, textures[texture]);
 		div.style.width = this.size * wx + "px";
@@ -222,7 +224,7 @@ class WorldMap {
 		else if (dir === "back")
 			div.style.transform = `translate3d(${x * this.size + this.size}px, ${-y * this.size}px, ${z * this.size}px) rotateY(180deg)`;
 		else if (dir === "front") div.style.transform = `translate3d(${x * this.size}px, ${-y * this.size}px, ${z * this.size + this.size}px)`;
-		sceneElem.append(div);
+		return div;
 	}
 
 	/**
@@ -268,16 +270,36 @@ class WorldMap {
 	}
 
 	renderNewChunk(x, z, offerX = 0, offerZ = 0) {
-		console.log("renderNewChunk", x, z, offerX, offerZ);
-		if (this.#loadedChunks.has(`${x},${z}`)) {
-			const meshing = this.#loadedChunks.get(`${x},${z}`);
-			for (const mesh of meshing) this.renderGreedyMeshing(mesh, offerX, offerZ);
+		if (this.#loadedChunkElements.has(`${x},${z}`)) {
+			this.#loadedChunkElements.get(`${x},${z}`).style.display = null;
+			this.#activeChunks.set(`${x},${z}`, this.#loadedChunkElements.get(`${x},${z}`));
 		} else {
 			const chunk = this.getChunk(x, z);
 			const meshing = this.generateGreedyMeshing(chunk);
-			this.#loadedChunks.set(`${x},${z}`, meshing);
-			for (const mesh of meshing) this.renderGreedyMeshing(mesh, offerX, offerZ);
+			this.#loadedChunkMeshings.set(`${x},${z}`, meshing);
+			const chunkElement = this.render(meshing, offerX, offerZ);
+			this.#loadedChunkElements.set(`${x},${z}`, chunkElement);
+			this.#activeChunks.set(`${x},${z}`, chunkElement);
 		}
+	}
+
+	render(meshing, offerX, offerZ) {
+		const chunkParent = document.createElement("div");
+		chunkParent.classList.add("chunk");
+		chunkParent.append(...meshing.map((mesh) => this.generateGreedyMeshingElementTile(mesh, offerX, offerZ)));
+		this.scene.append(chunkParent);
+		return chunkParent;
+	}
+
+	hideChunk(x, z, renderDistance) {
+		this.#activeChunks.forEach((value, key) => {
+			const [chunkX, chunkZ] = key.split(",").map(Number);
+			const distance = Math.hypot(chunkX - x, chunkZ - z);
+			if (distance > renderDistance) {
+				value.style.display = "none";
+				this.#activeChunks.delete(key);
+			}
+		});
 	}
 
 	getChunkSize() {

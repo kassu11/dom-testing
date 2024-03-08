@@ -11,6 +11,7 @@ class Camera {
 		/** @type {number} */ this.mouseSensitivity = playerData.mouseSensitivity ?? 0.1;
 		/** @type {number} */ this.offset = this.map.size / 2 ?? 0;
 		/** @type {boolean} */ this.positionMoved = false;
+		/** @type {number} */ this.renderDistance = playerData.renderDistance ?? 3;
 
 		/** @type {HTMLElement} */ this.viewportElem = playerData.viewportElem;
 		/** @type {HTMLElement} */ this.cameraElem = playerData.cameraElem;
@@ -67,7 +68,14 @@ class Camera {
 		if (chunkX !== this.chunkX || chunkZ !== this.chunkZ) {
 			this.chunkX = chunkX;
 			this.chunkZ = chunkZ;
-			this.map.renderNewChunk(chunkX, chunkZ, chunkX, chunkZ);
+			this.map.hideChunk(this.chunkX, this.chunkZ, this.renderDistance);
+			for(let x = -1; x <= 1; x++) {
+				for(let z = -1; z <= 1; z++) {
+					if (Math.hypot(x, z) > 1) continue;
+					this.map.renderNewChunk(chunkX + x, chunkZ + z, chunkX + x, chunkZ + z);
+				}
+			}
+			// this.map.renderNewChunk(chunkX, chunkZ, chunkX, chunkZ);
 		}
 	}
 }

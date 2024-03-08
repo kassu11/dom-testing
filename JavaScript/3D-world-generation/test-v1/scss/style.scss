@@ -67,6 +67,10 @@ body {
 		image-rendering: pixelated;
 	}
 
+	.chunk {
+		display: contents;
+	}
+
 	// Textures
 
 	.floor {
