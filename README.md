@@ -123,6 +123,11 @@
 						</ul>
 					</details>
 				</li>
+				<li>3D-world-generation
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/3D-world-generation/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/3D-world-generation/test-v1/">Demo</a>
+					</blockquote>
+				</li>
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/canvas-copy-content">📂</a> canvas-copy-content</summary>
 						<ul>
@@ -232,6 +237,11 @@
 							<li>test-v4-stack-noise
 								<blockquote>
 									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v4-stack-noise">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v4-stack-noise/">Demo</a>
+								</blockquote>
+							</li>
+							<li>test-v5-consistent-noise
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/perlin-noise/test-v5-consistent-noise">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/perlin-noise/test-v5-consistent-noise/">Demo</a>
 								</blockquote>
 							</li>
 						</ul>
