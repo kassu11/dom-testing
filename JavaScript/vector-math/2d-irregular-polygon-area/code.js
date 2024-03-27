@@ -1,3 +1,4 @@
+const output = document.querySelector("output")
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -6,7 +7,7 @@ canvas.height = 600;
 
 const polygon = [[10, 10], [450, 50], [500, 500], [200, 50], [10, 550]]
 
-function render() {
+function render(close = true) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle = "white"
 	if(polygon.length == 0) return;
@@ -19,18 +20,49 @@ function render() {
 		ctx.lineTo(point[0], point[1])
 	});
 	
-	ctx.lineTo(first[0], first[1]);
+	if(close) ctx.lineTo(first[0], first[1]);
 	ctx.stroke();
 }
 
+let editing = false;
+
+document.addEventListener("click", e => {
+	if (!editing) {
+		polygon.length = 0;
+		editing = true;
+	}
+
+	const {top, left} = canvas.getBoundingClientRect();
+	polygon.push([e.x - left, e.y - top]);
+	calculateArea();
+	render(false);
+});
+
+document.addEventListener("mousemove", e => {
+	if(polygon.length === 0 || !editing) return;
+	const {top, left} = canvas.getBoundingClientRect();
+	render(false)
+
+	ctx.lineTo(e.x - left, e.y - top);
+	ctx.stroke();
+});
+
+document.addEventListener("keydown", e => {
+	if(e.code == "Enter") {
+		editing = false;
+		render();
+	}
+})
+
 
 function calculateArea() {
+	output.textContent = 0;
 	let polygonCopy = structuredClone(polygon);
 	if(polygonCopy.length < 3) return 0;
 
 	const triangle = []
 	let area = 0;
-	for(let i = 0; i < polygonCopy.length + 2; i++) {
+	for(let i = 0; i < polygonCopy.length + 2 && polygonCopy.length > 2; i++) {
 		triangle.push(polygonCopy[i % polygonCopy.length])
 		if(triangle.length > 3) triangle.shift()
 		else if (triangle.length !== 3) continue;
@@ -39,17 +71,26 @@ function calculateArea() {
 		if(!isTriangleValid(polygonCopy, line, triangle)) continue;
 
 		area += calculateTriangleArea(triangle)
-		polygonCopy = polygonCopy.filter(p => p == triangle[1]);
+		console.log("????")
+		polygonCopy = polygonCopy.filter(p => p !== triangle[1]);
 		triangle.length = 0;
 		i = 0;
 	}
 
-	console.log(area)
+	output.textContent = area;
 }
 
 calculateArea();
 
-// console.log(calculateTriangleArea([[0, 0], [50, 0], [0, 50]]))
+// const p1 = [Math.random() * 100, Math.random() * 100]
+// const p2 = [Math.random() * 100, Math.random() * 100]
+// const p3 = [Math.random() * 100, Math.random() * 100]
+// console.log(Math.hypot(p1[0] - p2[0], p1[1] - p2[1]))
+// console.log(Math.hypot(p2[0] - p3[0], p2[1] - p3[1]))
+// console.log(Math.hypot(p3[0] - p1[0], p3[1] - p1[1]))
+
+// console.log(calculateTriangleArea([p1, p2, p3]))
+// Gets the same area value then https://www.calculator.net/triangle-calculator.html
 
 function calculateTriangleArea(points) {
 	const [a, b, c] = points;
@@ -106,11 +147,11 @@ function findIntersection([x1, y1, x2, y2], [x3, y3, x4, y4]) {
 }
 
 function vectorInRange([x1, y1, x2, y2], x, y) {
-if(x1 < x && x2 < x) return false;
-if(x1 > x && x2 > x) return false;
-if(y1 < y && y2 < y) return false;
-if(y1 > y && y2 > y) return false;
-return true;
+	if(x1 < x && x2 < x) return false;
+	if(x1 > x && x2 > x) return false;
+	if(y1 < y && y2 < y) return false;
+	if(y1 > y && y2 > y) return false;
+	return true;
 }
 
 render();
