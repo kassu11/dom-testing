@@ -7,3 +7,9 @@ canvas {
 	cursor: pointer;
 	outline: 2px solid currentColor;
 }
+
+#visualize {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
