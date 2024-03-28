@@ -1,8 +1,9 @@
 const visualize = document.querySelector("#visualize");
 const output = document.querySelector("output")
 const canvas = document.querySelector("canvas");
+const gifCanvas = document.querySelector("#gif");
 const ctx = canvas.getContext("2d");
-
+const gifCtx = gifCanvas.getContext("2d");
 
 canvas.width = 600;
 canvas.height = 600;
@@ -44,7 +45,7 @@ function render(ctx, points, close = true, color = "white", clear = true, drawPo
 
 let editing = false;
 
-document.addEventListener("click", e => {
+canvas.addEventListener("click", e => {
 	if (!editing) {
 		polygon.length = 0;
 		editing = true;
@@ -200,3 +201,22 @@ function visualizeCaluculation(polygons, triangle, area) {
 
 	visualize.appendChild(newCanvas);
 }
+
+let gifInterval = 0;
+gifCanvas.width = canvas.width;
+gifCanvas.height = canvas.height;
+setInterval(() => {
+	gifCanvas.width = canvas.width;
+	gifCanvas.height = canvas.height;
+	const frames = document.querySelectorAll("#visualize canvas");
+	if(frames.length === 0 || gifInterval > frames.length) {
+		gifInterval = 0;
+		return;
+	};
+
+	const ctx = frames[gifInterval].getContext("2d");
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	gifCtx.putImageData(imageData, 0, 0);
+
+	gifInterval = (gifInterval + 1) % frames.length;
+}, 500)
