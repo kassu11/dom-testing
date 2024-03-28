@@ -4,6 +4,7 @@ const canvas = document.querySelector("canvas");
 const gifCanvas = document.querySelector("#gif");
 const ctx = canvas.getContext("2d");
 const gifCtx = gifCanvas.getContext("2d");
+const shoelace = document.querySelector("#shoelace");
 
 canvas.width = 600;
 canvas.height = 600;
@@ -99,6 +100,7 @@ function calculateArea() {
 	}
 
 	output.textContent = area;
+	shoelace.textContent = shoelaceArea(polygon)
 }
 
 calculateArea();
@@ -128,6 +130,19 @@ function isPointInsidePolygon(polygon, x, y) {
 	}
 	return count % 2 === 1;
 
+}
+
+function shoelaceArea(points) {
+	if (points.length < 3) return 0;
+
+	let area = 0;
+	for (let i = 0; i < points.length; i++) {
+		let j = (i + 1) % points.length;
+		area += (points[i][0] * points[j][1]);
+		area -= (points[j][0] * points[i][1]);
+	}
+
+	return Math.abs(area) / 2;
 }
 
 
