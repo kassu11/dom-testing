@@ -180,6 +180,11 @@
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/fill-tiles-optimally/main-hub">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/fill-tiles-optimally/main-hub/">Demo</a>
 					</blockquote>
 				</li>
+				<li>generator-functions
+					<blockquote>
+						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/generator-functions">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/generator-functions/">Demo</a>
+					</blockquote>
+				</li>
 				<li>heart-rate-from-signal
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/heart-rate-from-signal/version-1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/heart-rate-from-signal/version-1/">Demo</a>
@@ -292,6 +297,22 @@
 					<blockquote>
 						Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/shadow-DOM/test-v1">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/shadow-DOM/test-v1/">Demo</a>
 					</blockquote>
+				</li>
+				<li>
+					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/vector-math">📂</a> vector-math</summary>
+						<ul>
+							<li>2d-irregular-polygon-area
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/vector-math/2d-irregular-polygon-area">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/vector-math/2d-irregular-polygon-area/">Demo</a>
+								</blockquote>
+							</li>
+							<li>2d-lines-intersection
+								<blockquote>
+									Links: <a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/vector-math/2d-lines-intersection">Code</a> & <a href="https://kassu11.github.io/dom-testing/JavaScript/vector-math/2d-lines-intersection/">Demo</a>
+								</blockquote>
+							</li>
+						</ul>
+					</details>
 				</li>
 				<li>
 					<details open><summary><a href="https://github.com/kassu11/dom-testing/tree/main/JavaScript/Web-Workers-API">📂</a> Web-Workers-API</summary>
