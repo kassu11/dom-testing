@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Layers in CSS</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<h1>CSS layers</h1>
+	<p>If you use layers than everything that is not on a layer will override your styles</p>
+	<pre style="background-color: #292c34; color: white; tab-size: 2; padding: 1rem; font-size: 1.25rem;">
+<span style="color: #ce7577">@layer</span> main;
+
+<span style="color: #75b3b9">:where</span><span style="color: #f5da35">(</span><span style="color:#ce7577">div</span><span style="color: #f5da35">)</span> <span style="color: #f5da35">{</span>
+	padding: <span style="color: #bb7cda">20</span><span style="color: #ce7577">px</span>;
+	background-color: <span style="color: black; background-color: rgba(0, 255, 0, 0.3);">rgba(0, 255, 0, 0.3)</span>;
+<span style="color: #f5da35">}</span>
+
+<span style="color: #ce7577">@layer</span> main <span style="color: #f5da35">{</span>
+	<span style="color: #a1c27d">#main #first #second</span> <span style="color:#cb77d3">{</span>
+		background-color: <span style="color: black; background-color: red;">red</span>;
+	<span style="color: #cb77d3">}</span>
+<span style="color: #f5da35">}</span>
+	</pre>
+
+
+	<div id="main">
+		#main
+		<div id="first">
+			#first
+			<div id="second">
+				#second
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+@layer main;
+
+:where(div) {
+	padding: 20px;
+	background-color: rgba(0, 255, 0, 0.3);
+}
+
+@layer main {
+	#main #first #second {
+		background-color: red;
+	}
+
+	body {
+		font-family: system-ui;
+	}
+}
