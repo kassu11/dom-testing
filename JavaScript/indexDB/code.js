@@ -13,7 +13,7 @@ DBOpenReq.addEventListener("success", evt => {
   document.querySelector("button#add").addEventListener("click", () => {
     const tx = db.transaction("storeName", "readwrite");
     tx.addEventListener("complete", evt => {
-      console.log("transaction complete", evt);
+      console.log("Only one transaction complete for 3 adds", evt);
     });
 
     tx.addEventListener("error", err => {
@@ -22,7 +22,11 @@ DBOpenReq.addEventListener("success", evt => {
 
 
     const store = tx.objectStore("storeName");
-    store.add(new User("Mike", 5))
+    for (let i = 0; i < 3; i++) {
+      const user = new User("Mike", 5 + i);
+      user.date.setMilliseconds(i);
+      store.add(user);
+    }
   });
 
   document.querySelector("button#get").addEventListener("click", () => {
@@ -43,8 +47,17 @@ DBOpenReq.addEventListener("success", evt => {
         const li = document.createElement("li");
         li.dataset.time = user.date.toLocaleTimeString("en-US");
         li.dataset.age = user.age;
-        li.textContent = `click to get "${user.name}"`;
-        li.onclick = () => clickUser(db, user.date);
+        li.textContent = user.name;
+        const get = document.createElement("button");
+        const remove = document.createElement("button");
+        const update = document.createElement("button");
+        get.textContent = "get";
+        remove.textContent = "remove";
+        update.textContent = "update";
+        get.onclick = () => getUser(db, user.date);
+        remove.onclick = () => removeUser(db, user.date);
+        update.onclick = () => updateUser(db, user);
+        li.append(get, remove, update);
         return li;
       });
       document.querySelector("ul#users").textContent = "";
@@ -57,7 +70,7 @@ DBOpenReq.addEventListener("success", evt => {
   });
 });
 
-function clickUser(db, date) {
+function getUser(db, date) {
   const tx = db.transaction("storeName", "readonly");
   tx.addEventListener("complete", evt => {
     console.log("transaction complete", evt);
@@ -71,6 +84,51 @@ function clickUser(db, date) {
   const getReg = store.get(date);
   getReg.addEventListener("success", evt => {
     console.log("clicked user:", evt.target.result);
+  });
+
+  getReg.addEventListener("error", err => {
+    console.warn(err);
+  });
+}
+
+function removeUser(db, date) {
+  const tx = db.transaction("storeName", "readwrite");
+  tx.addEventListener("complete", evt => {
+    console.log("transaction complete", evt);
+  });
+
+  tx.addEventListener("error", err => {
+    console.warn(err);
+  });
+
+  const store = tx.objectStore("storeName");
+  const getReg = store.delete(date);
+  getReg.addEventListener("success", evt => {
+    console.log("clicked user:", evt.target.result);
+    document.querySelector("button#get").click();
+  });
+
+  getReg.addEventListener("error", err => {
+    console.warn(err);
+  });
+}
+
+function updateUser(db, user) {
+  const tx = db.transaction("storeName", "readwrite");
+  tx.addEventListener("complete", evt => {
+    console.log("transaction complete", evt);
+  });
+
+  tx.addEventListener("error", err => {
+    console.warn(err);
+  });
+
+  const store = tx.objectStore("storeName");
+  user.name += "!!";
+  const getReg = store.put(user);
+  getReg.addEventListener("success", evt => {
+    console.log("clicked user:", evt.target.result);
+    document.querySelector("button#get").click();
   });
 
   getReg.addEventListener("error", err => {
